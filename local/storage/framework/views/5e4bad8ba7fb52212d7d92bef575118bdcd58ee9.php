@@ -96,13 +96,13 @@
     </div>
 
     <?php /* Modal for invoices */ ?>
-    <div id="invoiceModal" class="modal fade" role="dialog">
+    <div id="invoiceModals" class="modal fade" role="dialog">
         <div class="modal-dialog modal-sm">
             <!-- Modal content-->
             <div class="modal-content">
                 <div class="modal-header">
                     <button type="button" class="close" data-dismiss="modal">&times;</button>
-                    <h4 class="modal-title">Add Sub Agent</h4>
+                    <h4 class="modal-title">Assign To Invoice</h4>
                 </div>
                 <?php echo Form::open(['url' => 'tenant/applications/'.$application->application_id.'/subinvoice', 'id' => 'add-invoice', 'class' => 'form-horizontal form-left']); ?>
 
@@ -120,7 +120,7 @@
                 <div class="modal-footer">
                     <button type="button" class="btn btn-danger" data-dismiss="modal">Cancel</button>
                     <button type="submit" class="btn btn-success"><i class="fa fa-plus-circle"></i>
-                        Add
+                        Assign
                     </button>
                 </div>
                 <?php echo Form::close(); ?>
@@ -181,6 +181,7 @@
         });
     </script>
 
+    <?php echo Condat::registerModal(); ?>
 
 <?php $__env->stopSection(); ?>
 <?php echo $__env->make('layouts.tenant', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>

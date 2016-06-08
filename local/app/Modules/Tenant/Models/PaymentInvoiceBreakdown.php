@@ -33,4 +33,15 @@ Class PaymentInvoiceBreakdown extends Model{
      */
     public $timestamps = false;
 
+    /*
+     * Assign Payment to Invoice
+     */
+    public function assign(array $request, $payment_id)
+    {
+        PaymentInvoiceBreakdown::create([
+            'invoice_id' => $request['invoice_id'],
+            'payment_id' => $request['payment_id'],
+        ]);
+        return true;
+    }
 }

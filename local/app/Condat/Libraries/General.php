@@ -202,7 +202,7 @@ class General {
         $type = ($type =='right')?'modal-right':'';
         $data['class'] = $type .' '. $fade;
         $data['options'] = 'data-backdrop="static" data-keyboard="false" tabindex="-1"  role="dialog" aria-hidden="true"';
-        $modal  = view('system.layouts.partials.modal', $data);
+        $modal  = view('layouts.partials.modal', $data);
         $this->modals[] = $modal;
         if (\Request::ajax()) {
             echo $modal;

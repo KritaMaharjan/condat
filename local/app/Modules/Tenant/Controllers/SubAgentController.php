@@ -99,7 +99,7 @@ class SubAgentController extends BaseController
     {
         $payments = SubAgentApplicationPayment::leftJoin('client_payments', 'client_payments.client_payment_id', '=', 'subagent_application_payments.client_payment_id')
             ->where('course_application_id', $application_id)
-            ->select(['subagent_application_payments.subagent_payments_id', 'client_payments.*']);
+            ->select(['subagent_application_payments.subagent_payments_id', 'subagent_application_payments.course_application_id', 'client_payments.*']);
 
         $datatable = \Datatables::of($payments)
             ->addColumn('action', '<div class="btn-group">
@@ -115,7 +115,10 @@ class SubAgentController extends BaseController
                     <li><a href="http://localhost/condat/tenant/contact/2">Delete</a></li>
                   </ul>
                 </div>')
-            ->addColumn('invoice_id', 'Uninvoiced <button class="btn btn-success btn-xs"  data-toggle="modal" data-target="#invoiceModal"><i class="glyphicon glyphicon-plus-sign"></i> Assign to Invoice</button>')
+            //->addColumn('invoice_id', 'Uninvoiced <button class="btn btn-success btn-xs"  data-toggle="modal" data-target="#invoiceModal"><i class="glyphicon glyphicon-plus-sign"></i> Assign to Invoice</button>')
+            ->addColumn('invoice_id', function($data) {
+                return 'Uninvoiced <a class="btn btn-success btn-xs" data-toggle="modal" data-target="#condat-modal" data-url="'.url('tenant/payment/'.$data->client_payment_id.'/'.$data->course_application_id.'/assign').'"><i class="glyphicon glyphicon-plus-sign"></i> Assign to Invoice</a>';
+            })
             ->editColumn('date_paid', function ($data) {
                 return format_date($data->date_paid);
             })
@@ -159,6 +162,16 @@ class SubAgentController extends BaseController
                 return format_id($data->invoice_id, 'I');
             });
         return $datatable->make(true);
+    }
+
+    /**
+     * Assign payment to invoice
+     */
+    function assignInvoice($payment_id, $application_id)
+    {
+        $data['invoice_array'] = $this->invoice->getList($application_id);
+        $data['payment_id'] = $payment_id;
+        return view("Tenant::Client/Payment/assign", $data);
     }
 
 }

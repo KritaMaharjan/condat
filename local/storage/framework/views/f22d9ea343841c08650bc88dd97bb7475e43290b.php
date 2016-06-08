@@ -19,3 +19,5 @@
 
 <?php /* Load additional JS */ ?>
 <?php Condat::loadJS();?>
+
+<?php echo Condat::loadModal(); ?>

@@ -19,3 +19,5 @@
 
 {{-- Load additional JS --}}
 <?php Condat::loadJS();?>
+
+{!! Condat::loadModal() !!}

@@ -97,7 +97,7 @@
     </div>
 
     {{-- Modal for invoices --}}
-    <div id="invoiceModal" class="modal fade" role="dialog">
+    <div id="invoiceModals" class="modal fade" role="dialog">
         <div class="modal-dialog modal-sm">
             <!-- Modal content-->
             <div class="modal-content">
@@ -178,5 +178,5 @@
         });
     </script>
 
-
+    {!! Condat::registerModal() !!}
 @stop

@@ -752,3 +752,46 @@ $(document).ajaxComplete (function () {
 
 /* data mask */
 $(".phone-input").mask("9999 999 999");
+
+/* JS for Bootstrap Modal */
+$(function () {
+  $(document).on('shown.bs.modal', '#condat-modal', function (event) {
+    if ($('.select-single').length > 0) {
+      $(".select-single").select2({
+        theme: "classic",
+        placeholder: "Select option",
+        allowClear: true
+      });
+    }
+
+    $(".date-picker").datepicker({'format': 'yyyy-mm-dd'});
+    //$('#datetimepicker1').datetimepicker();
+
+  });
+
+  $(document).on('hidden.bs.modal', '#condat-modal', function (event) {
+    var modal = $(this);
+    modal.find('.modal-body').html('');
+    if ($('.select-single').length > 0) {
+      $(".select-single").select2("destroy");
+    }
+
+  });
+
+  $(document).on('show.bs.modal', '#condat-modal', function (event) {
+    var button = $(event.relatedTarget); // Button that triggered the modal
+    var url = button.data('url');
+    var modal = $(this);
+
+    if(typeof url == 'undefined') return false;
+
+    if (url.indexOf('#') > -1) {
+      modal.find('.modal-content').html($(url).html());
+    }
+    else {
+      modal.find('.modal-content').load(url);
+    }
+
+  })
+
+})

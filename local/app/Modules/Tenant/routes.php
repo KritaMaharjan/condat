@@ -121,8 +121,7 @@ Route::group(array('prefix' => 'tenant', 'module' => 'Tenant', 'middleware' => '
     Route::post('students/{application_id}/storeInvoice', ['as' => 'application.students.storeInvoice', 'uses' => 'StudentController@storeInvoice']);
     Route::get('students/invoices/{client_id}/data', 'StudentController@getInvoicesData');
 
-
-    /* Routes for student section */
+    /* Routes for subagent section */
     Route::get('applications/{application_id}/subagents', ['as' => 'tenant.application.subagents', 'uses' => 'SubAgentController@index']);
 
     /* Create payments for a application sub agents */
@@ -134,6 +133,10 @@ Route::group(array('prefix' => 'tenant', 'module' => 'Tenant', 'middleware' => '
     Route::get('subagents/{application_id}/invoice', ['as' => 'application.subagents.invoice', 'uses' => 'SubAgentController@createInvoice']);
     Route::post('subagents/{application_id}/storeInvoice', ['as' => 'application.subagents.storeInvoice', 'uses' => 'SubAgentController@storeInvoice']);
     Route::get('subagents/invoices/{client_id}/data', 'SubAgentController@getInvoicesData');
+
+    /* Assign payments to invoices */
+    Route::get('payment/{payment_id}/{application_id}/assign', ['as' => 'tenant.subagent.payment.assign', 'uses' => 'SubAgentController@assignInvoice']);
+    Route::post('payment/{payment_id}/assign', ['as' => 'tenant.payment.postAssign', 'uses' => 'InvoiceController@postAssign']);
 
     Route::get('clients/{client_id}/personal_details', 'ClientController@personal_details');
     Route::get('clients/{client_id}/notes', 'ClientController@notes');
