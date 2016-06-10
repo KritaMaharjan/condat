@@ -2,7 +2,7 @@
     <button type="button" class="close" data-dismiss="modal">&times;</button>
     <h4 class="modal-title">Assign To Invoice</h4>
 </div>
-<?php echo Form::open(['url' => 'tenant/applications/'.$payment_id.'/subinvoice', 'id' => 'add-invoice', 'class' => 'form-horizontal form-left']); ?>
+<?php echo Form::open(['url' => 'tenant/payment/'.$payment_id.'/assign', 'id' => 'add-invoice', 'class' => 'form-horizontal form-left']); ?>
 
 <div class="modal-body">
     <div class="form-group">

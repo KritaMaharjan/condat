@@ -71,7 +71,7 @@ class Client extends Model
 
             $user = User::create([
                 'email' => $request['email'],
-                'user_type' => 0, // 0 : client, 1 : admin, 2 : super-admin
+                'role' => 0, // 0 : client, 1 : admin, 2 : super-admin
                 'status' => 0, // Pending
                 'person_id' => $person->person_id, // pending
             ]);

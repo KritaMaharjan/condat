@@ -87,8 +87,8 @@
                     <span class="label label-primary pull-right">{{get_total_count('U')}}</span>
                 </a>
                 <ul class="treeview-menu">
-                    <li><a href="{{url('user')}}"><i class="fa fa-circle-o"></i> View All</a></li>
-                    <li><a href="{{url('user/create')}}"><i class="fa fa-circle-o"></i> Add</a></li>
+                    <li><a href="{{url('tenant/user')}}"><i class="fa fa-circle-o"></i> View All</a></li>
+                    <li><a href="{{url('tenant/user/create')}}"><i class="fa fa-circle-o"></i> Add</a></li>
                 </ul>
             </li>
             <li class="treeview">

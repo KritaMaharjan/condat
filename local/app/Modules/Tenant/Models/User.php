@@ -1,5 +1,8 @@
 <?php namespace App\Modules\Tenant\Models;
 
+use App\Modules\Tenant\Models\Person\PersonAddress;
+use App\Modules\Tenant\Models\Person\PersonPhone;
+use App\Modules\Tenant\Models\Person\Person;
 use Illuminate\Http\Request;
 use Illuminate\Auth\Authenticatable;
 use Illuminate\Database\Eloquent\Model;
@@ -95,15 +98,66 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
 
         $details->permissions = ($details->permissions != '') ? @unserialize($details->permissions) : '';
 
-        if ($details->smtp != null) {
-            $personal_email_setting = @json_decode($details->smtp);
-            $details->incoming_server = $personal_email_setting->incoming_server;
-            $details->outgoing_server = $personal_email_setting->outgoing_server;
-            $details->email_username = $personal_email_setting->email_username;
-            $details->email_password = $personal_email_setting->email_password;
-        }
-
         return $details;
+    }
+
+    /*
+     * Add client info
+     * Output client id
+     */
+    function add(array $request)
+    {
+        DB::beginTransaction();
+
+        try {
+            // Saving client profile
+            $person = Person::create([
+                'first_name' => $request['first_name'],
+                'middle_name' => $request['middle_name'],
+                'last_name' => $request['last_name'],
+                'dob' => insert_dateformat($request['dob']),
+                'sex' => $request['sex']
+            ]);
+
+            $user = User::create([
+                'email' => $request['email'],
+                'role' => $request['role'], // 0 : client, 1 : admin, 2 : super-admin
+                'status' => 0, // Pending
+                'person_id' => $person->person_id, // pending
+            ]);
+
+            // Add address
+            $address = Address::create([
+                'street' => $request['street'],
+                'suburb' => $request['suburb'],
+                'postcode' => $request['postcode'],
+                'state' => $request['state'],
+                'country_id' => $request['country_id'],
+            ]);
+
+            PersonAddress::create([
+                'address_id' => $address->address_id,
+                'person_id' => $person->person_id,
+                'is_current' => 1
+            ]);
+
+            // Add Phone Number
+            $phone = new Phone();
+            $phone_id = $phone->add($request['number']);
+            PersonPhone::create([
+                'phone_id' => $phone_id,
+                'person_id' => $person->person_id,
+                'is_primary' => 1
+            ]);
+
+            DB::commit();
+            return $user->user_id;
+            // all good
+        } catch (\Exception $e) {
+            DB::rollback();
+            dd($e);
+            // something went wrong
+        }
     }
 
     public function addUserDetails($details)
@@ -262,5 +316,21 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
     function isUser()
     {
         return ($this->role == 2) ? true : false;
+    }
+
+    /*
+     * Update user info
+     * Output Response
+     */
+    function getDetails($user_id)
+    {
+        $user = User::join('persons', 'persons.person_id', '=', 'users.person_id')
+            ->leftJoin('person_addresses', 'person_addresses.person_id', '=', 'persons.person_id')
+            ->leftJoin('addresses', 'addresses.address_id', '=', 'person_addresses.address_id')
+            ->leftJoin('person_phones', 'person_phones.person_id', '=', 'persons.person_id')
+            ->leftJoin('phones', 'phones.phone_id', '=', 'person_phones.phone_id')
+            ->where('users.user_id', $user_id) //and user for email?
+            ->first();
+        return $user;
     }
 }

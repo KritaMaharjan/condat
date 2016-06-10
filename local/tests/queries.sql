@@ -174,3 +174,7 @@ ALTER TABLE `student_application_payments` CHANGE `student_payments_id` `student
 ALTER TABLE `invoices` CHANGE `invoice_id` `invoice_id` INT(11) NOT NULL AUTO_INCREMENT;
 
 ALTER TABLE `payment_invoice_breakdowns` CHANGE `payment_invoice_breakdown_id` `payment_invoice_breakdown_id` INT(11) NOT NULL AUTO_INCREMENT;
+
+ALTER TABLE `users` ADD `role` INT NOT NULL AFTER `is_system_admin`;
+
+ALTER TABLE `users` CHANGE `user_id` `user_id` INT(11) NOT NULL AUTO_INCREMENT;

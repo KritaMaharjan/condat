@@ -19,7 +19,7 @@ class ClientController extends BaseController
         'middle_name' => 'alpha|min:2|max:55',
         'dob' => 'required',
         'passport_no' => 'required',
-        'phone' => 'required'
+        'number' => 'required'
     ];
 
     function __construct(Client $client, Request $request, ClientDocument $document)

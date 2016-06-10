@@ -128,6 +128,7 @@ Route::group(array('prefix' => 'tenant', 'module' => 'Tenant', 'middleware' => '
     Route::get('subagents/{application_id}/payment', ['as' => 'application.subagents.payment', 'uses' => 'SubAgentController@createPayment']);
     Route::post('subagents/{application_id}/storePayment', ['as' => 'application.subagents.storePayment', 'uses' => 'SubAgentController@storePayment']);
     Route::get('subagents/payments/{client_id}/data', 'SubAgentController@getPaymentsData');
+    Route::get('subagents/{payment_id}/payment/view', ['as' => 'subagents.payment.view', 'uses' => 'SubAgentController@viewPayment']);
 
     /* Create invoices for a application sub agents */
     Route::get('subagents/{application_id}/invoice', ['as' => 'application.subagents.invoice', 'uses' => 'SubAgentController@createInvoice']);
@@ -189,4 +190,9 @@ Route::group(array('prefix' => 'tenant', 'module' => 'Tenant', 'middleware' => '
     Route::put('intakes/{id}/update',['as' => 'tenant.intake.update', 'uses' => 'IntakeController@update']);
     Route::delete('intakes',['as' => 'tenant.intake.destroy', 'uses' => 'IntakeController@destroy']);
 
+    /* Routes for User Module */
+    Route::resource('user', 'UserController');
+    Route::get('users/data', 'UserController@getData');
+    Route::get('profile', 'UserController@edit');
+    Route::post('profile', 'UserController@update');
 });

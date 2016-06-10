@@ -98,26 +98,31 @@ class SubAgentController extends BaseController
     function getPaymentsData($application_id)
     {
         $payments = SubAgentApplicationPayment::leftJoin('client_payments', 'client_payments.client_payment_id', '=', 'subagent_application_payments.client_payment_id')
+            ->leftJoin('payment_invoice_breakdowns', 'client_payments.client_payment_id', '=', 'payment_invoice_breakdowns.payment_id')
             ->where('course_application_id', $application_id)
-            ->select(['subagent_application_payments.subagent_payments_id', 'subagent_application_payments.course_application_id', 'client_payments.*']);
+            ->select(['subagent_application_payments.subagent_payments_id', 'subagent_application_payments.course_application_id', 'payment_invoice_breakdowns.invoice_id', 'client_payments.*']);
 
         $datatable = \Datatables::of($payments)
-            ->addColumn('action', '<div class="btn-group">
+            ->addColumn('action', function($data) {
+                return '<div class="btn-group">
                   <button class="btn btn-primary" type="button">Action</button>
                   <button data-toggle="dropdown" class="btn btn-primary dropdown-toggle" type="button">
                     <span class="caret"></span>
                     <span class="sr-only">Toggle Dropdown</span>
                   </button>
                   <ul role="menu" class="dropdown-menu">
-                    <li><a href="http://localhost/condat/tenant/contact/2">Add payment</a></li>
-                    <li><a href="http://localhost/condat/tenant/contact/2">View</a></li>
+                    <li><a href="'.route('subagents.payment.view', $data->subagent_payments_id).'">View</a></li>
                     <li><a href="http://localhost/condat/tenant/contact/2">Edit</a></li>
                     <li><a href="http://localhost/condat/tenant/contact/2">Delete</a></li>
                   </ul>
-                </div>')
+                </div>';
+            })
             //->addColumn('invoice_id', 'Uninvoiced <button class="btn btn-success btn-xs"  data-toggle="modal" data-target="#invoiceModal"><i class="glyphicon glyphicon-plus-sign"></i> Assign to Invoice</button>')
             ->addColumn('invoice_id', function($data) {
-                return 'Uninvoiced <a class="btn btn-success btn-xs" data-toggle="modal" data-target="#condat-modal" data-url="'.url('tenant/payment/'.$data->client_payment_id.'/'.$data->course_application_id.'/assign').'"><i class="glyphicon glyphicon-plus-sign"></i> Assign to Invoice</a>';
+                if(empty($data->invoice_id) || $data->invoice_id == 0)
+                    return 'Uninvoiced <a class="btn btn-success btn-xs" data-toggle="modal" data-target="#condat-modal" data-url="'.url('tenant/payment/'.$data->client_payment_id.'/'.$data->course_application_id.'/assign').'"><i class="glyphicon glyphicon-plus-sign"></i> Assign to Invoice</a>';
+                else
+                    return format_id($data->invoice_id, 'I');
             })
             ->editColumn('date_paid', function ($data) {
                 return format_date($data->date_paid);
@@ -172,6 +177,11 @@ class SubAgentController extends BaseController
         $data['invoice_array'] = $this->invoice->getList($application_id);
         $data['payment_id'] = $payment_id;
         return view("Tenant::Client/Payment/assign", $data);
+    }
+
+    function viewPayment($payment_id)
+    {
+
     }
 
 }

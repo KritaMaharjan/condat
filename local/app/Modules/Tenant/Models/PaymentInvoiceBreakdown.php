@@ -40,7 +40,7 @@ Class PaymentInvoiceBreakdown extends Model{
     {
         PaymentInvoiceBreakdown::create([
             'invoice_id' => $request['invoice_id'],
-            'payment_id' => $request['payment_id'],
+            'payment_id' => $payment_id
         ]);
         return true;
     }
