@@ -152,14 +152,14 @@ class SubAgentController extends BaseController
                     <span class="sr-only">Toggle Dropdown</span>
                   </button>
                   <ul role="menu" class="dropdown-menu">
-                    <li><a href="http://localhost/condat/tenant/contact/2">Add payment</a></li>
+                    <li><a href="http://localhost/condat/tenant/contact/2">View Payments</a></li>
                     <li><a href="http://localhost/condat/tenant/contact/2">View</a></li>
                     <li><a href="http://localhost/condat/tenant/contact/2">Edit</a></li>
                     <li><a href="http://localhost/condat/tenant/contact/2">Delete</a></li>
                   </ul>
                 </div>')
             ->addColumn('status', 'Outstanding')
-            ->addColumn('outstanding_amount', '5000 <button class="btn btn-success btn-xs"><i class="fa fa-eye"></i> View Payments</button>')
+            ->addColumn('outstanding_amount', '5000 <button class="btn btn-success btn-xs"><i class="fa fa-eye"></i> Add payment</button>')
             ->editColumn('invoice_date', function ($data) {
                 return format_date($data->invoice_date);
             })
