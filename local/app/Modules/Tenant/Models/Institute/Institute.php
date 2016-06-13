@@ -33,7 +33,8 @@ class Institute extends Model
      *
      * @var array
      */
-    protected $fillable = ['short_name', 'company_id'];
+
+    protected $fillable = ['name','short_name', 'company_id'];
 
     /**
      * Get the company record associated with the institute.
