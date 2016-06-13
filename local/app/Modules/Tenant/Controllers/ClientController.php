@@ -67,6 +67,9 @@ class ClientController extends BaseController
             ->editColumn('created_at', function ($data) {
                 return format_datetime($data->created_at);
             })
+            ->editColumn('client_id', function ($data) {
+                return format_id($data->client_id, 'C');
+            })
             ->editColumn('added_by', function ($data) {
                 return get_tenant_name($data->added_by);
             });
