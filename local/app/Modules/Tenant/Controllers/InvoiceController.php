@@ -109,4 +109,12 @@ class InvoiceController extends BaseController
         return $payments;
     }
 
+    function studentPayments($invoice_id)
+    {
+        $payments = CollegePayment::join('college_invoice_payments', 'college_payments.college_payment_id', '=', 'college_invoice_payments.payment_id')
+            ->where('college_invoice_payments.college_invoice_id', $invoice_id)
+            ->select(['college_payments.*', 'college_payments.college_payment_id as payment_id']);
+        return $payments;
+    }
+
 }
