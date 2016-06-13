@@ -17,10 +17,10 @@ class InstituteController extends BaseController
 
     protected $request;/* Validation rules for user create and edit */
     protected $rules = [
+        'name'=>'required|min:2|max:155',
         'short_name' => 'required|min:2|max:55',
         'phone' => 'required',
-        'abn' => 'required',
-        'acn' => 'required',
+        'website' => 'required|min:2|max:155'
     ];
 
     function __construct(Institute $institute, Request $request, InstituteDocument $document, SuperAgentInstitute $superagent, Agent $agent)
@@ -52,7 +52,7 @@ class InstituteController extends BaseController
     {
         $institutes = Institute::leftJoin('companies', 'institutes.company_id', '=', 'companies.company_id')
             ->leftJoin('phones', 'phones.phone_id', '=', 'companies.phone_id')
-            ->select(['institutes.institution_id', 'institutes.short_name', 'institutes.created_at', 'companies.name', 'companies.phone_id', 'companies.invoice_to_name', 'phones.number'])
+            ->select(['institutes.institution_id', 'institutes.short_name', 'institutes.created_at', 'companies.name', 'companies.phone_id','companies.website', 'companies.invoice_to_name', 'phones.number'])
             ->orderBy('institution_id', 'desc');
 
         $datatable = \Datatables::of($institutes)

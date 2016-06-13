@@ -60,8 +60,6 @@ class Institute extends Model
             $company = Company::create([
                 'name' => $request['name'],
                 'phone_id' => $phone_id,
-                'abn' => $request['abn'],
-                'acn' => $request['acn'],
                 'website' => $request['website'],
                 'invoice_to_name' => $request['invoice_to_name']
             ]);
@@ -151,7 +149,7 @@ class Institute extends Model
     {
         $institute = Institute::leftJoin('companies', 'institutes.company_id', '=', 'companies.company_id')
             ->leftJoin('phones', 'phones.phone_id', '=', 'companies.phone_id')
-            ->select(['institutes.institution_id', 'institutes.short_name', 'institutes.created_at', 'companies.name', 'companies.abn', 'companies.acn', 'companies.website', 'companies.invoice_to_name', 'phones.number'])
+            ->select(['institutes.institution_id', 'institutes.short_name', 'institutes.created_at', 'companies.acn', 'companies.website', 'companies.invoice_to_name', 'phones.number'])
             ->where('institutes.institution_id', $institution_id)
             ->first();
         return $institute;
