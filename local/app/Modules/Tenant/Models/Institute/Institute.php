@@ -33,6 +33,7 @@ class Institute extends Model
      *
      * @var array
      */
+    
     protected $fillable = ['short_name', 'company_id'];
 
     /**

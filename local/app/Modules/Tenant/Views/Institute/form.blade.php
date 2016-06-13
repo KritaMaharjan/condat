@@ -16,6 +16,7 @@
                     </div>
                 </div>
 
+
                 <div class="form-group @if($errors->has('short_name')) {{'has-error'}} @endif">
                     {!!Form::label('short_name', 'Short Name *', array('class' => 'col-sm-4 control-label')) !!}
                     <div class="col-sm-8">

@@ -21,6 +21,7 @@ class InstituteController extends BaseController
         'short_name' => 'required|min:2|max:55',
         'phone' => 'required',
         'website' => 'required|min:2|max:155'
+        
     ];
 
     function __construct(Institute $institute, Request $request, InstituteDocument $document, SuperAgentInstitute $superagent, Agent $agent)
