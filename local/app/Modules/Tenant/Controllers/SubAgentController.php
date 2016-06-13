@@ -145,19 +145,21 @@ class SubAgentController extends BaseController
             ->where('subagent_invoices.course_application_id', $application_id)
             ->orderBy('created_at', 'desc');
         $datatable = \Datatables::of($invoices)
-            ->addColumn('action', '<div class="btn-group">
+            ->addColumn('action', function ($data) {
+                return '<div class="btn-group">
                   <button class="btn btn-primary" type="button">Action</button>
                   <button data-toggle="dropdown" class="btn btn-primary dropdown-toggle" type="button">
                     <span class="caret"></span>
                     <span class="sr-only">Toggle Dropdown</span>
                   </button>
                   <ul role="menu" class="dropdown-menu">
-                    <li><a href="http://localhost/condat/tenant/contact/2">View Payments</a></li>
+                    <li><a href="'.route("tenant.invoice.payments", [$data->invoice_id, 3]).'">View Payments</a></li>
                     <li><a href="http://localhost/condat/tenant/contact/2">View</a></li>
                     <li><a href="http://localhost/condat/tenant/contact/2">Edit</a></li>
                     <li><a href="http://localhost/condat/tenant/contact/2">Delete</a></li>
                   </ul>
-                </div>')
+                </div>';
+            })
             ->addColumn('status', 'Outstanding')
             ->addColumn('outstanding_amount', '5000 <button class="btn btn-success btn-xs"><i class="fa fa-eye"></i> Add payment</button>')
             ->editColumn('invoice_date', function ($data) {

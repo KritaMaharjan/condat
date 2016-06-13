@@ -4,6 +4,8 @@ use App\Http\Requests;
 use App\Modules\Tenant\Models\Agent;
 use App\Modules\Tenant\Models\Client\ClientPayment;
 use App\Modules\Tenant\Models\Invoice\Invoice;
+use App\Modules\Tenant\Models\Payment\CollegePayment;
+use App\Modules\Tenant\Models\Payment\SubAgentApplicationPayment;
 use App\Modules\Tenant\Models\PaymentInvoiceBreakdown;
 use Flash;
 use DB;
@@ -41,21 +43,31 @@ class InvoiceController extends BaseController
         }
     }
 
-    function payments($invoice_id)
+    function payments($invoice_id, $type = 1)
     {
         $data['invoice_id'] = $invoice_id;
+        $data['type'] = $type;
         return view("Tenant::Invoice/payments", $data);
     }
 
 
     /**
      * Get all the payments through ajax request.
-     *
+     * Type - 1 : college, 2 : student, 3 : subagent
      * @return JSON response
      */
-    function getPaymentsData($invoice_id)
+    function getPaymentsData($invoice_id, $type = 1)
     {
-        $payments = ClientPayment::where('client_id', $client_id)->select(['*']);
+        switch ($type) {
+            case 1:
+                $payments = $this->collegePayments($invoice_id);
+                break;
+            case 2:
+                $payments = $this->studentPayments($invoice_id);
+                break;
+            default:
+                $payments = $this->subagentPayments($invoice_id);
+        }
 
         $datatable = \Datatables::of($payments)
             ->addColumn('action', '<div class="btn-group">
@@ -71,14 +83,30 @@ class InvoiceController extends BaseController
                     <li><a href="http://localhost/condat/tenant/contact/2">Delete</a></li>
                   </ul>
                 </div>')
-            ->addColumn('invoice_id', 'Uninvoiced <button class="btn btn-success btn-xs"><i class="glyphicon glyphicon-plus-sign"></i> Assign to Invoice</button>')
             ->editColumn('date_paid', function ($data) {
                 return format_date($data->date_paid);
             })
-            ->editColumn('client_payment_id', function ($data) {
-                return format_id($data->client_payment_id, 'P');
+            ->addColumn('payment_id', function ($data) {
+                return format_id($data->payment_id, 'P');
             });
         return $datatable->make(true);
+    }
+
+    function subagentPayments($invoice_id)
+    {
+        $payments = SubAgentApplicationPayment::leftJoin('client_payments', 'client_payments.client_payment_id', '=', 'subagent_application_payments.client_payment_id')
+            ->join('payment_invoice_breakdowns', 'client_payments.client_payment_id', '=', 'payment_invoice_breakdowns.payment_id')
+            ->where('payment_invoice_breakdowns.invoice_id', $invoice_id)
+            ->select(['subagent_application_payments.subagent_payments_id', 'subagent_application_payments.course_application_id', 'payment_invoice_breakdowns.invoice_id', 'client_payments.*', 'client_payments.client_payment_id as payment_id']);
+        return $payments;
+    }
+
+    function collegePayments($invoice_id)
+    {
+        $payments = CollegePayment::join('college_invoice_payments', 'college_payments.college_payment_id', '=', 'college_invoice_payments.payment_id')
+            ->where('college_invoice_payments.college_invoice_id', $invoice_id)
+            ->select(['college_payments.*', 'college_payments.college_payment_id as payment_id']);
+        return $payments;
     }
 
 }

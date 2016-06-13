@@ -178,3 +178,15 @@ ALTER TABLE `payment_invoice_breakdowns` CHANGE `payment_invoice_breakdown_id` `
 ALTER TABLE `users` ADD `role` INT NOT NULL AFTER `is_system_admin`;
 
 ALTER TABLE `users` CHANGE `user_id` `user_id` INT(11) NOT NULL AUTO_INCREMENT;
+
+/* 13 June */
+ALTER TABLE `persons` CHANGE `person_id` `person_id` INT(11) NOT NULL AUTO_INCREMENT;
+
+ALTER TABLE `person_addresses` CHANGE `person_address_id` `person_address_id` INT(11) NOT NULL AUTO_INCREMENT COMMENT ' ';
+
+ALTER TABLE `phones` CHANGE `phone_id` `phone_id` INT(11) NOT NULL AUTO_INCREMENT;
+
+ALTER TABLE `person_phones` CHANGE `person_phone_id` `person_phone_id` INT(11) NOT NULL AUTO_INCREMENT;
+
+ALTER TABLE `institutes` CHANGE `institution_id` `institution_id` INT(11) NOT NULL AUTO_INCREMENT;
+

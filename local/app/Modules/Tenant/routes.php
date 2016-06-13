@@ -78,8 +78,8 @@ Route::group(array('prefix' => 'tenant', 'module' => 'Tenant', 'middleware' => '
     Route::post('invoice/{client_id}/store', ['as' => 'tenant.client.invoice', 'uses' => 'AccountController@storeClientInvoice']);
     Route::get('invoices/client/{client_id}/data', 'AccountController@getInvoicesData');
 
-    Route::get('invoices/{invoice_id}/payments', 'InvoiceController@payments');
-    Route::get('invoices/payments/{invoice_id}/data', 'InvoiceController@getPaymentsData');
+    Route::get('invoices/{invoice_id}/payments/{type}', ['as' => 'tenant.invoice.payments', 'uses' => 'InvoiceController@payments']);
+    Route::get('invoices/payments/{invoice_id}/{type}/data', 'InvoiceController@getPaymentsData');
 
     /* Create applications for a client */
     Route::get('clients/{client_id}/applications', ['as' => 'tenant.client.application', 'uses' => 'ApplicationController@index']);

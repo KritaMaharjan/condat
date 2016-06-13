@@ -10,10 +10,10 @@
     <div class="col-xs-12">
         <div class="box box-primary">
             <div class="box-header with-border">
-                <h3 class="box-title">Payments</h3>
-                <a href="{{ route('application.subagents.payment', $application->application_id) }}"
+                <h3 class="box-title">Invoice Payments</h3>
+                {{--<a href="{{ route('application.subagents.payment', $application->application_id) }}"
                    class="btn btn-success btn-flat pull-right"><i class="glyphicon glyphicon-plus-sign"></i> Add
-                    Payments</a>
+                    Payments</a>--}}
             </div>
             <div class="box-body">
                 <table id="payments" class="table table-bordered table-striped dataTable">
@@ -46,9 +46,9 @@
                 "info": true,
                 "autoWidth": true,
 
-                "ajax": appUrl + "/tenant/invoices/payments/" + <?php echo $invoice_id ?> +"/payments",
+                "ajax": appUrl + "/tenant/invoices/payments/" + <?php echo $invoice_id ?> + "/" + <?php echo $type ?> + "/data",
                 "columns": [
-                    {data: 'subagent_payments_id', name: 'subagent_payments_id'},
+                    {data: 'payment_id', name: 'payment_id'},
                     {data: 'date_paid', name: 'date_paid'},
                     {data: 'amount', name: 'amount'},
                     {data: 'payment_method', name: 'payment_method'},
