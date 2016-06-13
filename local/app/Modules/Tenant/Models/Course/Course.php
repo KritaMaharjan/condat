@@ -27,7 +27,7 @@ class Course extends Model
      *
      * @var array
      */
-    protected $fillable = ['name', 'broad_field', 'level', 'narrow_field'];
+    protected $fillable = ['name', 'broad_field', 'level', 'narrow_field','commission_percent','coe_fee','total_tuition_fee'];
 
     /**
      * Disable default timestamp feature.
@@ -52,12 +52,13 @@ class Course extends Model
                 'broad_field' => $request['broad_field'],
                 'level' => $request['level'],
                 'narrow_field' => $request['narrow_field'],
+                'commission_percent' => $request['commission_percent'],
             ]);
 
             InstituteCourse::create([
                 'course_id' => $course->course_id,
                 'institute_id' => $institute_id,
-                //'description' => $request['description'],
+                'description' => $request['description'],
             ]);
 
             $fee = Fee::create([
@@ -80,11 +81,16 @@ class Course extends Model
         }
     }
 
+    
+
     function getCourses($institute_id)
     {
+
         $courses = InstituteCourse::join('courses', 'institute_courses.course_id', '=', 'courses.course_id')
             ->where('institute_courses.institute_id', $institute_id)
             ->lists('courses.name', 'courses.course_id');
+            print_r($courses);
+
         return $courses;
     }
 }

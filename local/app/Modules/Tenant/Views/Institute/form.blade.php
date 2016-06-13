@@ -1,12 +1,11 @@
 <div class="box-body">
     <div class="col-md-6">
         <div class="">
-            Institute Details
 
             <div class="">
 
                 <div class="form-group @if($errors->has('name')) {{'has-error'}} @endif">
-                    {!!Form::label('name', 'Company Name *', array('class' => 'col-sm-4 control-label')) !!}
+                    {!!Form::label('name', 'Institute Name *', array('class' => 'col-sm-4 control-label')) !!}
                     <div class="col-sm-8">
                         {!!Form::text('name', null, array('class' => 'form-control', 'id'=>'name'))!!}
                         @if($errors->has('name'))
