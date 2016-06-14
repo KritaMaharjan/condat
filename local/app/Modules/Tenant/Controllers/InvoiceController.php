@@ -2,6 +2,7 @@
 
 use App\Http\Requests;
 use App\Modules\Tenant\Models\Agent;
+use App\Modules\Tenant\Models\Application\StudentApplicationPayment;
 use App\Modules\Tenant\Models\Client\ClientPayment;
 use App\Modules\Tenant\Models\Invoice\Invoice;
 use App\Modules\Tenant\Models\Payment\CollegePayment;
@@ -23,11 +24,12 @@ class InvoiceController extends BaseController
         'acn' => 'required',
     ];
 
-    function __construct(Invoice $invoice, Request $request, PaymentInvoiceBreakdown $payment_invoice)
+    function __construct(Invoice $invoice, Request $request, PaymentInvoiceBreakdown $payment_invoice, SubAgentApplicationPayment $subagent_payment)
     {
         $this->invoice = $invoice;
         $this->request = $request;
         $this->payment_invoice = $payment_invoice;
+        $this->subagent_payment = $subagent_payment;
         parent::__construct();
     }
 
@@ -111,10 +113,37 @@ class InvoiceController extends BaseController
 
     function studentPayments($invoice_id)
     {
-        $payments = CollegePayment::join('college_invoice_payments', 'college_payments.college_payment_id', '=', 'college_invoice_payments.payment_id')
-            ->where('college_invoice_payments.college_invoice_id', $invoice_id)
-            ->select(['college_payments.*', 'college_payments.college_payment_id as payment_id']);
+        $payments = StudentApplicationPayment::join('payment_invoice_breakdowns', 'student_application_payments.client_payment_id', '=', 'payment_invoice_breakdowns.payment_id')
+            ->leftJoin('client_payments', 'client_payments.client_payment_id', '=', 'student_application_payments.client_payment_id')
+            ->where('payment_invoice_breakdowns.invoice_id', $invoice_id)
+            ->select(['student_application_payments.student_payments_id', 'client_payments.*', 'client_payments.client_payment_id as payment_id']);
         return $payments;
+    }
+
+    function createPayment($invoice_id, $type = 1)
+    {
+        $data['invoice_id'] = $invoice_id;
+        $data['type'] = $type;
+        return view("Tenant::Client/Invoice/payment", $data);
+
+    }
+
+    function postPayment($invoice_id, $type = 1)
+    {
+        switch ($type) {
+            case 1:
+                $created = $this->subagent_payment->addAndAssign($this->request->all(), $invoice_id);
+                break;
+            case 2:
+                $created = $this->studentPayments($invoice_id);
+                break;
+            default:
+                $created = $this->subagent_payment->addAndAssign($this->request->all(), $invoice_id);
+        }
+
+        if ($created)
+            \Flash::success('Payment added successfully!');
+        return redirect()->back();
     }
 
 }

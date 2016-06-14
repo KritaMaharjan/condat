@@ -1,5 +1,5 @@
 <div class="box-body">
-    <div class="col-md-6">
+    <div class="col-md-12">
 
         <div class="form-group @if($errors->has('date_paid')) {{'has-error'}} @endif">
             {!!Form::label('date_paid', 'Payment Date *', array('class' => 'col-sm-4 control-label')) !!}

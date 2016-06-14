@@ -154,7 +154,7 @@ class CollegeController extends BaseController
                 </div>';
             })
             ->addColumn('status', 'Outstanding')
-            ->addColumn('outstanding_amount', '5000 <a class="btn btn-success btn-xs"><i class="fa fa-eye"></i> Add Payment</a>')
+            ->addColumn('outstanding_amount', '5000 <a class="btn btn-success btn-xs"><i class="glyphicon glyphicon-plus-sign"></i> Add Payment</a>')
             ->editColumn('invoice_date', function ($data) {
                 return format_date($data->invoice_date);
             })

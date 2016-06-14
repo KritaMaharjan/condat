@@ -40,6 +40,7 @@ class SubAgentController extends BaseController
     {
         $data['application'] = $application = $this->application->getDetails($application_id);
         $data['invoice_array'] = $this->invoice->getList($application_id);
+        $data['total_invoice_amount'] = $this->invoice->getTotalAmount($application_id);
         $data['client'] = $this->client->getDetails($application->client_id);
         return view("Tenant::SubAgent/Account/index", $data);
     }
@@ -161,7 +162,9 @@ class SubAgentController extends BaseController
                 </div>';
             })
             ->addColumn('status', 'Outstanding')
-            ->addColumn('outstanding_amount', '5000 <button class="btn btn-success btn-xs"><i class="fa fa-eye"></i> Add payment</button>')
+            ->addColumn('outstanding_amount', function ($data) {
+                return '5000 <a class="btn btn-success btn-xs" data-toggle="modal" data-target="#condat-modal" data-url="'.url('tenant/invoices/'.$data->invoice_id.'/payment/add/3').'"><i class="glyphicon glyphicon-plus-sign"></i> Add Payment</a>';
+            })
             ->editColumn('invoice_date', function ($data) {
                 return format_date($data->invoice_date);
             })
