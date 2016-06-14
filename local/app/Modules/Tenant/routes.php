@@ -81,6 +81,10 @@ Route::group(array('prefix' => 'tenant', 'module' => 'Tenant', 'middleware' => '
     Route::get('invoices/{invoice_id}/payments/{type}', ['as' => 'tenant.invoice.payments', 'uses' => 'InvoiceController@payments']);
     Route::get('invoices/payments/{invoice_id}/{type}/data', 'InvoiceController@getPaymentsData');
 
+    /* Add Payment to invoices directly */
+    Route::get('invoices/{invoice_id}/payment/add/{type}', ['as' => 'invoice.payment.add', 'uses' => 'InvoiceController@createPayment']);
+    Route::post('invoices/{invoice_id}/payment/add/{type}', ['as' => 'invoice.payment.create', 'uses' => 'InvoiceController@postPayment']);
+
     /* Create applications for a client */
     Route::get('clients/{client_id}/applications', ['as' => 'tenant.client.application', 'uses' => 'ApplicationController@index']);
 

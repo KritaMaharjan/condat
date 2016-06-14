@@ -11,16 +11,21 @@
                 <h3 class="box-title">All Institutions</h3>
                 <a href="<?php echo e(route('tenant.institute.create')); ?>" class="btn btn-primary btn-flat pull-right">Add New Institute</a>
             </div>
+            <div class="search">
+                
+            </div>
+
             <div class="box-body">
                 <table id="institutes" class="table table-bordered table-striped dataTable">
                     <thead>
                     <tr>
                         <th>Institute ID</th>
-                        <th>Short Name</th>
-                        <th>Company Name</th>
+                        <th>Institute Name</th>
+                        <th>Short Name</th> 
                         <th>Phone</th>
+                        <th>Website</th>
                         <th>Invoice To</th>
-                        <th>Created At</th>
+                        <th>Created By</th>
                         <th>Actions</th>
                     </tr>
                     </thead>
@@ -36,9 +41,10 @@
                 "ajax": appUrl + "/tenant/institutes/data",
                 "columns": [
                     {data: 'institution_id', name: 'institution_id'},
-                    {data: 'short_name', name: 'short_name'},
                     {data: 'name', name: 'name'},
+                    {data: 'short_name', name: 'short_name'},  
                     {data: 'number', name: 'number'},
+                    {data: 'website', name: 'website'},
                     {data: 'invoice_to_name', name: 'invoice_to_name'},
                     {data: 'created_at', name: 'created_at'},
                     {data: 'action', name: 'action', orderable: false, searchable: false}

@@ -75,5 +75,16 @@ class SubAgentInvoice extends Model
         }
         return $invoice_list;
     }
+
+    function getTotalAmount($application_id)
+    {
+        $invoices = SubAgentInvoice::join('invoices', 'subagent_invoices.invoice_id', '=', 'invoices.invoice_id')
+            ->select(DB::raw('SUM(invoices.amount) as total_amount'))
+            ->where('subagent_invoices.course_application_id', $application_id)
+            ->orderBy('created_at', 'desc')
+            ->get();
+        dd($invoices->toArray());
+        return $invoices->total_amount;
+    }
 }
 

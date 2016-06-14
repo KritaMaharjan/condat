@@ -141,21 +141,23 @@ class StudentController extends BaseController
             ->where('student_invoices.application_id', $application_id)
             ->orderBy('created_at', 'desc');
         $datatable = \Datatables::of($invoices)
-            ->addColumn('action', '<div class="btn-group">
+            ->addColumn('action', function ($data) {
+                return '<div class="btn-group">
                   <button class="btn btn-primary" type="button">Action</button>
                   <button data-toggle="dropdown" class="btn btn-primary dropdown-toggle" type="button">
                     <span class="caret"></span>
                     <span class="sr-only">Toggle Dropdown</span>
                   </button>
                   <ul role="menu" class="dropdown-menu">
-                    <li><a href="http://localhost/condat/tenant/contact/2">Add payment</a></li>
+                    <li><a href="'.route("tenant.invoice.payments", [$data->invoice_id, 2]).'">View payments</a></li>
                     <li><a href="http://localhost/condat/tenant/contact/2">View</a></li>
                     <li><a href="http://localhost/condat/tenant/contact/2">Edit</a></li>
                     <li><a href="http://localhost/condat/tenant/contact/2">Delete</a></li>
                   </ul>
-                </div>')
+                </div>';
+            })
             ->addColumn('status', 'Outstanding')
-            ->addColumn('outstanding_amount', '5000 <button class="btn btn-success btn-xs"><i class="fa fa-eye"></i> View Payments</button>')
+            ->addColumn('outstanding_amount', '5000 <button class="btn btn-success btn-xs"><i class="glyphicon glyphicon-plus-sign"></i> Add Payment</button>')
             ->editColumn('invoice_date', function ($data) {
                 return format_date($data->invoice_date);
             })
