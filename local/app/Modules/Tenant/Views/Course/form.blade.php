@@ -50,6 +50,20 @@
                 </div>
             </div>
 
+            <div class="form-group @if($errors->has('commission_percent')) {{'has-error'}} @endif">
+                {!!Form::label('commission_percent', 'Commission Percent', array('class' => 'col-sm-4 control-label')) !!}
+                <div class="col-sm-8">
+                    <div class="input-group">
+                        {!!Form::text('commission_percent', $commission_percent, array('class' => 'form-control', 'id'=>'commission_percent'))!!}
+                        <span class="input-group-addon">%</span>
+                    </div>
+                    @if($errors->has('commission_percent'))
+                        {!! $errors->first('commission_percent', '<label class="control-label"
+                                                              for="inputError">:message</label>') !!}
+                    @endif
+                </div>
+            </div>
+
             <div class="form-group @if($errors->has('broad_field')) {{'has-error'}} @endif">
                 {!!Form::label('broad_field', 'Broad Field*', array('class' => 'col-sm-4 control-label')) !!}
                 <div class="col-sm-8">
