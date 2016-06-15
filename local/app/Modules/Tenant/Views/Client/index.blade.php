@@ -20,8 +20,8 @@
                         <th>Client Name</th>
                         <th>Phone No</th>
                         <th>Email</th>
+                        <th>Referred By</th>
                         <th>Added By</th>
-                        <th>Created At</th>
                         <th>Actions</th>
 
                     </tr>
@@ -41,8 +41,9 @@
                     {data: 'fullname', name: 'fullname'},
                     {data: 'phone', name: 'phone'},
                     {data: 'email', name: 'email'},
+                    {data: 'referred_by', name: 'referred_by'},
                     {data: 'added_by', name: 'added_by'},
-                    {data: 'created_at', name: 'created_at', searchable: false},
+                    
                     {data: 'action', name: 'action', orderable: false, searchable: false}
                 ],
                 order: [ [0, 'desc'] ]

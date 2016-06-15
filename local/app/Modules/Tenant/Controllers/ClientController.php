@@ -14,11 +14,10 @@ class ClientController extends BaseController
 
     protected $request;/* Validation rules for user create and edit */
     protected $rules = [
-        'first_name' => 'required|min:2|max:55',
+        'first_name' => 'required|min:2|max:145',
         'last_name' => 'required|alpha|min:2|max:55',
-        'middle_name' => 'alpha|min:2|max:55',
-        'dob' => 'required',
-        'passport_no' => 'required',
+        'middle_name' => 'alpha|min:2|max:145',
+        'country' => 'required',
         'number' => 'required'
     ];
 
@@ -51,7 +50,7 @@ class ClientController extends BaseController
             ->leftJoin('users', 'clients.user_id', '=', 'users.user_id')
             ->leftJoin('person_phones', 'person_phones.person_id', '=', 'persons.person_id')
             ->leftJoin('phones', 'phones.phone_id', '=', 'person_phones.phone_id')
-            ->select(['clients.client_id', 'clients.added_by', 'users.email', 'users.status', 'phones.number as phone', 'clients.created_at', DB::raw('CONCAT(persons.first_name, " ", persons.last_name) AS fullname')]);
+            ->select(['clients.client_id', 'clients.added_by','clients.referred_by', 'users.email', 'users.status', 'phones.number as phone', 'clients.created_at', DB::raw('CONCAT(persons.first_name, " ", persons.last_name) AS fullname')]);
 
         $datatable = \Datatables::of($clients)
             ->addColumn('action', '<a data-toggle="tooltip" title="View Client" class="btn btn-action-box" href ="{{ route( \'tenant.client.show\', $client_id) }}"><i class="fa fa-eye"></i></a> <a data-toggle="tooltip" title="Client Documents" class="btn btn-action-box" href ="{{ route( \'tenant.client.document\', $client_id) }}"><i class="fa fa-file"></i></a> <a data-toggle="tooltip" title="Edit Client" class="btn btn-action-box" href ="{{ route( \'tenant.client.edit\', $client_id) }}"><i class="fa fa-edit"></i></a> <a data-toggle="tooltip" title="Delete Client" class="delete-user btn btn-action-box" href="{{ route( \'tenant.client.destroy\', $client_id) }}"><i class="fa fa-trash"></i></a>')
@@ -100,7 +99,7 @@ class ClientController extends BaseController
     public function store()
     {
         /* Additional validations for creating user */
-        $this->rules['email'] = 'required|email|min:5|max:55|unique:users';
+        //$this->rules['email'] = 'required|email|min:5|max:55|unique:users';
 
         $this->validate($this->request, $this->rules);
         // if validates

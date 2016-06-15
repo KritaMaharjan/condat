@@ -50,7 +50,7 @@
                 </div>
 
                 <div class="form-group @if($errors->has('dob')) {{'has-error'}} @endif">
-                    {!!Form::label('dob', 'DOB *', array('class' => 'col-sm-4 control-label')) !!}
+                    {!!Form::label('dob', 'DOB', array('class' => 'col-sm-4 control-label')) !!}
                     <div class="col-sm-8">
                         <div class="input-group date">
                             <div class="input-group-addon">
@@ -66,7 +66,7 @@
                 </div>
 
                 <div class="form-group @if($errors->has('passport_no')) {{'has-error'}} @endif">
-                    {!!Form::label('passport_no', 'Passport No. *', array('class' => 'col-sm-4 control-label')) !!}
+                    {!!Form::label('passport_no', 'Passport No.', array('class' => 'col-sm-4 control-label')) !!}
                     <div class="col-sm-8">
                         {!!Form::text('passport_no', null, array('class' => 'form-control', 'id'=>'passport_no'))!!}
                         @if($errors->has('passport_no'))
@@ -93,7 +93,7 @@
                 </div>
 
                 <div class="form-group @if($errors->has('email')) {{'has-error'}} @endif">
-                    {!!Form::label('email', 'Email Address *', array('class' => 'col-sm-4 control-label')) !!}
+                    {!!Form::label('email', 'Email Address', array('class' => 'col-sm-4 control-label')) !!}
                     <div class="col-sm-8">
                         {!!Form::email('email', null, array('class' => 'form-control', 'id'=>'email'))!!}
                         @if($errors->has('email'))
@@ -102,6 +102,18 @@
                         @endif
                     </div>
                 </div>
+
+                <div class="form-group @if($errors->has('referred_by')) {{'has-error'}} @endif">
+                    {!!Form::label('referred_by', 'Referred By', array('class' => 'col-sm-4 control-label')) !!}
+                    <div class="col-sm-8">
+                        {!!Form::text('referred_by', null, array('class' => 'form-control', 'id'=>'referred_by'))!!}
+                        @if($errors->has('email'))
+                            {!! $errors->first('referred_by', '<label class="control-label"
+                                                                   for="inputError">:message</label>') !!}
+                        @endif
+                    </div>
+                </div>
+
             </div>
         </div>
     </div>
@@ -163,6 +175,18 @@
                         'form-control'))!!}
                         @if($errors->has('country_id'))
                             {!! $errors->first('country_id', '<label class="control-label"
+                                                                  for="inputError">:message</label>')
+                            !!}
+                        @endif
+                    </div>
+                </div>
+
+                <div class="form-group @if($errors->has('description')) {{'has-error'}} @endif">
+                    {!!Form::label('description', 'Description', array('class' => 'col-sm-4 control-label')) !!}
+                    <div class="col-sm-8">
+                        {!!Form::textarea('description', null, array('class' => 'form-control', 'id'=>'description'))!!}
+                        @if($errors->has('description'))
+                            {!! $errors->first('description', '<label class="control-label"
                                                                   for="inputError">:message</label>')
                             !!}
                         @endif
