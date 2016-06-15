@@ -95,4 +95,24 @@ class CourseApplication extends Model
             ->lists('info', 'courses.course_application_id');
         return $applications;
     }
+
+    function getStats($application_id)
+    {
+        $application = CourseApplication::leftJoin('institutes', 'course_application.institute_id', '=', 'institutes.institution_id')
+            ->leftJoin('companies', 'institutes.company_id', '=', 'companies.company_id')
+            ->leftJoin('courses', 'course_application.institution_course_id', '=', 'courses.course_id')
+            ->leftJoin('institute_courses', 'institute_courses.course_id', '=', 'courses.course_id')
+            ->leftJoin('intakes', 'course_application.intake_id', '=', 'intakes.intake_id')
+            ->where('course_application.course_application_id', $application_id)
+            //->select(['*'])
+            ->select(['companies.name', 'courses.name as course_name', 'companies.name as company_name', 'course_application.end_date', 'course_application.client_id', 'intakes.orientation_date', 'intakes.intake_date', 'course_application.student_id', 'course_application.course_application_id as application_id', 'course_application.tuition_fee', 'course_application.sub_agent_id', 'course_application.super_agent_id', 'course_application.user_id as added_by'])
+            ->first();
+
+        return $application;
+    }
+
+    function totalInvoiceAmount($application_id)
+    {
+
+    }
 }

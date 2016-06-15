@@ -1,5 +1,6 @@
 <?php namespace App\Modules\Tenant\Models\Invoice;
 
+use App\Modules\Tenant\Models\Payment\SubAgentApplicationPayment;
 use Illuminate\Database\Eloquent\Model;
 use DB;
 
@@ -78,13 +79,24 @@ class SubAgentInvoice extends Model
 
     function getTotalAmount($application_id)
     {
+        //currently not in use
         $invoices = SubAgentInvoice::join('invoices', 'subagent_invoices.invoice_id', '=', 'invoices.invoice_id')
-            ->select(DB::raw('SUM(invoices.amount) as total_amount'))
+            ->select('invoices.amount')
             ->where('subagent_invoices.course_application_id', $application_id)
             ->orderBy('created_at', 'desc')
-            ->get();
-        dd($invoices->toArray());
+            ->sum('invoices.amount');
+        dd($invoices);
         return $invoices->total_amount;
+    }
+
+    function getTotalPaid($application_id)
+    {
+        $payments = SubAgentApplicationPayment::leftJoin('client_payments', 'client_payments.client_payment_id', '=', 'subagent_application_payments.client_payment_id')
+            ->leftJoin('payment_invoice_breakdowns', 'client_payments.client_payment_id', '=', 'payment_invoice_breakdowns.payment_id')
+            ->where('course_application_id', $application_id)
+            ->select('client_payments.amount')
+            ->get();
+        return $payments;
     }
 }
 

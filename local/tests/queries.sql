@@ -190,3 +190,121 @@ ALTER TABLE `person_phones` CHANGE `person_phone_id` `person_phone_id` INT(11) N
 
 ALTER TABLE `institutes` CHANGE `institution_id` `institution_id` INT(11) NOT NULL AUTO_INCREMENT;
 
+/* 15th June Jenish */
+-- Table structure for table `ci_other_commissions`
+--
+
+CREATE TABLE `ci_other_commissions` (
+  `other_commission_id` int(11) NOT NULL,
+  `amount` float NOT NULL,
+  `gst` float NOT NULL,
+  `description` varchar(155) NOT NULL,
+  `college_invoice_id` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `ci_tuition_commissions`
+--
+
+CREATE TABLE `ci_tuition_commissions` (
+  `tuition_commission_id` int(11) NOT NULL,
+  `tuition_fee` float NOT NULL,
+  `enrollment_fee` float NOT NULL,
+  `material_fee` float NOT NULL,
+  `coe_fee` float NOT NULL,
+  `other_fee` float NOT NULL,
+  `sub_total` float NOT NULL,
+  `description` varchar(155) NOT NULL,
+  `commission_percent` float NOT NULL,
+  `commission_amount` float NOT NULL,
+  `commission_gst` float NOT NULL,
+  `college_invoice_id` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `college_invoices`
+--
+
+CREATE TABLE `college_invoices` (
+  `college_invoice_id` int(11) NOT NULL,
+  `course_application_id` int(11) NOT NULL,
+  `total_commission` float DEFAULT NULL,
+  `payable_to_college` float DEFAULT NULL,
+  `due_date` datetime DEFAULT NULL,
+  `installment_no` varchar(45) DEFAULT NULL,
+  `invoice_date` datetime DEFAULT NULL,
+  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `updated_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `college_invoices`
+--
+
+INSERT INTO `college_invoices` (`college_invoice_id`, `course_application_id`, `total_commission`, `payable_to_college`, `due_date`, `installment_no`, `invoice_date`, `created_at`, `updated_at`) VALUES
+(1, 1, 200, 500, '2018-06-06 00:00:00', '1', '2018-05-06 00:00:00', '2016-06-02 23:22:09', '2016-06-02 23:22:09');
+
+--
+-- Indexes for dumped tables
+--
+
+--
+-- Indexes for table `ci_other_commissions`
+--
+ALTER TABLE `ci_other_commissions`
+  ADD PRIMARY KEY (`other_commission_id`),
+  ADD KEY `college_invoice_id` (`college_invoice_id`);
+
+--
+-- Indexes for table `ci_tuition_commissions`
+--
+ALTER TABLE `ci_tuition_commissions`
+  ADD PRIMARY KEY (`tuition_commission_id`),
+  ADD KEY `college_invoice_id` (`college_invoice_id`);
+
+--
+-- Indexes for table `college_invoices`
+--
+ALTER TABLE `college_invoices`
+  ADD PRIMARY KEY (`college_invoice_id`),
+  ADD KEY `course_application_id_idx` (`course_application_id`);
+
+--
+-- AUTO_INCREMENT for dumped tables
+--
+
+--
+-- AUTO_INCREMENT for table `ci_other_commissions`
+--
+ALTER TABLE `ci_other_commissions`
+  MODIFY `other_commission_id` int(11) NOT NULL AUTO_INCREMENT;
+--
+-- AUTO_INCREMENT for table `ci_tuition_commissions`
+--
+ALTER TABLE `ci_tuition_commissions`
+  MODIFY `tuition_commission_id` int(11) NOT NULL AUTO_INCREMENT;
+--
+-- AUTO_INCREMENT for table `college_invoices`
+--
+ALTER TABLE `college_invoices`
+  MODIFY `college_invoice_id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=2;
+--
+-- Constraints for dumped tables
+--
+
+--
+-- Constraints for table `ci_other_commissions`
+--
+ALTER TABLE `ci_other_commissions`
+  ADD CONSTRAINT `ci_other_commissions_ibfk_1` FOREIGN KEY (`college_invoice_id`) REFERENCES `college_invoices` (`college_invoice_id`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
+-- Constraints for table `ci_tuition_commissions`
+--
+ALTER TABLE `ci_tuition_commissions`
+  ADD CONSTRAINT `ci_tuition_commissions_ibfk_1` FOREIGN KEY (`college_invoice_id`) REFERENCES `college_invoices` (`college_invoice_id`) ON DELETE CASCADE ON UPDATE CASCADE;
+
