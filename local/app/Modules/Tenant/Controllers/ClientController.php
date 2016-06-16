@@ -17,7 +17,6 @@ class ClientController extends BaseController
         'first_name' => 'required|min:2|max:145',
         'last_name' => 'required|alpha|min:2|max:55',
         'middle_name' => 'alpha|min:2|max:145',
-        'country' => 'required',
         'number' => 'required'
     ];
 
@@ -100,10 +99,11 @@ class ClientController extends BaseController
     {
         /* Additional validations for creating user */
         //$this->rules['email'] = 'required|email|min:5|max:55|unique:users';
-
         $this->validate($this->request, $this->rules);
+        
         // if validates
         $created = $this->client->add($this->request->all());
+
         if ($created)
             Flash::success('Client has been created successfully.');
         return redirect()->route('tenant.client.index');
