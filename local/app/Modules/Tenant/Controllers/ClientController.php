@@ -98,7 +98,7 @@ class ClientController extends BaseController
     public function store()
     {
         /* Additional validations for creating user */
-        //$this->rules['email'] = 'required|email|min:5|max:55|unique:users';
+        $this->rules['email'] = 'email|min:5|max:55|unique:users';
         $this->validate($this->request, $this->rules);
         
         // if validates
@@ -154,7 +154,7 @@ class ClientController extends BaseController
     {
         $user_id = $this->request->get('user_id');
         /* Additional validation rules checking for uniqueness */
-        $this->rules['email'] = 'required|email|min:5|max:55|unique:users,email,' . $user_id . ',user_id';
+        $this->rules['email'] = 'email|min:5|max:55|unique:users,email,' . $user_id . ',user_id';
 
         $this->validate($this->request, $this->rules);
         // if validates
