@@ -53,7 +53,8 @@ class InstituteController extends BaseController
     {
         $institutes = Institute::leftJoin('companies', 'institutes.company_id', '=', 'companies.company_id')
             ->leftJoin('phones', 'phones.phone_id', '=', 'companies.phone_id')
-            ->select(['institutes.institution_id', 'institutes.short_name', 'institutes.created_at', 'companies.name', 'companies.phone_id','companies.website', 'companies.invoice_to_name', 'phones.number'])
+            ->leftJoin('users', 'users.user_id', '=', 'institutes.added_by')
+            ->select(['institutes.institution_id', 'institutes.short_name','users.email' ,'institutes.created_at', 'companies.name', 'companies.phone_id','companies.website', 'companies.invoice_to_name', 'phones.number'])
             ->orderBy('institution_id', 'desc');
 
         $datatable = \Datatables::of($institutes)
@@ -168,8 +169,6 @@ class InstituteController extends BaseController
         $data['institute'] = $this->institute->getDetails($institution_id);
         //dd($data['institute']->toArray());
         if ($data['institute'] != null) {
-            //dd($data['institute']->dob);
-            $data['institute']->dob = format_date($data['institute']->dob);
             return view('Tenant::Institute/edit', $data);
         } else
             return show_404();
@@ -273,6 +272,13 @@ class InstituteController extends BaseController
      */
     function storeAddress($institution_id)
     {
+        /*
+        $this->rules['street'] = 'required|min:2|max:150';
+        $this->rules['suburb'] = 'required|min:2|max:145';
+        $this->rules['state'] = 'required|min:2|max:45';
+        $this->validate($this->request, $this->rules);
+        */
+
         $contact_id = $this->institute->addAddress($institution_id, $this->request->all());
         if ($contact_id) {
             \Flash::success('Address added successfully!');

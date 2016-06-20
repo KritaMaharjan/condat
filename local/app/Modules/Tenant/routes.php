@@ -81,6 +81,7 @@ Route::group(array('prefix' => 'tenant', 'module' => 'Tenant', 'middleware' => '
     Route::get('invoices/{invoice_id}/payments/{type}', ['as' => 'tenant.invoice.payments', 'uses' => 'InvoiceController@payments']);
     Route::get('invoices/payments/{invoice_id}/{type}/data', 'InvoiceController@getPaymentsData');
 
+
     /* Add Payment to invoices directly */
     Route::get('invoices/{invoice_id}/payment/add/{type}', ['as' => 'invoice.payment.add', 'uses' => 'InvoiceController@createPayment']);
     Route::post('invoices/{invoice_id}/payment/add/{type}', ['as' => 'invoice.payment.create', 'uses' => 'InvoiceController@postPayment']);
@@ -121,6 +122,7 @@ Route::group(array('prefix' => 'tenant', 'module' => 'Tenant', 'middleware' => '
     Route::get('applications/{application_id}/invoice', ['as' => 'tenant.application.invoice', 'uses' => 'CollegeController@createInvoice']);
     Route::post('applications/{application_id}/storeInvoice', ['as' => 'tenant.application.storeInvoice', 'uses' => 'CollegeController@storeInvoice']);
     Route::get('applications/invoices/{client_id}/data', 'CollegeController@getInvoicesData');
+    Route::get('applications/invoices/receipt/{invoice_id}', 'CollegeController@printInvoice');
 
     /* College Invoices */
     Route::get('college/{invoice_id}/invoice', ['as' => 'tenant.college.invoice', 'uses' => 'CollegeController@show']);

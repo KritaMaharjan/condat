@@ -15,6 +15,9 @@ class AgentController extends BaseController
 
     protected $rules = [
         'number' => 'required',
+        'email' => 'email|required',
+        'name' => 'required',
+
     ];
 
     function __construct(Request $request, Agent $agent, SuperAgentInstitute $superagent)
@@ -42,9 +45,12 @@ class AgentController extends BaseController
      */
     function getData()
     {
+
         $institutes = Agent::leftJoin('companies', 'companies.company_id', '=', 'agents.company_id')
+            ->leftJoin('phones', 'phones.phone_id', '=', 'companies.phone_id')
             ->leftJoin('superagent_institutes', 'agents.agent_id', '=', 'superagent_institutes.agents_id')
-            ->select(['companies.name', 'agents.description', 'agents.agent_id', 'agents.created_at', 'superagent_institutes.institute_id']);
+            ->leftJoin('users', 'users.user_id', '=', 'agents.added_by')
+            ->select(['companies.name','companies.website', 'agents.description', 'agents.agent_id','agents.email','agents.added_by', 'agents.created_at', 'superagent_institutes.institute_id','phones.number','users.email as user_email']);
 
         $datatable = \Datatables::of($institutes)
             ->addColumn('action', '<a data-toggle="tooltip" title="View Agent" class="btn btn-action-box" href ="{{ route( \'tenant.agents.show\', $agent_id) }}"><i class="fa fa-eye"></i></a> <a data-toggle="tooltip" title="Edit Agent" class="btn btn-action-box" href ="{{ route( \'tenant.agents.edit\', $agent_id) }}"><i class="fa fa-edit"></i></a> <a data-toggle="tooltip" title="Delete Agent" class="delete-user btn btn-action-box" href="{{ route( \'tenant.agents.destroy\', $agent_id) }}"><i class="fa fa-trash"></i></a>')
@@ -76,11 +82,15 @@ class AgentController extends BaseController
     {
         /* Additional validations for creating institution */
         $this->rules['name'] = 'required|min:2|max:255|unique:companies';
+        $this->rules['email'] = 'email|required|min:2|max:155';
+
 
         $this->validate($this->request, $this->rules);
         // if validates
+
         $agent_id = $this->agent->add($this->request->all());
         if ($agent_id)
+
             Flash::success('Agent has been created successfully.');
 
         if($this->request->ajax())
@@ -161,6 +171,7 @@ class AgentController extends BaseController
      */
     function storeSuperAgent($institution_id)
     {
+ 
         $agent_id = $this->superagent->add($institution_id, $this->request->all());
         if ($agent_id) {
             \Flash::success('Super agent added successfully!');

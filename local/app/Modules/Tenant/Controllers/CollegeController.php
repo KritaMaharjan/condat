@@ -75,6 +75,14 @@ class CollegeController extends BaseController
         return view("Tenant::College/Invoice/add", $data);
     }
 
+    public function printInvoice($invoice_id)
+    {
+        $data['invoice_id'] = $invoice_id;
+        return view("Tenant::College/Invoice/print_invoice", $data);
+    }
+
+
+
     public function storeInvoice($application_id)
     {
         $rules = [

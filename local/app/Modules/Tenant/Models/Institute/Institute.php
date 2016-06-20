@@ -44,6 +44,7 @@ class Institute extends Model
         return $this->belongsTo('App\Modules\Tenant\Models\Company\Company');
     }
 
+
     /*
      * Add institute info
      * Output institute id
@@ -67,23 +68,23 @@ class Institute extends Model
 
             $institute = Institute::create([
                 'short_name' => $request['short_name'],
-                'company_id' => $company->company_id
+                'company_id' => $company->company_id,
+                'added_by'=>'4'
             ]);
 
-            // Add address
-            /*$address = Address::create([
+            
+            $address = Address::create([
                 'street' => $request['street'],
                 'suburb' => $request['suburb'],
                 'postcode' => $request['postcode'],
                 'state' => $request['state'],
-                'country_id' => $request['country_id'],
+                'country_id' => $request['country_id']
             ]);
 
-            PersonAddress::create([
+            $instituteAddress=InstituteAddress::create([
                 'address_id' => $address->address_id,
-                'person_id' => $person->person_id,
-                'is_current' => 1
-            ]);*/
+                'institute_id' => $institute->institution_id
+            ]);
 
             DB::commit();
             return $institute->institution_id;
@@ -150,7 +151,8 @@ class Institute extends Model
     {
         $institute = Institute::leftJoin('companies', 'institutes.company_id', '=', 'companies.company_id')
             ->leftJoin('phones', 'phones.phone_id', '=', 'companies.phone_id')
-            ->select(['institutes.institution_id', 'institutes.short_name', 'institutes.created_at', 'companies.acn', 'companies.website', 'companies.invoice_to_name', 'phones.number'])
+            ->leftJoin('users', 'users.user_id', '=', 'institutes.added_by')
+            ->select(['institutes.institution_id', 'institutes.short_name', 'institutes.created_at','users.email', 'companies.name', 'companies.website', 'companies.invoice_to_name', 'phones.number'])
             ->where('institutes.institution_id', $institution_id)
             ->first();
         return $institute;
@@ -198,24 +200,29 @@ class Institute extends Model
                 'suburb' => $request['suburb'],
                 'state' => $request['state'],
                 'country_id' => 263, //Australia
-                'type' => 'Institute'
+                'type' => 'office'
             ]);
-
-            InstituteAddress::create([
+           
+           
+            $instituteAddress=InstituteAddress::create([
                 'address_id' => $address->address_id,
                 'institute_id' => $institution_id,
                 'email' => $request['email']
             ]);
-
+            
+            
             $phone = new Phone();
             $phone_id = $phone->add($request['number']);
-
+        
             InstitutePhone::create([
                 'address_id' => $address->address_id,
                 'phone_id' => $phone_id
             ]);
+            
 
             DB::commit();
+            
+           
             return true;
             // all good
         } catch (\Exception $e) {

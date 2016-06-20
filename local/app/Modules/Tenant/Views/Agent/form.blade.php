@@ -4,16 +4,7 @@
             Company Details
 
             <div class="">
-                <div class="form-group @if($errors->has('short_name')) {{'has-error'}} @endif">
-                    {!!Form::label('short_name', 'Short Name', array('class' => 'col-sm-4 control-label')) !!}
-                    <div class="col-sm-8">
-                        {!!Form::text('short_name', null, array('class' => 'form-control', 'id'=>'short_name'))!!}
-                        @if($errors->has('short_name'))
-                            {!! $errors->first('short_name', '<label class="control-label"
-                                                                     for="inputError">:message</label>') !!}
-                        @endif
-                    </div>
-                </div>
+
 
                 <div class="form-group @if($errors->has('name')) {{'has-error'}} @endif">
                     {!!Form::label('name', 'Company Name *', array('class' => 'col-sm-4 control-label')) !!}
@@ -25,6 +16,19 @@
                         @endif
                     </div>
                 </div>
+
+                <div class="form-group @if($errors->has('short_name')) {{'has-error'}} @endif">
+                    {!!Form::label('short_name', 'Short Name', array('class' => 'col-sm-4 control-label')) !!}
+                    <div class="col-sm-8">
+                        {!!Form::text('short_name', null, array('class' => 'form-control', 'id'=>'short_name'))!!}
+                        @if($errors->has('short_name'))
+                            {!! $errors->first('short_name', '<label class="control-label"
+                                                                     for="inputError">:message</label>') !!}
+                        @endif
+                    </div>
+                </div>
+
+                
 
 
                 <div class="form-group @if($errors->has('number')) {{'has-error'}} @endif">
@@ -43,27 +47,19 @@
                     </div>
                 </div>
 
-                <div class="form-group @if($errors->has('abn')) {{'has-error'}} @endif">
-                    {!!Form::label('abn', 'ABN', array('class' => 'col-sm-4 control-label')) !!}
+                <div class="form-group @if($errors->has('email')) {{'has-error'}} @endif">
+                    {!!Form::label('email', 'Email *', array('class' => 'col-sm-4 control-label')) !!}
                     <div class="col-sm-8">
-                        {!!Form::text('abn', null, array('class' => 'form-control', 'id'=>'abn'))!!}
-                        @if($errors->has('abn'))
-                            {!! $errors->first('abn', '<label class="control-label"
-                                                              for="inputError">:message</label>') !!}
+                        {!!Form::text('email', null, array('class' => 'form-control', 'id'=>'email'))!!}
+                        @if($errors->has('email'))
+                            {!! $errors->first('email', '<label class="control-label"
+                                                                for="inputError">:message</label>')
+                            !!}
                         @endif
                     </div>
                 </div>
 
-                <div class="form-group @if($errors->has('acn')) {{'has-error'}} @endif">
-                    {!!Form::label('acn', 'ACN', array('class' => 'col-sm-4 control-label')) !!}
-                    <div class="col-sm-8">
-                        {!!Form::text('acn', null, array('class' => 'form-control', 'id'=>'acn'))!!}
-                        @if($errors->has('acn'))
-                            {!! $errors->first('acn', '<label class="control-label"
-                                                              for="inputError">:message</label>') !!}
-                        @endif
-                    </div>
-                </div>
+                
 
                 <div class="form-group @if($errors->has('website')) {{'has-error'}} @endif">
                     {!!Form::label('website', 'Website', array('class' => 'col-sm-4 control-label')) !!}
