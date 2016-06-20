@@ -132,10 +132,14 @@ class InstituteController extends BaseController
 
         $this->validate($this->request, $this->rules);
         // if validates
-        $created = $this->institute->add($this->request->all());
-        if ($created)
+        $institute_id = $this->institute->add($this->request->all());
+        if ($institute_id)
             Flash::success('Institute has been created successfully.');
-        return redirect()->route('tenant.institute.index');
+
+        if($this->request->ajax())
+            return $this->success(['institute_id' => $institute_id, 'name' => $this->request->get('name')]);
+        else
+            return redirect()->route('tenant.institute.index');
     }
 
     /**

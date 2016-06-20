@@ -52,7 +52,7 @@ class Course extends Model
                 'broad_field' => $request['broad_field'],
                 'level' => $request['level'],
                 'narrow_field' => $request['narrow_field'],
-                'commission_percent' => $request['commission_percent'],
+                //'commission_percent' => $request['commission_percent'],
             ]);
 
             InstituteCourse::create([
@@ -80,17 +80,13 @@ class Course extends Model
             // something went wrong
         }
     }
-
     
 
     function getCourses($institute_id)
     {
-
         $courses = InstituteCourse::join('courses', 'institute_courses.course_id', '=', 'courses.course_id')
             ->where('institute_courses.institute_id', $institute_id)
             ->lists('courses.name', 'courses.course_id');
-            print_r($courses);
-
         return $courses;
     }
 }

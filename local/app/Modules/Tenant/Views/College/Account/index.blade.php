@@ -23,8 +23,8 @@
                     <tr>
                         <th>Invoice ID</th>
                         <th>Invoice Date</th>
-                        <th>Sub Total</th>
-                        <th>Invoice Amount</th>
+                        <th>Total Amount</th>
+                        <th>Payable To College</th>
                         <th>Status</th>
                         <th>Outstanding Amount</th>
                         <th></th>
@@ -139,8 +139,8 @@
                 "columns": [
                     {data: 'college_invoice_id', name: 'college_invoice_id'},
                     {data: 'invoice_date', name: 'invoice_date'},
-                    {data: 'sub_total', name: 'sub_total'},
-                    {data: 'invoice_amount', name: 'invoice_amount'},
+                    {data: 'total_commission', name: 'total_commission'},
+                    {data: 'payable_to_college', name: 'payable_to_college'},
                     {data: 'status', name: 'status'},
                     {data: 'outstanding_amount', name: 'outstanding_amount'},
                     {data: 'action', name: 'action', orderable: false, searchable: false}

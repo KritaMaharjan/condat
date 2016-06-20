@@ -79,10 +79,14 @@ class AgentController extends BaseController
 
         $this->validate($this->request, $this->rules);
         // if validates
-        $created = $this->agent->add($this->request->all());
-        if ($created)
+        $agent_id = $this->agent->add($this->request->all());
+        if ($agent_id)
             Flash::success('Agent has been created successfully.');
-        return redirect()->route('tenant.agents.index');
+
+        if($this->request->ajax())
+            return $this->success(['agent_id' => $agent_id, 'name' => $this->request->get('name')]);
+        else
+            return redirect()->route('tenant.agents.index');
     }
 
     /**
@@ -178,6 +182,25 @@ class AgentController extends BaseController
             $agent->delete();
             \Flash::success('Super agent added successfully!');
             return redirect()->route('tenant.institute.show', $institute_id);
+        }
+    }
+
+    /**
+     * Get agents based on institute selected
+     *
+     * @return JSON Array
+     */
+    public function getAgents()
+    {
+        if ($this->request->ajax()) {
+            $agents = $this->agent->getAgents();
+            $options = '';
+            foreach ($agents as $key => $agent) {
+                $options .= "<option value =" . $key . ">" . $agent . "</option>";
+            }
+            return $this->success(['options' => $options]);
+        } else {
+            return $this->fail(['error' => 'The method is not authorized.']);
         }
     }
 }

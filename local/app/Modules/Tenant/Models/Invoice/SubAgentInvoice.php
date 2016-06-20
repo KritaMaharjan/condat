@@ -77,16 +77,24 @@ class SubAgentInvoice extends Model
         return $invoice_list;
     }
 
+    function getStats($application_id)
+    {
+        $stats = array();
+        $stats['invoice_amount'] = $this->getTotalAmount($application_id);
+        $stats['total_paid'] = $this->getTotalPaid($application_id);
+        $due_amount = $stats['invoice_amount'] - $stats['total_paid'];
+        $stats['due_amount'] = ($due_amount < 0)? 0 : $due_amount;
+        return $stats;
+    }
+
     function getTotalAmount($application_id)
     {
-        //currently not in use
         $invoices = SubAgentInvoice::join('invoices', 'subagent_invoices.invoice_id', '=', 'invoices.invoice_id')
             ->select('invoices.amount')
             ->where('subagent_invoices.course_application_id', $application_id)
             ->orderBy('created_at', 'desc')
             ->sum('invoices.amount');
-        dd($invoices);
-        return $invoices->total_amount;
+        return $invoices;
     }
 
     function getTotalPaid($application_id)
@@ -94,8 +102,7 @@ class SubAgentInvoice extends Model
         $payments = SubAgentApplicationPayment::leftJoin('client_payments', 'client_payments.client_payment_id', '=', 'subagent_application_payments.client_payment_id')
             ->leftJoin('payment_invoice_breakdowns', 'client_payments.client_payment_id', '=', 'payment_invoice_breakdowns.payment_id')
             ->where('course_application_id', $application_id)
-            ->select('client_payments.amount')
-            ->get();
+            ->sum('client_payments.amount');
         return $payments;
     }
 }

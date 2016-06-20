@@ -1,5 +1,7 @@
 <?php namespace App\Modules\Tenant\Models\Invoice;
 
+use App\Modules\Tenant\Models\College\OtherCommission;
+use App\Modules\Tenant\Models\College\TuitionCommission;
 use Illuminate\Database\Eloquent\Model;
 use DB;
 
@@ -25,7 +27,7 @@ class CollegeInvoice extends Model
      *
      * @var array
      */
-    protected $fillable = ['course_application_id', 'commission_percent', 'commission_amount', 'invoice_amount', 'enrollment_fee', 'material_fee', 'coe_fee', 'other_fee', 'sub_total', 'incentive', 'gst', 'total_commission', 'payable_to_college', 'due_date', 'installment_no', 'invoice_date'];
+    protected $fillable = ['course_application_id', 'total_commission', 'total_gst', 'payable_to_college', 'due_date', 'installment_no', 'invoice_date'];
 
     function add(array $request, $application_id)
     {
@@ -34,22 +36,39 @@ class CollegeInvoice extends Model
         try {
             $college_invoice = CollegeInvoice::create([
                 'course_application_id' => $application_id,
-                'commission_percent' => $request['commission_percent'],
-                'commission_amount' => $request['commission_amount'],
-                'invoice_amount' => $request['invoice_amount'],
-                'enrollment_fee' => $request['enrollment_fee'],
-                'material_fee' => $request['material_fee'],
-                'coe_fee' => $request['coe_fee'],
-                'other_fee' => $request['other_fee'],
-                'sub_total' => $request['sub_total'],
-                'incentive' => $request['incentive'],
-                'gst' => $request['gst'],
                 'total_commission' => $request['total_commission'],
+                'total_gst' => $request['total_gst'],
                 'payable_to_college' => $request['payable_to_college'],
-                'due_date' => insert_dateformat($request['due_date']),
                 'installment_no' => $request['installment_no'],
                 'invoice_date' => insert_dateformat($request['invoice_date'])
             ]);
+
+            if(isset($request['tuition_fee']))
+            {
+                $ci_commission = TuitionCommission::create([
+                    'tuition_fee' => $request['tuition_fee'],
+                    'enrollment_fee' => $request['enrollment_fee'],
+                    'material_fee' => $request['material_fee'],
+                    'coe_fee' => $request['coe_fee'],
+                    'other_fee' => $request['other_fee'],
+                    'sub_total' => $request['sub_total'],
+                    'description' => $request['description'],
+                    'commission_percent' => $request['commission_percent'],
+                    'commission_amount' => $request['commission_amount'],
+                    'commission_gst' => $request['gst'],
+                    'college_invoice_id' => $college_invoice->college_invoice_id
+                ]);
+            }
+
+            if(isset($request['incentive']))
+            {
+                $ci_commission = OtherCommission::create([
+                    'amount' => $request['incentive'],
+                    'gst' => $request['gst'],
+                    'description' => $request['description'],
+                    'college_invoice_id' => $college_invoice->college_invoice_id
+                ]);
+            }
 
             DB::commit();
             return $college_invoice->college_invoice_id;
@@ -59,6 +78,15 @@ class CollegeInvoice extends Model
             dd($e);
             // something went wrong
         }
+    }
+
+    function getDetails($invoice_id)
+    {
+        $college_invoice = CollegeInvoice::leftJoin('ci_tuition_commissions', 'ci_tuition_commissions.college_invoice_id', '=', 'college_invoices.college_invoice_id')
+            ->leftJoin('ci_other_commissions', 'ci_other_commissions.college_invoice_id', '=', 'college_invoices.college_invoice_id')
+            ->select('college_invoices.*', 'ci_tuition_commissions.*', 'ci_other_commissions.amount', 'ci_other_commissions.gst', 'ci_other_commissions.description as other_description')
+            ->find($invoice_id);
+        return $college_invoice;
     }
 
 }

@@ -4,6 +4,8 @@ use App\Http\Requests;
 use App\Modules\Tenant\Models\Agent;
 use App\Modules\Tenant\Models\Client\Client;
 use App\Modules\Tenant\Models\Application\CourseApplication;
+use App\Modules\Tenant\Models\Course\BroadField;
+use App\Modules\Tenant\Models\Course\NarrowField;
 use App\Modules\Tenant\Models\Institute\Institute;
 use App\Modules\Tenant\Models\Payment\CollegePayment;
 use Flash;
@@ -80,6 +82,7 @@ class ApplicationController extends BaseController
         $data['institutes'] = $this->institute->getList();
         $data['courses'] = ['' => 'Select Course'];
         $data['intakes'] = ['' => 'Select Intake'];
+        $data['agents'] = $this->agent->getAgents();
         $data['client'] = $this->client->getDetails($client_id);
         return view('Tenant::Client/Application/add', $data);
 
@@ -101,6 +104,48 @@ class ApplicationController extends BaseController
         if ($created)
             Flash::success('Application has been created successfully.');
         return redirect()->route('tenant.client.application', $client_id);
+    }
+
+    /**
+     * Get Institute Add form
+     */
+    function createInstitute()
+    {
+        return view("Tenant::Client/Application/institute");
+    }
+
+    /**
+     * Get Course Add form
+     */
+    function createCourse()
+    {
+        $data['broad_fields'] = BroadField::lists('name', 'id');
+        $data['narrow_fields'] = NarrowField::where('broad_field_id', 1)->lists('name', 'id');
+        return view("Tenant::Client/Application/course", $data);
+    }
+
+    /**
+     * Get Intake Add form
+     */
+    function createIntake()
+    {
+        return view("Tenant::Client/Application/intake");
+    }
+
+    /**
+     * Get Sub Agent Add form
+     */
+    function createAgent()
+    {
+        return view("Tenant::Client/Application/subagent");
+    }
+
+    /**
+     * Get Sub Agent Add form
+     */
+    function createSuperAgent()
+    {
+        return view("Tenant::Client/Application/superagent");
     }
 
     /**

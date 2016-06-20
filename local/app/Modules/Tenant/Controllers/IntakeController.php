@@ -44,8 +44,6 @@ class IntakeController extends BaseController
     public function create($institution_id)
     {
         $data['institution_id'] = $institution_id;
-        $data['broad_fields'] = BroadField::lists('name', 'id');
-        $data['narrow_fields'] = NarrowField::where('broad_field_id', 1)->lists('name', 'id');
         /* send in data for dropdowns : fields and level */
         return view('Tenant::Intake/add', $data);
     }
@@ -59,10 +57,13 @@ class IntakeController extends BaseController
     {
         //$this->validate($this->request, $this->rules);
         // if validates
-        $created = $this->intake->add($this->request->all(), $institution_id);
-        if ($created)
+        $intake_id = $this->intake->add($this->request->all(), $institution_id);
+        if ($intake_id)
             Flash::success('Intake has been created successfully.');
-        return redirect()->route('tenant.intake.index', $institution_id);
+        if($this->request->ajax())
+            return $this->success(['intake_id' => $intake_id, 'name' => $this->request->get('description')]);
+        else
+            return redirect()->route('tenant.intake.index', $institution_id);
     }
 
     /**

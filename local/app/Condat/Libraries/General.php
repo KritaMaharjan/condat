@@ -194,13 +194,14 @@ class General {
 
 
 
-    function registerModal($type='', $fade=true)
+    function registerModal($modclass = '', $type='', $fade=true)
     {
         $data = array();
         $data['id'] = 'condat-modal';
         $fade = ($fade==true)?'fade':'';
         $type = ($type =='right')?'modal-right':'';
         $data['class'] = $type .' '. $fade;
+        $data['modclass'] = $modclass;
         $data['options'] = 'data-backdrop="static" data-keyboard="false" tabindex="-1"  role="dialog" aria-hidden="true"';
         $modal  = view('layouts.partials.modal', $data);
         $this->modals[] = $modal;

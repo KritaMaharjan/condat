@@ -133,23 +133,23 @@
         </div>
     </div>
 
-    <script type="text/javascript">
-        $(document).ready(function () {
-            oTable = $('#courses').DataTable({
-                "processing": true,
-                "serverSide": true,
-                "ajax": appUrl + "/tenant/institutes/<?= $institute->institution_id ?>/courses",
-                "columns": [
-                    {data: 'course_id', name: 'course_id'},
-                    {data: 'name', name: 'name'},
-                    {data: 'level', name: 'level'},
-                    {data: 'total_tuition_fee', name: 'total_tuition_fee'},
-                    {data: 'commission_percent', name: 'commission_percent'},
-                    {data: 'action', name: 'action', orderable: false, searchable: false}
-                ]
-            });
-        });
-    </script>
+    <?php /*<script type="text/javascript">*/ ?>
+        <?php /*$(document).ready(function () {*/ ?>
+            <?php /*oTable = $('#courses').DataTable({*/ ?>
+                <?php /*"processing": true,*/ ?>
+                <?php /*"serverSide": true,*/ ?>
+                {{--"ajax": appUrl + "/tenant/institutes/<?= $institute->institution_id ?>/courses",--}}
+                <?php /*"columns": [*/ ?>
+                    <?php /*{data: 'course_id', name: 'course_id'},*/ ?>
+                    <?php /*{data: 'name', name: 'name'},*/ ?>
+                    <?php /*{data: 'level', name: 'level'},*/ ?>
+                    <?php /*{data: 'total_tuition_fee', name: 'total_tuition_fee'},*/ ?>
+                    <?php /*{data: 'commission_percent', name: 'commission_percent'},*/ ?>
+                    <?php /*{data: 'action', name: 'action', orderable: false, searchable: false}*/ ?>
+                <?php /*]*/ ?>
+            <?php /*});*/ ?>
+        <?php /*});*/ ?>
+    <?php /*</script>*/ ?>
 <?php $__env->stopSection(); ?>
 
 <?php echo $__env->make('layouts.tenant', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>

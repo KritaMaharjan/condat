@@ -20,7 +20,6 @@
                         <th>Phone No</th>
                         <th>Email</th>
                         <th>Added By</th>
-                        <th>Created At</th>
                         <th>Actions</th>
 
                     </tr>
@@ -41,7 +40,6 @@
                     {data: 'phone', name: 'phone'},
                     {data: 'email', name: 'email'},
                     {data: 'added_by', name: 'added_by'},
-                    {data: 'created_at', name: 'created_at', searchable: false},
                     {data: 'action', name: 'action', orderable: false, searchable: false}
                 ],
                 order: [ [0, 'desc'] ]

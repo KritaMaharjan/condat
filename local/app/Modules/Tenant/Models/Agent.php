@@ -118,4 +118,13 @@ Class Agent extends Model{
             return 'Undefined';
     }
 
+    function getAgents()
+    {
+        $agents = Agent::join('companies', 'companies.company_id', '=', 'agents.company_id')
+            ->select(['companies.name', 'agents.agent_id'])
+            ->lists('companies.name', 'agents.agent_id')
+            ->toArray();
+        array_unshift($agents, "No Agent");
+        return $agents;
+    }
 }

@@ -87,8 +87,8 @@
                     <span class="label label-primary pull-right"><?php echo e(get_total_count('U')); ?></span>
                 </a>
                 <ul class="treeview-menu">
-                    <li><a href="<?php echo e(url('user')); ?>"><i class="fa fa-circle-o"></i> View All</a></li>
-                    <li><a href="<?php echo e(url('user/create')); ?>"><i class="fa fa-circle-o"></i> Add</a></li>
+                    <li><a href="<?php echo e(url('tenant/user')); ?>"><i class="fa fa-circle-o"></i> View All</a></li>
+                    <li><a href="<?php echo e(url('tenant/user/create')); ?>"><i class="fa fa-circle-o"></i> Add</a></li>
                 </ul>
             </li>
             <li class="treeview">

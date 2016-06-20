@@ -225,6 +225,7 @@ CREATE TABLE `ci_tuition_commissions` (
 
 -- --------------------------------------------------------
 
+DROP TABLE `college_invoices`;
 --
 -- Table structure for table `college_invoices`
 --
@@ -308,3 +309,12 @@ ALTER TABLE `ci_other_commissions`
 ALTER TABLE `ci_tuition_commissions`
   ADD CONSTRAINT `ci_tuition_commissions_ibfk_1` FOREIGN KEY (`college_invoice_id`) REFERENCES `college_invoices` (`college_invoice_id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
+ALTER TABLE `college_invoices` ADD `total_gst` DOUBLE(11,2) NOT NULL AFTER `total_commission`;
+
+/* 20th June */
+ALTER TABLE `institute_courses` CHANGE `institute_course_id` `institute_course_id` INT(11) NOT NULL AUTO_INCREMENT;
+
+
+ALTER TABLE `fees` CHANGE `fee_id` `fee_id` INT(11) NOT NULL AUTO_INCREMENT;
+
+ALTER TABLE `course_fees` CHANGE `course_fee_id` `course_fee_id` INT(11) NOT NULL AUTO_INCREMENT;

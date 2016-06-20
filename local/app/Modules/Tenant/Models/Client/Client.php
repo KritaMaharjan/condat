@@ -31,7 +31,7 @@ class Client extends Model
      *
      * @var array
      */
-    protected $fillable = ['added_by', 'user_id', 'person_id', 'notes'];
+    protected $fillable = ['added_by', 'user_id', 'person_id', 'description','referred_by'];
 
     /**
      * Get the person record associated with the client.
@@ -79,7 +79,9 @@ class Client extends Model
             $client = Client::create([
                 'user_id' => $user->user_id,
                 'person_id' => $person->person_id,
-                'added_by' => current_tenant_id()
+                'added_by' => current_tenant_id(),
+                'referred_by'=>$request['referred_by'],
+                'description'=>$request['description'],
             ]);
 
             // Add address

@@ -51,12 +51,12 @@ class CourseController extends BaseController
      */
     public function create($institution_id)
     {
-        $courses = InstituteCourse::join('courses', 'institute_courses.course_id', '=', 'courses.course_id')
+        /*$courses = InstituteCourse::join('courses', 'institute_courses.course_id', '=', 'courses.course_id')
             ->where('institute_courses.institute_id', $institution_id)
             ->select('courses.commission_percent')
             ->orderBy('courses.course_id', 'desc')
             ->first();
-        $data['commission_percent']= $courses['commission_percent']; 
+        $data['commission_percent']= $courses['commission_percent']; */
         $data['institution_id'] = $institution_id;
         $data['broad_fields'] = BroadField::lists('name', 'id');
         $data['narrow_fields'] = NarrowField::where('broad_field_id', 1)->lists('name', 'id');
@@ -93,11 +93,14 @@ class CourseController extends BaseController
         $this->validate($this->request, $this->rules);
 
         // if validates
-        $created = $this->course->add($this->request->all(), $institution_id);
+        $course_id = $this->course->add($this->request->all(), $institution_id);
 
-        if ($created)
+        if ($course_id)
             Flash::success('Course has been created successfully.');
-        return redirect()->route('tenant.institute.show', $institution_id);
+        if($this->request->ajax())
+            return $this->success(['course_id' => $course_id, 'name' => $this->request->get('name')]);
+        else
+            return redirect()->route('tenant.institute.show', $institution_id);
     }
 
     /**

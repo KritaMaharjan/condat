@@ -78,9 +78,8 @@ class CollegeController extends BaseController
     public function storeInvoice($application_id)
     {
         $rules = [
-            'invoice_amount' => 'required|numeric',
-            'invoice_date' => 'required',
-            'due_date' => 'required'
+            'total_commission' => 'required|numeric',
+            'invoice_date' => 'required'
         ];
         $this->validate($this->request, $rules);
         // if validates
@@ -147,7 +146,7 @@ class CollegeController extends BaseController
                   </button>
                   <ul role="menu" class="dropdown-menu">
                     <li><a href="'.route("tenant.invoice.payments", [$data->college_invoice_id, 1]).'">View payments</a></li>
-                    <li><a href="http://localhost/condat/tenant/contact/2">View</a></li>
+                    <li><a href="'.route('tenant.college.invoice', $data->college_invoice_id).'">View</a></li>
                     <li><a href="http://localhost/condat/tenant/contact/2">Edit</a></li>
                     <li><a href="http://localhost/condat/tenant/contact/2">Delete</a></li>
                   </ul>
@@ -162,6 +161,12 @@ class CollegeController extends BaseController
                 return format_id($data->college_invoice_id, 'CI');
             });
         return $datatable->make(true);
+    }
+
+    public function show($invoice_id)
+    {
+        $data['invoice'] = $this->invoice->getDetails($invoice_id); //dd($data['invoice']->toArray());
+        return view("Tenant::College/Invoice/show", $data);
     }
 
 }

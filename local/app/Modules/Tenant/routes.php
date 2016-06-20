@@ -99,6 +99,13 @@ Route::group(array('prefix' => 'tenant', 'module' => 'Tenant', 'middleware' => '
     Route::delete('applications/{id}',['as' => 'tenant.application.destroy', 'uses' => 'ApplicationController@destroy']);
     Route::get('applications/{id}/documents',['as' => 'tenant.application.document', 'uses' => 'ApplicationController@documents']);
 
+    /* Get forms to add through ajax */
+    Route::get('application/institute/add', ['as' => 'application.institute.add', 'uses' => 'ApplicationController@createInstitute']);
+    Route::get('application/course/add', ['as' => 'application.course.add', 'uses' => 'ApplicationController@createCourse']);
+    Route::get('application/intake/add', ['as' => 'application.intake.add', 'uses' => 'ApplicationController@createIntake']);
+    Route::get('application/subagent/add', ['as' => 'application.subagent.add', 'uses' => 'ApplicationController@createAgent']);
+    Route::get('application/superagent/add', ['as' => 'application.superagent.add', 'uses' => 'ApplicationController@createSuperAgent']);
+
     /* Create super and sub agents for application */
     Route::post('applications/{application_id}/subagent', ['as' => 'tenant.application.sugagent', 'uses' => 'ApplicationController@createSubAgent']);
 
@@ -114,6 +121,9 @@ Route::group(array('prefix' => 'tenant', 'module' => 'Tenant', 'middleware' => '
     Route::get('applications/{application_id}/invoice', ['as' => 'tenant.application.invoice', 'uses' => 'CollegeController@createInvoice']);
     Route::post('applications/{application_id}/storeInvoice', ['as' => 'tenant.application.storeInvoice', 'uses' => 'CollegeController@storeInvoice']);
     Route::get('applications/invoices/{client_id}/data', 'CollegeController@getInvoicesData');
+
+    /* College Invoices */
+    Route::get('college/{invoice_id}/invoice', ['as' => 'tenant.college.invoice', 'uses' => 'CollegeController@show']);
 
     /* Routes for student section */
     Route::get('applications/{application_id}/students', ['as' => 'tenant.application.students', 'uses' => 'StudentController@index']);
