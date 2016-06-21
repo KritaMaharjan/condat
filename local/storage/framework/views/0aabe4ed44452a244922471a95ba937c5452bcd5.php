@@ -23,26 +23,29 @@
                     <div class="col-sm-9">
                         <div class="panel panel-default">
                             <div class="panel-heading">
-                                <h3 class="panel-title">Course Information</h3>
+                                <span class="panel-title">Course Information</span>
+                                <a href="#" class="btn btn-primary btn-flat btn-xs pull-right"><i class="fa fa-pencil"></i> Edit</a>
                             </div>
                             <div class="panel-body">
-                                <a href="#" class="pull-right">Edit</a>
-
-                                <p>Course Enrolled<br/>
-                                    <?php echo e($application->course_name); ?><br/>
-                                    Institute<br/>
-                                    <?php echo e($application->company_name); ?><br/>
-                                    From <?php echo e(format_date($application->intake_date)); ?>
-
-                                    to <?php echo e(format_date($application->end_date)); ?><br/>
-                                    Student ID: <?php echo e(format_id($application->student_id, 'Std')); ?></p>
+                                <dl class="dl-horizontal">
+                                    <dt>Course Enrolled : </dt>
+                                    <dd><?php echo e($application->course_name); ?></dd>
+                                    <dt>Institute : </dt>
+                                    <dd><?php echo e($application->company_name); ?></dd>
+                                    <dt>From : </dt>
+                                    <dd><?php echo e(format_date($application->intake_date)); ?></dd>
+                                    <dt>To : </dt>
+                                    <dd><?php echo e(format_date($application->end_date)); ?></dd>
+                                    <dt>Student ID : </dt>
+                                    <dd><?php echo e(format_id($application->student_id, 'Std')); ?></dd>
+                                </dl>
                             </div>
                         </div>
 
                         <div class="panel panel-default">
                             <div class="panel-heading">
-                                <h3 class="panel-title">Payment to College</h3>
-                                <a href="<?php echo e(route('tenant.application.payment', $application->application_id)); ?>" class="btn btn-primary btn-flat pull-right"><i class="glyphicon glyphicon-plus-sign"></i> Add Payment</a>
+                                <span class="panel-title">Payment to College</span>
+                                <a href="<?php echo e(route('tenant.application.payment', $application->application_id)); ?>" class="btn btn-primary btn-xs btn-flat pull-right"><i class="glyphicon glyphicon-plus-sign"></i> Add Payment</a>
                             </div>
                             <div class="panel-body">
                                 <table class="table table-striped table-bordered">

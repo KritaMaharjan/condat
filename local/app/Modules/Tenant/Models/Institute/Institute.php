@@ -34,7 +34,7 @@ class Institute extends Model
      * @var array
      */
 
-    protected $fillable = ['name','short_name', 'company_id'];
+    protected $fillable = ['name', 'added_by', 'short_name', 'company_id'];
 
     /**
      * Get the company record associated with the institute.
@@ -69,7 +69,7 @@ class Institute extends Model
             $institute = Institute::create([
                 'short_name' => $request['short_name'],
                 'company_id' => $company->company_id,
-                'added_by'=>'4'
+                'added_by'=> current_tenant_id()
             ]);
 
             

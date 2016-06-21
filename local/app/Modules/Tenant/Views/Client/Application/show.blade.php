@@ -24,25 +24,29 @@
                     <div class="col-sm-9">
                         <div class="panel panel-default">
                             <div class="panel-heading">
-                                <h3 class="panel-title">Course Information</h3>
+                                <span class="panel-title">Course Information</span>
+                                <a href="#" class="btn btn-primary btn-flat btn-xs pull-right"><i class="fa fa-pencil"></i> Edit</a>
                             </div>
                             <div class="panel-body">
-                                <a href="#" class="pull-right">Edit</a>
-
-                                <p>Course Enrolled<br/>
-                                    {{ $application->course_name }}<br/>
-                                    Institute<br/>
-                                    {{ $application->company_name }}<br/>
-                                    From {{ format_date($application->intake_date) }}
-                                    to {{ format_date($application->end_date) }}<br/>
-                                    Student ID: {{ format_id($application->student_id, 'Std') }}</p>
+                                <dl class="dl-horizontal">
+                                    <dt>Course Enrolled : </dt>
+                                    <dd>{{ $application->course_name }}</dd>
+                                    <dt>Institute : </dt>
+                                    <dd>{{ $application->company_name }}</dd>
+                                    <dt>From : </dt>
+                                    <dd>{{ format_date($application->intake_date) }}</dd>
+                                    <dt>To : </dt>
+                                    <dd>{{ format_date($application->end_date) }}</dd>
+                                    <dt>Student ID : </dt>
+                                    <dd>{{ format_id($application->student_id, 'Std') }}</dd>
+                                </dl>
                             </div>
                         </div>
 
                         <div class="panel panel-default">
                             <div class="panel-heading">
-                                <h3 class="panel-title">Payment to College</h3>
-                                <a href="{{ route('tenant.application.payment', $application->application_id) }}" class="btn btn-primary btn-flat pull-right"><i class="glyphicon glyphicon-plus-sign"></i> Add Payment</a>
+                                <span class="panel-title">Payment to College</span>
+                                <a href="{{ route('tenant.application.payment', $application->application_id) }}" class="btn btn-primary btn-xs btn-flat pull-right"><i class="glyphicon glyphicon-plus-sign"></i> Add Payment</a>
                             </div>
                             <div class="panel-body">
                                 <table class="table table-striped table-bordered">

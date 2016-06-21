@@ -27,7 +27,7 @@ Class Agent extends Model{
      *
      * @var array
      */
-	protected $fillable = ['agent_id', 'description', 'company_id','added_by','email'];
+	protected $fillable = ['agent_id', 'description', 'company_id', 'added_by','email'];
 
 
 
@@ -57,7 +57,7 @@ Class Agent extends Model{
             $agent = Agent::create([
                 'description' => $request['description'],
                 'email'=>$request['email'],
-                'added_by'=>4,
+                'added_by'=> current_tenant_id(),
                 'company_id' => $company->company_id
                 
             ]);
