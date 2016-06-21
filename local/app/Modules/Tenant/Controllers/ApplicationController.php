@@ -156,6 +156,7 @@ class ApplicationController extends BaseController
      */
     public function show($application_id)
     {
+        $data['stats']=null;
         $data['agents'] = $this->agent->getAll();
         $data['application'] = $application = $this->application->getDetails($application_id); //dd($data['application']->toArray());
         $data['client'] = $this->client->getDetails($application->client_id);
