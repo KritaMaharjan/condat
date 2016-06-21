@@ -39,7 +39,7 @@
 
                 <strong><i class="fa fa-phone margin-r-5"></i> Created By</strong>
 
-                <p class="text-muted">{{$institute->number}}</p>
+                <p class="text-muted">{{$institute->email}}</p>
 
             </div>
             <!-- /.box-body -->

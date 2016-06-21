@@ -30,7 +30,12 @@
             </div>
         </div>
     </div>
+<<<<<<< Updated upstream
 
+=======
+    
+    
+>>>>>>> Stashed changes
     <div class="panel panel-default">
         <div class="panel-heading">
             <span class="panel-title">Commission on Tuition Fee</span>

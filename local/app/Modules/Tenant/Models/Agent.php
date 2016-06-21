@@ -27,7 +27,7 @@ Class Agent extends Model{
      *
      * @var array
      */
-	protected $fillable = ['agent_id', 'description', 'company_id'];
+	protected $fillable = ['agent_id', 'description', 'company_id','added_by','email'];
 
 
 
@@ -44,20 +44,26 @@ Class Agent extends Model{
             $phone = new Phone();
             $phone_id = $phone->add($request['number']);
 
+
             // Saving company
             $company = Company::create([
                 'name' => $request['name'],
                 'phone_id' => $phone_id,
-                'abn' => $request['abn'],
-                'acn' => $request['acn'],
                 'website' => $request['website'],
                 'invoice_to_name' => $request['invoice_to_name']
             ]);
+            
 
             $agent = Agent::create([
                 'description' => $request['description'],
+                'email'=>$request['email'],
+                'added_by'=>4,
                 'company_id' => $company->company_id
+                
             ]);
+            
+
+
 
             // Add address
             /*$address = Address::create([

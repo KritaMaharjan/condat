@@ -19,7 +19,10 @@
                     <tr>
                         <th>Agent ID</th>
                         <th>Agent Name</th>
-                        <th>Created At</th>
+                        <th>Phone</th>
+                        <th>Email</th>
+                        <th>Website</th>
+                        <th>Added By</th>
                         <th>Actions</th>
                     </tr>
                     </thead>
@@ -37,7 +40,10 @@
                 "columns": [
                     {data: 'agent_id', name: 'agent_id'},
                     {data: 'name', name: 'name'},
-                    {data: 'created_at', name: 'created_at'},
+                    {data: 'number', name: 'number'},
+                    {data: 'email', name: 'email'},
+                    {data: 'website', name: 'website'},
+                    {data: 'user_email', name: 'user_email'},
                     {data: 'action', name: 'action', orderable: false, searchable: false}
                 ]
             });
