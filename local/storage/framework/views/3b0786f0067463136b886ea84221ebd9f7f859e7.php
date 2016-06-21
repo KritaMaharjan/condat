@@ -74,14 +74,15 @@
         <!--/.container-fluid -->
     </nav>
 
-    <div class="row">
+    <?php if(isset($stats)): ?>
+        <div class="row">
         <div class="col-md-4 col-sm-6 col-xs-12">
             <div class="info-box">
                 <span class="info-box-icon bg-aqua"><i class="ion ion-ios-gear-outline"></i></span>
 
                 <div class="info-box-content">
                     <span class="info-box-text">Total Invoice Amount</span>
-                    <span class="info-box-number">$20000</span>
+                    <span class="info-box-number">$<?php echo e($stats['invoice_amount']); ?></span>
                 </div>
                 <!-- /.info-box-content -->
             </div>
@@ -94,7 +95,7 @@
 
                 <div class="info-box-content">
                     <span class="info-box-text">Total Paid Amount</span>
-                    <span class="info-box-number">$20000</span>
+                    <span class="info-box-number">$<?php echo e($stats['total_paid']); ?></span>
                 </div>
                 <!-- /.info-box-content -->
             </div>
@@ -111,7 +112,7 @@
 
                 <div class="info-box-content">
                     <span class="info-box-text">Due Amount</span>
-                    <span class="info-box-number">$800</span>
+                    <span class="info-box-number">$<?php echo e($stats['due_amount']); ?></span>
                 </div>
                 <!-- /.info-box-content -->
             </div>
@@ -119,6 +120,7 @@
         </div>
         <!-- /.col -->
     </div>
+    <?php endif; ?>
     <?php echo $__env->make('flash::message', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
 </div>
 

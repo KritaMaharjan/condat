@@ -318,3 +318,8 @@ ALTER TABLE `institute_courses` CHANGE `institute_course_id` `institute_course_i
 ALTER TABLE `fees` CHANGE `fee_id` `fee_id` INT(11) NOT NULL AUTO_INCREMENT;
 
 ALTER TABLE `course_fees` CHANGE `course_fee_id` `course_fee_id` INT(11) NOT NULL AUTO_INCREMENT;
+
+/* 21st June */
+ALTER TABLE `status` CHANGE `status_id` `status_id` INT(11) NOT NULL AUTO_INCREMENT;
+
+INSERT INTO `condat_tenant`.`status` (`name`, `description`) VALUES ('Enquiry', 'Enquiry'), ('Offer Letter Processing', 'Offer Letter Processing'), ('Offer Letter Issued', 'Offer Letter Issued'), ('COE Processing', 'COE Processing'), ('COE Issued', 'COE Issued'), ('Enrolled', 'Enrolled'), ('Completed', 'Completed'), ('Cancelled', 'Cancelled');

@@ -40,6 +40,7 @@ class CollegeController extends BaseController
      */
     public function index($application_id)
     {
+        $data['stats'] = $this->invoice->getStats($application_id);
         $data['application'] = $application = $this->application->getDetails($application_id);
         $data['client'] = $this->client->getDetails($application->client_id);
         return view("Tenant::College/Account/index", $data);

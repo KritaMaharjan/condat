@@ -2,6 +2,7 @@
 
 use App\Modules\Tenant\Models\College\OtherCommission;
 use App\Modules\Tenant\Models\College\TuitionCommission;
+use App\Modules\Tenant\Models\Payment\CollegePayment;
 use Illuminate\Database\Eloquent\Model;
 use DB;
 
@@ -87,6 +88,31 @@ class CollegeInvoice extends Model
             ->select('college_invoices.*', 'ci_tuition_commissions.*', 'ci_other_commissions.amount', 'ci_other_commissions.gst', 'ci_other_commissions.description as other_description')
             ->find($invoice_id);
         return $college_invoice;
+    }
+
+    function getStats($application_id)
+    {
+        $stats = array();
+        $stats['invoice_amount'] = $this->getTotalAmount($application_id);
+        $stats['total_paid'] = $this->getTotalPaid($application_id);
+        $due_amount = $stats['invoice_amount'] - $stats['total_paid'];
+        $stats['due_amount'] = ($due_amount < 0)? 0 : $due_amount;
+        return $stats;
+    }
+
+    function getTotalAmount($application_id)
+    {
+        $invoices = CollegeInvoice::select('total_commission')
+            ->where('course_application_id', $application_id)
+            ->orderBy('created_at', 'desc')
+            ->sum('total_commission');
+        return $invoices;
+    }
+
+    function getTotalPaid($application_id)
+    {
+        $payments = CollegePayment::where('course_application_id', $application_id)->sum('amount');
+        return $payments;
     }
 
 }

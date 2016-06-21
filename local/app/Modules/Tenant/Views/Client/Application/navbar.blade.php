@@ -74,7 +74,8 @@
         <!--/.container-fluid -->
     </nav>
 
-    <div class="row">
+    @if(isset($stats))
+        <div class="row">
         <div class="col-md-4 col-sm-6 col-xs-12">
             <div class="info-box">
                 <span class="info-box-icon bg-aqua"><i class="ion ion-ios-gear-outline"></i></span>
@@ -119,6 +120,7 @@
         </div>
         <!-- /.col -->
     </div>
+    @endif
     @include('flash::message')
 </div>
 
