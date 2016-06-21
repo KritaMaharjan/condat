@@ -1,5 +1,6 @@
 <?php namespace App\Modules\Tenant\Models\Invoice;
 
+use App\Modules\Tenant\Models\Application\StudentApplicationPayment;
 use Illuminate\Database\Eloquent\Model;
 use DB;
 
@@ -57,5 +58,31 @@ class StudentInvoice extends Model
             dd($e);
             // something went wrong
         }
+    }
+
+    function getStats($application_id)
+    {
+        $stats = array();
+        $stats['invoice_amount'] = $this->getTotalAmount($application_id);
+        $stats['total_paid'] = $this->getTotalPaid($application_id);
+        $due_amount = $stats['invoice_amount'] - $stats['total_paid'];
+        $stats['due_amount'] = ($due_amount < 0)? 0 : $due_amount;
+        return $stats;
+    }
+
+    function getTotalAmount($application_id)
+    {
+        $invoices = StudentInvoice::join('invoices', 'student_invoices.invoice_id', '=', 'invoices.invoice_id')
+            ->where('student_invoices.application_id', $application_id)
+            ->sum('invoices.amount');
+        return $invoices;
+    }
+
+    function getTotalPaid($application_id)
+    {
+        $payments = StudentApplicationPayment::leftJoin('client_payments', 'client_payments.client_payment_id', '=', 'student_application_payments.client_payment_id')
+            ->where('course_application_id', $application_id)
+            ->sum('client_payments.amount');
+        return $payments;
     }
 }
