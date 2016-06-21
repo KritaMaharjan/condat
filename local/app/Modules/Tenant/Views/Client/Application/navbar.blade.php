@@ -19,7 +19,7 @@
                         Graduate Diploma of Professional Accounting
                     </p>
                 </div>
-                <div class="row">
+                <div class="container-fluid">
                     <div id="navbar" class="navbar-collapse collapse">
                         <ul class="nav navbar-nav">
                             <li><a href={{url("tenant/clients/$application->client_id")}}>Dashboard</a></li>
@@ -35,7 +35,7 @@
                 </div>
             </div>
         </div>
-        <span class="btn btn-success btn-small btn-flat menu-toggle"><i class="fa fa-bars"></i> Toggle Client Menu</span>
+        {{--<span class="btn btn-success btn-small btn-flat menu-toggle"><i class="fa fa-bars"></i> Toggle Client Menu</span>--}}
     </div>
     <div class="row">
         {{--<div class="menu-opener">
@@ -54,7 +54,8 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                <a class="navbar-brand visible-xs" href="#">AMS</a>
+                {{--<a class="navbar-brand visible-xs" href="#">AMS</a>--}}
+                <a class="navbar-brand menu-toggle" href="#"><i class="fa fa-user"></i> Show Client Menu</a>
             </div>
 
             <div id="navbar" class="navbar-collapse collapse">
