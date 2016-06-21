@@ -17,20 +17,6 @@
                     </div>
                 </div>
 
-                <div class="form-group @if($errors->has('short_name')) {{'has-error'}} @endif">
-                    {!!Form::label('short_name', 'Short Name', array('class' => 'col-sm-4 control-label')) !!}
-                    <div class="col-sm-8">
-                        {!!Form::text('short_name', null, array('class' => 'form-control', 'id'=>'short_name'))!!}
-                        @if($errors->has('short_name'))
-                            {!! $errors->first('short_name', '<label class="control-label"
-                                                                     for="inputError">:message</label>') !!}
-                        @endif
-                    </div>
-                </div>
-
-                
-
-
                 <div class="form-group @if($errors->has('number')) {{'has-error'}} @endif">
                     {!!Form::label('number', 'Phone Number *', array('class' => 'col-sm-4 control-label')) !!}
                     <div class="col-sm-8">
@@ -58,8 +44,6 @@
                         @endif
                     </div>
                 </div>
-
-                
 
                 <div class="form-group @if($errors->has('website')) {{'has-error'}} @endif">
                     {!!Form::label('website', 'Website', array('class' => 'col-sm-4 control-label')) !!}

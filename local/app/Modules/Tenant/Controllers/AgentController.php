@@ -45,14 +45,13 @@ class AgentController extends BaseController
      */
     function getData()
     {
-
-        $institutes = Agent::leftJoin('companies', 'companies.company_id', '=', 'agents.company_id')
+        $agents = Agent::leftJoin('companies', 'companies.company_id', '=', 'agents.company_id')
             ->leftJoin('phones', 'phones.phone_id', '=', 'companies.phone_id')
             ->leftJoin('superagent_institutes', 'agents.agent_id', '=', 'superagent_institutes.agents_id')
             ->leftJoin('users', 'users.user_id', '=', 'agents.added_by')
-            ->select(['companies.name','companies.website', 'agents.description', 'agents.agent_id','agents.email','agents.added_by', 'agents.created_at', 'superagent_institutes.institute_id','phones.number','users.email as user_email']);
+            ->select(['companies.name', 'companies.website', 'agents.description', 'agents.agent_id', 'agents.email', 'agents.added_by', 'agents.created_at', 'superagent_institutes.institute_id', 'phones.number', 'users.email as user_email']);
 
-        $datatable = \Datatables::of($institutes)
+        $datatable = \Datatables::of($agents)
             ->addColumn('action', '<a data-toggle="tooltip" title="View Agent" class="btn btn-action-box" href ="{{ route( \'tenant.agents.show\', $agent_id) }}"><i class="fa fa-eye"></i></a> <a data-toggle="tooltip" title="Edit Agent" class="btn btn-action-box" href ="{{ route( \'tenant.agents.edit\', $agent_id) }}"><i class="fa fa-edit"></i></a> <a data-toggle="tooltip" title="Delete Agent" class="delete-user btn btn-action-box" href="{{ route( \'tenant.agents.destroy\', $agent_id) }}"><i class="fa fa-trash"></i></a>')
             ->editColumn('created_at', function ($data) {
                 return format_datetime($data->created_at);
@@ -84,15 +83,14 @@ class AgentController extends BaseController
         $this->rules['name'] = 'required|min:2|max:255|unique:companies';
         $this->rules['email'] = 'email|required|min:2|max:155';
 
-        if($this->request->ajax()) {
+        if ($this->request->ajax()) {
             $validator = \Validator::make($this->request->all(), $this->rules);
             if ($validator->fails())
                 return $this->fail(['errors' => $validator->getMessageBag()->toArray()]);
             // if validates
             $agent_id = $this->agent->add($this->request->all());
             return $this->success(['$gent_id' => $agent_id, 'name' => $this->request->get('name')]);
-        }
-        else {
+        } else {
             $this->validate($this->request, $this->rules);
             // if validates
             $agent_id = $this->agent->add($this->request->all());
@@ -105,13 +103,12 @@ class AgentController extends BaseController
     /**
      * Display the specified resource.
      *
-     * @param  int $institution_id
+     * @param  int $agent_id
      * @return Response
      */
-    public function show($institution_id)
+    public function show($agent_id)
     {
-        $data['super_agents'] = $this->superagent->getDetails($institution_id);
-        $data['agent'] = $this->agent->getDetails($institution_id);
+        $data['agent'] = $this->agent->getDetails($agent_id);
         return view("Tenant::Agent/show", $data);
     }
 
@@ -121,26 +118,20 @@ class AgentController extends BaseController
      * @param  int $id
      * @return Response
      */
-    public function edit($institution_id)
+    public function edit($agent_id)
     {
         /* Getting the agent details*/
-        $data['agent'] = $this->agent->getDetails($institution_id);
-        //dd($data['agent']->toArray());
-        if ($data['agent'] != null) {
-            //dd($data['agent']->dob);
-            $data['agent']->dob = format_date($data['agent']->dob);
-            return view('Tenant::Agent/edit', $data);
-        } else
-            return show_404();
+        $data['agent'] = $this->agent->getDetails($agent_id);
+        return view('Tenant::Agent/edit', $data);
     }
 
     /**
      * Update the specified resource in storage.
      *
-     * @param  int $institution_id
+     * @param  int $agent_id
      * @return Response
      */
-    public function update($institution_id)
+    public function update($agent_id)
     {
         $user_id = $this->request->get('user_id');
         /* Additional validation rules checking for uniqueness */
@@ -148,7 +139,7 @@ class AgentController extends BaseController
 
         $this->validate($this->request, $this->rules);
         // if validates
-        $updated = $this->agent->edit($this->request->all(), $institution_id);
+        $updated = $this->agent->edit($this->request->all(), $agent_id);
         if ($updated)
             Flash::success('Agent has been updated successfully.');
         return redirect()->route('tenant.agents.index');
@@ -169,16 +160,16 @@ class AgentController extends BaseController
     /**
      * Add super agents to institute.
      *
-     * @param  int $institution_id
+     * @param  int $agent_id
      * @return Response
      */
-    function storeSuperAgent($institution_id)
+    function storeSuperAgent($agent_id)
     {
- 
-        $agent_id = $this->superagent->add($institution_id, $this->request->all());
+
+        $agent_id = $this->superagent->add($agent_id, $this->request->all());
         if ($agent_id) {
             \Flash::success('Super agent added successfully!');
-            return redirect()->route('tenant.institute.show', $institution_id);
+            return redirect()->route('tenant.institute.show', $agent_id);
         }
     }
 

@@ -1,9 +1,8 @@
 @extends('layouts.tenant')
-@section('title', 'Client View')
-@section('heading', 'Client View')
+@section('title', 'Agent View')
 @section('breadcrumb')
     @parent
-    <li><a href="{{url('tenant/clients')}}" title="All Clients"><i class="fa fa-users"></i> Clients</a></li>
+    <li><a href="{{url('tenant/agents')}}" title="All Agents"><i class="fa fa-users"></i> Agents</a></li>
     <li>View</li>
 @stop
 @section('content')
@@ -15,9 +14,9 @@
                 {{--<img class="profile-user-img img-responsive img-circle" src="../../dist/img/user4-128x128.jpg"
                      alt="User profile picture">--}}
 
-                <h3 class="profile-username text-center">Client ID: {{format_id($client->client_id, 'C')}}</h3>
+                <h3 class="profile-username text-center">Agent ID: {{format_id($agent->agent_id, 'Ag')}}</h3>
 
-                <p class="text-muted text-center">System Client</p>
+                <p class="text-muted text-center">System Agent</p>
 
                 <ul class="list-group list-group-unbordered">
                     <li class="list-group-item">
@@ -31,7 +30,7 @@
                     </li>
                 </ul>
 
-                <a href="{{route('tenant.client.edit', $client->client_id)}}" class="btn btn-primary btn-block"><b>Update</b></a>
+                <a href="{{route('tenant.agents.edit', $agent->agent_id)}}" class="btn btn-primary btn-block"><b>Update</b></a>
             </div>
             <!-- /.box-body -->
         </div>
@@ -45,10 +44,13 @@
             <!-- /.box-header -->
             <div class="box-body">
                 <strong><i class="fa fa-calendar margin-r-5"></i> Created At</strong>
-                <p class="text-muted">{{format_datetime($client->created_at)}}</p>
+                <p class="text-muted">{{format_datetime($agent->created_at)}}</p>
                 <hr>
                 <strong><i class="fa fa-file-text-o margin-r-5"></i> Description</strong>
-                <p class="text-muted">{{$client->description}}</p>
+                <p class="text-muted">{{$agent->description}}</p>
+                <hr>
+                <strong><i class="fa fa-plus-square margin-r-5"></i> Added By</strong>
+                <p class="text-muted">{{get_tenant_name($agent->added_by)}}</p>
                 <hr>
             </div>
             <!-- /.box-body -->
@@ -58,42 +60,34 @@
     <div class="col-xs-8">
         <div class="box box-primary">
             <div class="box-header with-border">
-                <h3 class="box-title">Personal Details</h3>
+                <h3 class="box-title">Company Details</h3>
             </div>
             <div class="box-body">
                 <table class="table table-hover">
                     <tbody>
                     <tr>
-                        <th style="width: 34%;">Client ID</th>
-                        <td>{{format_id($client->client_id, 'C')}}</td>
+                        <th style="width: 34%;">Agent ID</th>
+                        <td>{{format_id($agent->agent_id, 'Ag')}}</td>
                     </tr>
                     <tr>
-                        <th>First Name</th>
-                        <td>{{$client->first_name}}</td>
+                        <th>Company Name</th>
+                        <td>{{$agent->name}}</td>
                     </tr>
                     <tr>
-                        <th>Middle Name</th>
-                        <td>{{$client->middle_name}}</td>
+                        <th>Phone Number</th>
+                        <td>{{$agent->number}}</td>
                     </tr>
                     <tr>
-                        <th>Last Name</th>
-                        <td>{{$client->last_name}}</td>
+                        <th>Email</th>
+                        <td>{{$agent->email}}</td>
                     </tr>
                     <tr>
-                        <th>Sex</th>
-                        <td>{{$client->sex}}</td>
+                        <th>Website</th>
+                        <td>{{$agent->website}}</td>
                     </tr>
                     <tr>
-                        <th>DOB</th>
-                        <td>{{format_date($client->dob)}}</td>
-                    </tr>
-                    <tr>
-                        <th>Passport No.</th>
-                        <td>{{$client->passport_no}}</td>
-                    </tr>
-                    <tr>
-                        <th>Email Address</th>
-                        <td>{{$client->email}}</td>
+                        <th>Invoice To Whom</th>
+                        <td>{{$agent->invoice_to_whom}}</td>
                     </tr>
                     </tbody>
                 </table>
@@ -108,33 +102,25 @@
             <div class="box-body">
                 <table class="table table-hover">
                 <tbody>
-                <tr>
-                    <th style="width: 34%;">Line 1</th>
-                    <td>{{ $client->line1 }}</td>
-                </tr>
-                <tr>
-                    <th>Line 2</th>
-                    <td>{{ $client->line2 }}</td>
-                </tr>
-                <tr>
+                <tr style="width: 34%;">
                     <th>Street</th>
-                    <td>{{ $client->street }}</td>
+                    <td>{{ $agent->street }}</td>
                 </tr>
                 <tr>
                     <th>Suburb</th>
-                    <td>{{ $client->suburb }}</td>
+                    <td>{{ $agent->suburb }}</td>
                 </tr>
                 <tr>
                     <th>Postcode</th>
-                    <td>{{ $client->postcode }}</td>
+                    <td>{{ $agent->postcode }}</td>
                 </tr>
                 <tr>
                     <th>State</th>
-                    <td>{{ $client->state }}</td>
+                    <td>{{ $agent->state }}</td>
                 </tr>
                 <tr>
                     <th>Country</th>
-                    <td>{{ get_country($client->country_id) }}</td>
+                    <td>{{ get_country($agent->country_id) }}</td>
                 </tr>
                 </tbody>
                 </table>

@@ -20,23 +20,6 @@
                     </div>
                 </div>
 
-                <div class="form-group <?php if($errors->has('short_name')): ?> <?php echo e('has-error'); ?> <?php endif; ?>">
-                    <?php echo Form::label('short_name', 'Short Name', array('class' => 'col-sm-4 control-label')); ?>
-
-                    <div class="col-sm-8">
-                        <?php echo Form::text('short_name', null, array('class' => 'form-control', 'id'=>'short_name')); ?>
-
-                        <?php if($errors->has('short_name')): ?>
-                            <?php echo $errors->first('short_name', '<label class="control-label"
-                                                                     for="inputError">:message</label>'); ?>
-
-                        <?php endif; ?>
-                    </div>
-                </div>
-
-                
-
-
                 <div class="form-group <?php if($errors->has('number')): ?> <?php echo e('has-error'); ?> <?php endif; ?>">
                     <?php echo Form::label('number', 'Phone Number *', array('class' => 'col-sm-4 control-label')); ?>
 
@@ -69,8 +52,6 @@
                         <?php endif; ?>
                     </div>
                 </div>
-
-                
 
                 <div class="form-group <?php if($errors->has('website')): ?> <?php echo e('has-error'); ?> <?php endif; ?>">
                     <?php echo Form::label('website', 'Website', array('class' => 'col-sm-4 control-label')); ?>

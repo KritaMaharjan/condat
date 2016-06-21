@@ -6,14 +6,15 @@ use DB;
 use Illuminate\Database\Eloquent\Model;
 use App\Modules\Tenant\Models\Company\Company;
 
-Class Agent extends Model{
+Class Agent extends Model
+{
 
-	/**
-	 * The database table used by the model.
-	 *
-	 * @var string
-	 */
-	protected $table = 'agents';
+    /**
+     * The database table used by the model.
+     *
+     * @var string
+     */
+    protected $table = 'agents';
 
     /**
      * The primary key of the table.
@@ -27,8 +28,7 @@ Class Agent extends Model{
      *
      * @var array
      */
-	protected $fillable = ['agent_id', 'description', 'company_id', 'added_by','email'];
-
+    protected $fillable = ['agent_id', 'description', 'company_id', 'added_by', 'email', 'address_id'];
 
 
     /*
@@ -44,6 +44,13 @@ Class Agent extends Model{
             $phone = new Phone();
             $phone_id = $phone->add($request['number']);
 
+            $address = Address::create([
+                'street' => $request['street'],
+                'suburb' => $request['suburb'],
+                'postcode' => $request['postcode'],
+                'state' => $request['state'],
+                'country_id' => $request['country_id'],
+            ]);
 
             // Saving company
             $company = Company::create([
@@ -52,17 +59,15 @@ Class Agent extends Model{
                 'website' => $request['website'],
                 'invoice_to_name' => $request['invoice_to_name']
             ]);
-            
+
 
             $agent = Agent::create([
                 'description' => $request['description'],
-                'email'=>$request['email'],
-                'added_by'=> current_tenant_id(),
-                'company_id' => $company->company_id
-                
+                'email' => $request['email'],
+                'added_by' => current_tenant_id(),
+                'company_id' => $company->company_id,
+                'address_id' => $address->address_id
             ]);
-            
-
 
 
             // Add address
@@ -90,14 +95,58 @@ Class Agent extends Model{
         }
     }
 
+    /*
+     * Edit agent info
+     * Output agent id
+     */
+    function edit(array $request, $agent_id)
+    {
+        DB::beginTransaction();
+
+        try {
+
+            $agent = Agent::find($agent_id);
+
+            $address = Address::firstOrNew(['address_id' => $agent->address_id]);
+            $address->street = $request['street'];
+            $address->suburb = $request['suburb'];
+            $address->postcode = $request['postcode'];
+            $address->state = $request['state'];
+            $address->country_id = $request['country_id'];
+            $address->save();
+
+            $company = Company::find($agent->company_id);
+            $company->name = $request['name'];
+            $company->website = $request['website'];
+            $company->invoice_to_name = $request['invoice_to_name'];
+            $company->save();
+
+            $phone = Phone::find($company->phone_id);
+            $phone->number = $request['number'];
+            $phone->save();
+
+            $agent->description = $request['description'];
+            $agent->email = $request['email'];
+            if ($agent->address_id == null) $agent->address_id = $address->address_id;
+            $agent->save();
+
+            DB::commit();
+            return $agent->agent_id;
+            // all good
+        } catch (\Exception $e) {
+            DB::rollback();
+            dd($e);
+            // something went wrong
+        }
+    }
+
     function getRemaining($institute_id)
     {
         $agents = $this->getAll();
 
-        foreach($agents as $key => $agent)
-        {
+        foreach ($agents as $key => $agent) {
             $existing = SuperAgentInstitute::where('institute_id', $institute_id)->where('agents_id', $key)->first();
-            if($existing)
+            if ($existing)
                 unset($agents[$key]);
         }
         return $agents;
@@ -118,7 +167,7 @@ Class Agent extends Model{
             ->where('agents.agent_id', $agent_id)
             ->first();
 
-        if(!empty($agent))
+        if (!empty($agent))
             return $agent->name;
         else
             return 'Undefined';
@@ -132,5 +181,15 @@ Class Agent extends Model{
             ->toArray();
         array_unshift($agents, "No Agent");
         return $agents;
+    }
+
+    function getDetails($agent_id)
+    {
+        $agent = Agent::leftJoin('companies', 'companies.company_id', '=', 'agents.company_id')
+            ->leftJoin('phones', 'phones.phone_id', '=', 'companies.phone_id')
+            ->leftJoin('addresses', 'addresses.address_id', '=', 'agents.address_id')
+            ->select(['companies.name', 'companies.website', 'companies.invoice_to_name', 'agents.*', 'addresses.*', 'phones.number'])
+            ->find($agent_id);
+        return $agent;
     }
 }

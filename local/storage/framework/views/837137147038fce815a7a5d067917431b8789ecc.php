@@ -60,7 +60,7 @@
                 </div>
 
                 <div class="form-group <?php if($errors->has('dob')): ?> <?php echo e('has-error'); ?> <?php endif; ?>">
-                    <?php echo Form::label('dob', 'DOB *', array('class' => 'col-sm-4 control-label')); ?>
+                    <?php echo Form::label('dob', 'DOB', array('class' => 'col-sm-4 control-label')); ?>
 
                     <div class="col-sm-8">
                         <div class="input-group date">
@@ -79,7 +79,7 @@
                 </div>
 
                 <div class="form-group <?php if($errors->has('passport_no')): ?> <?php echo e('has-error'); ?> <?php endif; ?>">
-                    <?php echo Form::label('passport_no', 'Passport No. *', array('class' => 'col-sm-4 control-label')); ?>
+                    <?php echo Form::label('passport_no', 'Passport No.', array('class' => 'col-sm-4 control-label')); ?>
 
                     <div class="col-sm-8">
                         <?php echo Form::text('passport_no', null, array('class' => 'form-control', 'id'=>'passport_no')); ?>
@@ -112,7 +112,7 @@
                 </div>
 
                 <div class="form-group <?php if($errors->has('email')): ?> <?php echo e('has-error'); ?> <?php endif; ?>">
-                    <?php echo Form::label('email', 'Email Address *', array('class' => 'col-sm-4 control-label')); ?>
+                    <?php echo Form::label('email', 'Email Address', array('class' => 'col-sm-4 control-label')); ?>
 
                     <div class="col-sm-8">
                         <?php echo Form::email('email', null, array('class' => 'form-control', 'id'=>'email')); ?>
@@ -124,6 +124,21 @@
                         <?php endif; ?>
                     </div>
                 </div>
+
+                <div class="form-group <?php if($errors->has('referred_by')): ?> <?php echo e('has-error'); ?> <?php endif; ?>">
+                    <?php echo Form::label('referred_by', 'Referred By', array('class' => 'col-sm-4 control-label')); ?>
+
+                    <div class="col-sm-8">
+                        <?php echo Form::text('referred_by', null, array('class' => 'form-control', 'id'=>'referred_by')); ?>
+
+                        <?php if($errors->has('email')): ?>
+                            <?php echo $errors->first('referred_by', '<label class="control-label"
+                                                                   for="inputError">:message</label>'); ?>
+
+                        <?php endif; ?>
+                    </div>
+                </div>
+
             </div>
         </div>
     </div>
@@ -195,6 +210,20 @@
 
                         <?php if($errors->has('country_id')): ?>
                             <?php echo $errors->first('country_id', '<label class="control-label"
+                                                                  for="inputError">:message</label>'); ?>
+
+                        <?php endif; ?>
+                    </div>
+                </div>
+
+                <div class="form-group <?php if($errors->has('description')): ?> <?php echo e('has-error'); ?> <?php endif; ?>">
+                    <?php echo Form::label('description', 'Description', array('class' => 'col-sm-4 control-label')); ?>
+
+                    <div class="col-sm-8">
+                        <?php echo Form::textarea('description', null, array('class' => 'form-control', 'id'=>'description')); ?>
+
+                        <?php if($errors->has('description')): ?>
+                            <?php echo $errors->first('description', '<label class="control-label"
                                                                   for="inputError">:message</label>'); ?>
 
                         <?php endif; ?>
