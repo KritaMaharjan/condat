@@ -131,16 +131,23 @@ class InstituteController extends BaseController
         /* Additional validations for creating institution */
         $this->rules['name'] = 'required|min:2|max:255|unique:companies';
 
-        $this->validate($this->request, $this->rules);
-        // if validates
-        $institute_id = $this->institute->add($this->request->all());
-        if ($institute_id)
-            Flash::success('Institute has been created successfully.');
-
-        if($this->request->ajax())
+        if($this->request->ajax()) {
+            $validator = \Validator::make($this->request->all(), $this->rules);
+            if ($validator->fails())
+                return $this->fail(['errors' => $validator->getMessageBag()->toArray()]);
+            // if validates
+            $institute_id = $this->institute->add($this->request->all());
             return $this->success(['institute_id' => $institute_id, 'name' => $this->request->get('name')]);
-        else
+        }
+        else {
+            $this->validate($this->request, $this->rules);
+            // if validates
+            $institute_id = $this->institute->add($this->request->all());
+            if ($institute_id)
+                Flash::success('Institute has been created successfully.');
+
             return redirect()->route('tenant.institute.index');
+        }
     }
 
     /**

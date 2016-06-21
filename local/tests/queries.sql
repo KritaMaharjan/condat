@@ -323,3 +323,5 @@ ALTER TABLE `course_fees` CHANGE `course_fee_id` `course_fee_id` INT(11) NOT NUL
 ALTER TABLE `status` CHANGE `status_id` `status_id` INT(11) NOT NULL AUTO_INCREMENT;
 
 INSERT INTO `condat_tenant`.`status` (`name`, `description`) VALUES ('Enquiry', 'Enquiry'), ('Offer Letter Processing', 'Offer Letter Processing'), ('Offer Letter Issued', 'Offer Letter Issued'), ('COE Processing', 'COE Processing'), ('COE Issued', 'COE Issued'), ('Enrolled', 'Enrolled'), ('Completed', 'Completed'), ('Cancelled', 'Cancelled');
+
+ALTER TABLE `agents` ADD `added_by` INT NOT NULL AFTER `company_id`, ADD `email` VARCHAR(55) NOT NULL AFTER `added_by`;

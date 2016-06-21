@@ -84,19 +84,22 @@ class AgentController extends BaseController
         $this->rules['name'] = 'required|min:2|max:255|unique:companies';
         $this->rules['email'] = 'email|required|min:2|max:155';
 
-
-        $this->validate($this->request, $this->rules);
-        // if validates
-
-        $agent_id = $this->agent->add($this->request->all());
-        if ($agent_id)
-
-            Flash::success('Agent has been created successfully.');
-
-        if($this->request->ajax())
-            return $this->success(['agent_id' => $agent_id, 'name' => $this->request->get('name')]);
-        else
+        if($this->request->ajax()) {
+            $validator = \Validator::make($this->request->all(), $this->rules);
+            if ($validator->fails())
+                return $this->fail(['errors' => $validator->getMessageBag()->toArray()]);
+            // if validates
+            $agent_id = $this->agent->add($this->request->all());
+            return $this->success(['$gent_id' => $agent_id, 'name' => $this->request->get('name')]);
+        }
+        else {
+            $this->validate($this->request, $this->rules);
+            // if validates
+            $agent_id = $this->agent->add($this->request->all());
+            if ($agent_id)
+                Flash::success('Agent has been created successfully.');
             return redirect()->route('tenant.agents.index');
+        }
     }
 
     /**

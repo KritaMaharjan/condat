@@ -90,17 +90,22 @@ class CourseController extends BaseController
      */
     public function store($institution_id)
     {
-        $this->validate($this->request, $this->rules);
-
-        // if validates
-        $course_id = $this->course->add($this->request->all(), $institution_id);
-
-        if ($course_id)
-            Flash::success('Course has been created successfully.');
-        if($this->request->ajax())
+        if($this->request->ajax()) {
+            $validator = \Validator::make($this->request->all(), $this->rules);
+            if ($validator->fails())
+                return $this->fail(['errors' => $validator->getMessageBag()->toArray()]);
+            // if validates
+            $course_id = $this->course->add($this->request->all(), $institution_id);
             return $this->success(['course_id' => $course_id, 'name' => $this->request->get('name')]);
-        else
+        }
+        else {
+            $this->validate($this->request, $this->rules);
+            // if validates
+            $course_id = $this->course->add($this->request->all(), $institution_id);
+            if ($course_id)
+                Flash::success('Course has been created successfully.');
             return redirect()->route('tenant.institute.show', $institution_id);
+        }
     }
 
     /**

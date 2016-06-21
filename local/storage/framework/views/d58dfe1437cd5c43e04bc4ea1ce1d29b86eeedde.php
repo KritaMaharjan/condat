@@ -143,8 +143,13 @@
                         $('#condat-modal').modal('hide');
                         $('.container .box-primary').before(notify('success', 'Institute Added Successfully!'));
                     }
-                    else
-                        $('.container .box-primary').before(notify('danger', 'Something Went Wrong!'));
+                    else {
+                        $.each(result.data.errors, function (i, v) {
+                            //$('#add-institute').find('input[name=' + i + ']').after('<label class="error ">' + v + '</label>').closest('.form-group').addClass('has-error');
+                            /* Applicable for other elements like calender, phone */
+                            $('#add-institute').find('#' + i).after('<label class="error ">' + v + '</label>').closest('.form-group').addClass('has-error');
+                        });
+                    }
                     setTimeout(function () {
                         $('.callout').remove()
                     }, 2500);
@@ -177,8 +182,13 @@
                         $('#condat-modal').modal('hide');
                         $('.container .box-primary').before(notify('success', 'Course Added Successfully!'));
                     }
-                    else
-                        $('.container .box-primary').before(notify('danger', 'Something Went Wrong!'));
+                    else{
+                        $.each(result.data.errors, function (i, v) {
+                            //$('#add-institute').find('input[name=' + i + ']').after('<label class="error ">' + v + '</label>').closest('.form-group').addClass('has-error');
+                            /* Applicable for other elements like calender, phone */
+                            $('#add-course').find('#' + i).after('<label class="error ">' + v + '</label>').closest('.form-group').addClass('has-error');
+                        });
+                    }
                     setTimeout(function () {
                         $('.callout').remove()
                     }, 2500);
@@ -211,8 +221,13 @@
                         $('#condat-modal').modal('hide');
                         $('.container .box-primary').before(notify('success', 'Intake Added Successfully!'));
                     }
-                    else
-                        $('.container .box-primary').before(notify('danger', 'Something Went Wrong!'));
+                    else{
+                        $.each(result.data.errors, function (i, v) {
+                            //$('#add-institute').find('input[name=' + i + ']').after('<label class="error ">' + v + '</label>').closest('.form-group').addClass('has-error');
+                            /* Applicable for other elements like calender, phone */
+                            $('#add-intake').find('#' + i).after('<label class="error ">' + v + '</label>').closest('.form-group').addClass('has-error');
+                        });
+                    }
                     setTimeout(function () {
                         $('.callout').remove()
                     }, 2500);
@@ -245,8 +260,13 @@
                         $('#condat-modal').modal('hide');
                         $('.container .box-primary').before(notify('success', 'Sub Agent Added Successfully!'));
                     }
-                    else
-                        $('.container .box-primary').before(notify('danger', 'Something Went Wrong!'));
+                    else{
+                        $.each(result.data.errors, function (i, v) {
+                            //$('#add-institute').find('input[name=' + i + ']').after('<label class="error ">' + v + '</label>').closest('.form-group').addClass('has-error');
+                            /* Applicable for other elements like calender, phone */
+                            $('#add-subagent').find('#' + i).after('<label class="error ">' + v + '</label>').closest('.form-group').addClass('has-error');
+                        });
+                    }
                     setTimeout(function () {
                         $('.callout').remove()
                     }, 2500);
@@ -279,8 +299,13 @@
                         $('#condat-modal').modal('hide');
                         $('.container .box-primary').before(notify('success', 'Sub Agent Added Successfully!'));
                     }
-                    else
-                        $('.container .box-primary').before(notify('danger', 'Something Went Wrong!'));
+                    else{
+                        $.each(result.data.errors, function (i, v) {
+                            //$('#add-institute').find('input[name=' + i + ']').after('<label class="error ">' + v + '</label>').closest('.form-group').addClass('has-error');
+                            /* Applicable for other elements like calender, phone */
+                            $('#add-superagent').find('#' + i).after('<label class="error ">' + v + '</label>').closest('.form-group').addClass('has-error');
+                        });
+                    }
                     setTimeout(function () {
                         $('.callout').remove()
                     }, 2500);

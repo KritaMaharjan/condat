@@ -59,7 +59,7 @@
 
             <div id="navbar" class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
-                    <li class="<?php echo e(($current == 'show')? 'active' : ''); ?>"><a href="#">Dashboard</a></li>
+                    <li class="<?php echo e(($current == 'show')? 'active' : ''); ?>"><a href="<?php echo e(route('tenant.application.show', $application->application_id)); ?>">Dashboard</a></li>
                     <li><a href="#">Application Details</a></li>
                     <li class="<?php echo e(($current == 'college')? 'active' : ''); ?>"><a href="<?php echo e(route('tenant.application.college', $application->application_id)); ?>">College Accounts</a></li>
                     <li class="<?php echo e(($current == 'students')? 'active' : ''); ?>"><a href="<?php echo e(route('tenant.application.students', $application->application_id)); ?>">Students Accounts</a></li>

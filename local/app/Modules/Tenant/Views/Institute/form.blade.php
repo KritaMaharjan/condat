@@ -30,13 +30,13 @@
 
 
                 <div class="form-group @if($errors->has('phone')) {{'has-error'}} @endif">
-                    {!!Form::label('phone', 'Phone Number *', array('class' => 'col-sm-4 control-label')) !!}
+                    {!!Form::label('phonew', 'Phone Number *', array('class' => 'col-sm-4 control-label')) !!}
                     <div class="col-sm-8">
-                        <div class="input-group">
+                        <div class="input-group" id="phone">
                             <div class="input-group-addon">
                                 <i class="fa fa-phone"></i>
                             </div>
-                            {!!Form::text('phone', null, array('class' => 'form-control', 'id'=>'phone', 'data-inputmask' =>"'mask': ['999-999-9999 [x99999]', '+099 99 99 9999[9]-9999']", 'data-mask' => ''))!!}
+                            {!!Form::text('phone', null, array('class' => 'form-control phone-input'))!!}
                         </div>
                         @if($errors->has('phone'))
                             {!! $errors->first('phone', '<label class="control-label"

@@ -59,7 +59,7 @@
 
             <div id="navbar" class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
-                    <li class="{{($current == 'show')? 'active' : ''}}"><a href="#">Dashboard</a></li>
+                    <li class="{{($current == 'show')? 'active' : ''}}"><a href="{{route('tenant.application.show', $application->application_id)}}">Dashboard</a></li>
                     <li><a href="#">Application Details</a></li>
                     <li class="{{($current == 'college')? 'active' : ''}}"><a href="{{route('tenant.application.college', $application->application_id)}}">College Accounts</a></li>
                     <li class="{{($current == 'students')? 'active' : ''}}"><a href="{{route('tenant.application.students', $application->application_id)}}">Students Accounts</a></li>

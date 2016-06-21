@@ -3,7 +3,9 @@
     <h4 class="modal-title">Add Institute</h4>
 </div>
 {!!Form::open(array('route' => 'tenant.institute.store', 'class' => 'form-horizontal form-left', 'id' => 'add-institute'))!!}
-@include('Tenant::Institute/form')
+<div class="modal-body">
+    @include('Tenant::Institute/form')
+</div>
 <div class="modal-footer">
     <button type="button" class="btn btn-danger" data-dismiss="modal">Cancel</button>
     <button type="submit" class="btn btn-success"><i class="fa fa-plus-circle"></i>

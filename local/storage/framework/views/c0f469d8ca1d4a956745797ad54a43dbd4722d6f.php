@@ -23,10 +23,10 @@
                         <th>Institute Name</th>
                         <th>Short Name</th> 
                         <th>Phone</th>
-                        <th>Website</th>
-                        <th>Invoice To</th>
+                        <th>Website</th>    
                         <th>Created By</th>
                         <th>Actions</th>
+                        
                     </tr>
                     </thead>
                 </table>
@@ -45,8 +45,7 @@
                     {data: 'short_name', name: 'short_name'},  
                     {data: 'number', name: 'number'},
                     {data: 'website', name: 'website'},
-                    {data: 'invoice_to_name', name: 'invoice_to_name'},
-                    {data: 'created_at', name: 'created_at'},
+                    {data: 'email', name: 'email'},
                     {data: 'action', name: 'action', orderable: false, searchable: false}
                 ]
             });

@@ -771,6 +771,7 @@ $(function () {
 
   $(document).on('hidden.bs.modal', '#condat-modal', function (event) {
     var modal = $(this);
+    modal.find('.modal-header').html('Loading...');
     modal.find('.modal-body').html('');
     if ($('.select-single').length > 0) {
       $(".select-single").select2("destroy");

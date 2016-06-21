@@ -1,9 +1,24 @@
 <div class="box-body">
     <div class="col-md-6">
         <div class="">
-            Institute Details
 
             <div class="">
+
+                <div class="form-group <?php if($errors->has('name')): ?> <?php echo e('has-error'); ?> <?php endif; ?>">
+                    <?php echo Form::label('name', 'Institute Name *', array('class' => 'col-sm-4 control-label')); ?>
+
+                    <div class="col-sm-8">
+                        <?php echo Form::text('name', null, array('class' => 'form-control', 'id'=>'name')); ?>
+
+                        <?php if($errors->has('name')): ?>
+                            <?php echo $errors->first('name', '<label class="control-label"
+                                                                      for="inputError">:message</label>'); ?>
+
+                        <?php endif; ?>
+                    </div>
+                </div>
+
+
                 <div class="form-group <?php if($errors->has('short_name')): ?> <?php echo e('has-error'); ?> <?php endif; ?>">
                     <?php echo Form::label('short_name', 'Short Name *', array('class' => 'col-sm-4 control-label')); ?>
 
@@ -18,30 +33,17 @@
                     </div>
                 </div>
 
-                <div class="form-group <?php if($errors->has('name')): ?> <?php echo e('has-error'); ?> <?php endif; ?>">
-                    <?php echo Form::label('name', 'Company Name *', array('class' => 'col-sm-4 control-label')); ?>
-
-                    <div class="col-sm-8">
-                        <?php echo Form::text('name', null, array('class' => 'form-control', 'id'=>'name')); ?>
-
-                        <?php if($errors->has('name')): ?>
-                            <?php echo $errors->first('name', '<label class="control-label"
-                                                                      for="inputError">:message</label>'); ?>
-
-                        <?php endif; ?>
-                    </div>
-                </div>
 
 
                 <div class="form-group <?php if($errors->has('phone')): ?> <?php echo e('has-error'); ?> <?php endif; ?>">
-                    <?php echo Form::label('phone', 'Phone Number *', array('class' => 'col-sm-4 control-label')); ?>
+                    <?php echo Form::label('phonew', 'Phone Number *', array('class' => 'col-sm-4 control-label')); ?>
 
                     <div class="col-sm-8">
-                        <div class="input-group">
+                        <div class="input-group" id="phone">
                             <div class="input-group-addon">
                                 <i class="fa fa-phone"></i>
                             </div>
-                            <?php echo Form::text('phone', null, array('class' => 'form-control', 'id'=>'phone', 'data-inputmask' =>"'mask': ['999-999-9999 [x99999]', '+099 99 99 9999[9]-9999']", 'data-mask' => '')); ?>
+                            <?php echo Form::text('phone', null, array('class' => 'form-control phone-input')); ?>
 
                         </div>
                         <?php if($errors->has('phone')): ?>
@@ -52,33 +54,7 @@
                     </div>
                 </div>
 
-                <div class="form-group <?php if($errors->has('abn')): ?> <?php echo e('has-error'); ?> <?php endif; ?>">
-                    <?php echo Form::label('abn', 'ABN *', array('class' => 'col-sm-4 control-label')); ?>
-
-                    <div class="col-sm-8">
-                        <?php echo Form::text('abn', null, array('class' => 'form-control', 'id'=>'abn')); ?>
-
-                        <?php if($errors->has('abn')): ?>
-                            <?php echo $errors->first('abn', '<label class="control-label"
-                                                                   for="inputError">:message</label>'); ?>
-
-                        <?php endif; ?>
-                    </div>
-                </div>
-
-                <div class="form-group <?php if($errors->has('acn')): ?> <?php echo e('has-error'); ?> <?php endif; ?>">
-                    <?php echo Form::label('acn', 'ACN *', array('class' => 'col-sm-4 control-label')); ?>
-
-                    <div class="col-sm-8">
-                        <?php echo Form::text('acn', null, array('class' => 'form-control', 'id'=>'acn')); ?>
-
-                        <?php if($errors->has('acn')): ?>
-                            <?php echo $errors->first('acn', '<label class="control-label"
-                                                                   for="inputError">:message</label>'); ?>
-
-                        <?php endif; ?>
-                    </div>
-                </div>
+                
 
                 <div class="form-group <?php if($errors->has('website')): ?> <?php echo e('has-error'); ?> <?php endif; ?>">
                     <?php echo Form::label('website', 'Website', array('class' => 'col-sm-4 control-label')); ?>
@@ -95,7 +71,7 @@
                 </div>
 
                 <div class="form-group <?php if($errors->has('invoice_to_name')): ?> <?php echo e('has-error'); ?> <?php endif; ?>">
-                    <?php echo Form::label('invoice_to_name', 'Invoice To Whom', array('class' => 'col-sm-4 control-label')); ?>
+                    <?php echo Form::label('invoice_to_name', 'Invoice To', array('class' => 'col-sm-4 control-label')); ?>
 
                     <div class="col-sm-8">
                         <?php echo Form::text('invoice_to_name', null, array('class' => 'form-control', 'id'=>'invoice_to_name')); ?>

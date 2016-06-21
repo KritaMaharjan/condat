@@ -3,8 +3,8 @@
         <label for="intake_date" class="col-sm-3 control-label">Intake Date: </label>
 
         <div class="col-sm-8">
-            <div class="input-group date">
-                {!!Form::text('intake_date', null, array('class' => 'form-control', 'id'=>'intake_date'))!!}
+            <div class="input-group date" id="intake_date">
+                {!!Form::text('intake_date', null, array('class' => 'form-control'))!!}
                 <div class="input-group-addon">
                     <i class="fa fa-calendar"></i>
                 </div>

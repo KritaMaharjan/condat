@@ -14,6 +14,10 @@ class IntakeController extends BaseController
 
     protected $request;/* Validation rules for user create and edit */
     protected $course;
+    protected $rules = [
+        'intake_date'=>'required',
+        'description'=>'required|min:2|max:155'
+    ];
 
     function __construct(Intake $intake, Institute $institute, InstituteIntake $institute_intake, Request $request)
     {
@@ -55,15 +59,23 @@ class IntakeController extends BaseController
      */
     public function store($institution_id)
     {
-        //$this->validate($this->request, $this->rules);
-        // if validates
-        $intake_id = $this->intake->add($this->request->all(), $institution_id);
-        if ($intake_id)
-            Flash::success('Intake has been created successfully.');
-        if($this->request->ajax())
+        if($this->request->ajax()) {
+            $validator = \Validator::make($this->request->all(), $this->rules);
+            if ($validator->fails())
+                return $this->fail(['errors' => $validator->getMessageBag()->toArray()]);
+            // if validates
+            $intake_id = $this->intake->add($this->request->all(), $institution_id);
             return $this->success(['intake_id' => $intake_id, 'name' => $this->request->get('description')]);
-        else
+        }
+        else {
+            $this->validate($this->request, $this->rules);
+            // if validates
+            $intake_id = $this->intake->add($this->request->all(), $institution_id);
+            if ($intake_id)
+                Flash::success('Intake has been created successfully.');
             return redirect()->route('tenant.intake.index', $institution_id);
+        }
+
     }
 
     /**
