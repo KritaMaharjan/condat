@@ -106,7 +106,9 @@ class CollegeController extends BaseController
      */
     function getPaymentsData($application_id)
     {
-        $payments = CollegePayment::where('course_application_id', $application_id)->select(['*']);
+        $payments = CollegePayment::where('course_application_id', $application_id)
+            ->leftJoin('college_invoice_payments', 'college_payments.college_payment_id', '=', 'college_invoice_payments.college_payment_id')
+            ->select(['college_payments.*', 'college_invoice_payments.college_invoice_id']);
 
         $datatable = \Datatables::of($payments)
             ->addColumn('action', '<div class="btn-group">
@@ -116,13 +118,17 @@ class CollegeController extends BaseController
                     <span class="sr-only">Toggle Dropdown</span>
                   </button>
                   <ul role="menu" class="dropdown-menu">
-                    <li><a href="http://localhost/condat/tenant/contact/2">Add payment</a></li>
                     <li><a href="http://localhost/condat/tenant/contact/2">View</a></li>
                     <li><a href="http://localhost/condat/tenant/contact/2">Edit</a></li>
                     <li><a href="http://localhost/condat/tenant/contact/2">Delete</a></li>
                   </ul>
                 </div>')
-            ->addColumn('invoice_id', 'Uninvoiced <button class="btn btn-success btn-xs"><i class="glyphicon glyphicon-plus-sign"></i> Assign to Invoice</button>')
+            ->addColumn('invoice_id',  function($data) {
+                if(empty($data->college_invoice_id) || $data->college_invoice_id == 0)
+                    return 'Uninvoiced <a class="btn btn-success btn-xs" data-toggle="modal" data-target="#condat-modal" data-url="'.url('tenant/payment/'.$data->college_payment_id.'/'.$data->course_application_id.'/assign').'"><i class="glyphicon glyphicon-plus-sign"></i> Assign to Invoice</a>';
+                else
+                    return format_id($data->college_invoice_id, 'CI');
+            })
             ->editColumn('date_paid', function ($data) {
                 return format_date($data->date_paid);
             })
@@ -162,7 +168,9 @@ class CollegeController extends BaseController
                 </div>';
             })
             ->addColumn('status', 'Outstanding')
-            ->addColumn('outstanding_amount', '5000 <a class="btn btn-success btn-xs"><i class="glyphicon glyphicon-plus-sign"></i> Add Payment</a>')
+            ->addColumn('outstanding_amount', function ($data) {
+                return '5000 <a class="btn btn-success btn-xs" data-toggle="modal" data-target="#condat-modal" data-url="' . url('tenant/invoices/' . $data->college_invoice_id . '/payment/add/1') . '"><i class="glyphicon glyphicon-plus-sign"></i> Add Payment</a>';
+            })
             ->editColumn('invoice_date', function ($data) {
                 return format_date($data->invoice_date);
             })

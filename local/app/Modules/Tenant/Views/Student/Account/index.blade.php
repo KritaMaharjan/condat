@@ -151,5 +151,5 @@
         });
     </script>
 
-
+    {!! Condat::registerModal() !!}
 @stop

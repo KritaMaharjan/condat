@@ -1,6 +1,8 @@
 <?php namespace App\Modules\Tenant\Models\Application;
 
 use App\Modules\Tenant\Models\Client\ClientPayment;
+use App\Modules\Tenant\Models\Invoice\StudentInvoice;
+use App\Modules\Tenant\Models\PaymentInvoiceBreakdown;
 use Illuminate\Database\Eloquent\Model;
 use DB;
 
@@ -40,14 +42,7 @@ class StudentApplicationPayment extends Model
         DB::beginTransaction();
 
         try {
-            $payment = ClientPayment::create([
-                'client_id' => null, //change this later if necessary
-                'amount' => $request['amount'],
-                'date_paid' => insert_dateformat($request['date_paid']),
-                'payment_method' => $request['payment_method'],
-                'payment_type' => $request['payment_type'],
-                'description' => $request['description']
-            ]);
+            $payment = $this->createPayment($request);
 
             $student_payment = StudentApplicationPayment::create([
                 'course_application_id' => $application_id,
@@ -62,6 +57,50 @@ class StudentApplicationPayment extends Model
             dd($e);
             // something went wrong
         }
+    }
+
+    public function addAndAssign(array $request, $invoice_id)
+    {
+        DB::beginTransaction();
+
+        try {
+            $payment = $this->createPayment($request);
+
+            /* assign payment to invoice */
+            PaymentInvoiceBreakdown::create([
+                'invoice_id' => $invoice_id,
+                'payment_id' => $payment->client_payment_id
+            ]);
+
+            $application_id = StudentInvoice::where('invoice_id', $invoice_id)->first()->application_id;
+
+            $student_payment = StudentApplicationPayment::create([
+                'course_application_id' => $application_id,
+                'client_payment_id' => $payment->client_payment_id,
+            ]);
+
+            DB::commit();
+            return $student_payment->student_payments_id;
+            // all good
+        } catch (\Exception $e) {
+            DB::rollback();
+            dd($e);
+            // something went wrong
+        }
+    }
+
+    function createPayment($request)
+    {
+        $payment = ClientPayment::create([
+            'client_id' => null, //change this later if necessary
+            'amount' => $request['amount'],
+            'date_paid' => insert_dateformat($request['date_paid']),
+            'payment_method' => $request['payment_method'],
+            'payment_type' => $request['payment_type'],
+            'description' => $request['description']
+        ]);
+
+        return $payment;
     }
 
 }

@@ -98,8 +98,9 @@ class StudentController extends BaseController
     function getPaymentsData($application_id)
     {
         $payments = StudentApplicationPayment::leftJoin('client_payments', 'client_payments.client_payment_id', '=', 'student_application_payments.client_payment_id')
+            ->leftJoin('payment_invoice_breakdowns', 'client_payments.client_payment_id', '=', 'payment_invoice_breakdowns.payment_id')
             ->where('course_application_id', $application_id)
-            ->select(['student_application_payments.student_payments_id', 'client_payments.*']);
+            ->select(['student_application_payments.student_payments_id', 'client_payments.*', 'payment_invoice_breakdowns.invoice_id']);
 
         $datatable = \Datatables::of($payments)
             ->addColumn('action', '<div class="btn-group">
@@ -109,13 +110,17 @@ class StudentController extends BaseController
                     <span class="sr-only">Toggle Dropdown</span>
                   </button>
                   <ul role="menu" class="dropdown-menu">
-                    <li><a href="http://localhost/condat/tenant/contact/2">Add payment</a></li>
                     <li><a href="http://localhost/condat/tenant/contact/2">View</a></li>
                     <li><a href="http://localhost/condat/tenant/contact/2">Edit</a></li>
                     <li><a href="http://localhost/condat/tenant/contact/2">Delete</a></li>
                   </ul>
                 </div>')
-            ->addColumn('invoice_id', 'Uninvoiced <button class="btn btn-success btn-xs"><i class="glyphicon glyphicon-plus-sign"></i> Assign to Invoice</button>')
+            ->addColumn('invoice_id', function($data) {
+                if(empty($data->invoice_id) || $data->invoice_id == 0)
+                    return 'Uninvoiced <a class="btn btn-success btn-xs" data-toggle="modal" data-target="#condat-modal" data-url="'.url('tenant/payment/'.$data->client_payment_id.'/'.$data->course_application_id.'/assign').'"><i class="glyphicon glyphicon-plus-sign"></i> Assign to Invoice</a>';
+                else
+                    return format_id($data->invoice_id, 'SI');
+            })
             ->editColumn('date_paid', function ($data) {
                 return format_date($data->date_paid);
             })
@@ -158,7 +163,9 @@ class StudentController extends BaseController
                 </div>';
             })
             ->addColumn('status', 'Outstanding')
-            ->addColumn('outstanding_amount', '5000 <button class="btn btn-success btn-xs"><i class="glyphicon glyphicon-plus-sign"></i> Add Payment</button>')
+            ->addColumn('outstanding_amount',  function ($data) {
+                return '5000 <a class="btn btn-success btn-xs" data-toggle="modal" data-target="#condat-modal" data-url="'.url('tenant/invoices/'.$data->invoice_id.'/payment/add/2').'"><i class="glyphicon glyphicon-plus-sign"></i> Add Payment</a>';
+            })
             ->editColumn('invoice_date', function ($data) {
                 return format_date($data->invoice_date);
             })

@@ -4,6 +4,7 @@ use App\Http\Requests;
 use App\Modules\Tenant\Models\Agent;
 use App\Modules\Tenant\Models\Application\StudentApplicationPayment;
 use App\Modules\Tenant\Models\Client\ClientPayment;
+use App\Modules\Tenant\Models\Invoice\CollegeInvoicePayment;
 use App\Modules\Tenant\Models\Invoice\Invoice;
 use App\Modules\Tenant\Models\Payment\CollegePayment;
 use App\Modules\Tenant\Models\Payment\SubAgentApplicationPayment;
@@ -24,12 +25,14 @@ class InvoiceController extends BaseController
         'acn' => 'required',
     ];
 
-    function __construct(Invoice $invoice, Request $request, PaymentInvoiceBreakdown $payment_invoice, SubAgentApplicationPayment $subagent_payment)
+    function __construct(Invoice $invoice, Request $request, PaymentInvoiceBreakdown $payment_invoice, SubAgentApplicationPayment $subagent_payment, CollegeInvoicePayment $college_payment, StudentApplicationPayment $student_payment)
     {
         $this->invoice = $invoice;
         $this->request = $request;
         $this->payment_invoice = $payment_invoice;
         $this->subagent_payment = $subagent_payment;
+        $this->college_payment = $college_payment;
+        $this->student_payment = $student_payment;
         parent::__construct();
     }
 
@@ -105,7 +108,7 @@ class InvoiceController extends BaseController
 
     function collegePayments($invoice_id)
     {
-        $payments = CollegePayment::join('college_invoice_payments', 'college_payments.college_payment_id', '=', 'college_invoice_payments.payment_id')
+        $payments = CollegePayment::join('college_invoice_payments', 'college_payments.college_payment_id', '=', 'college_invoice_payments.college_payment_id')
             ->where('college_invoice_payments.college_invoice_id', $invoice_id)
             ->select(['college_payments.*', 'college_payments.college_payment_id as payment_id']);
         return $payments;
@@ -132,10 +135,10 @@ class InvoiceController extends BaseController
     {
         switch ($type) {
             case 1:
-                $created = $this->subagent_payment->addAndAssign($this->request->all(), $invoice_id);
+                $created = $this->college_payment->add($this->request->all(), $invoice_id);
                 break;
             case 2:
-                $created = $this->studentPayments($invoice_id);
+                $created = $this->student_payment->addAndAssign($this->request->all(), $invoice_id);
                 break;
             default:
                 $created = $this->subagent_payment->addAndAssign($this->request->all(), $invoice_id);
