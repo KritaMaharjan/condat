@@ -65,8 +65,8 @@
                     <li class="<?php echo e(($current == 'college')? 'active' : ''); ?>"><a href="<?php echo e(route('tenant.application.college', $application->application_id)); ?>">College Accounts</a></li>
                     <li class="<?php echo e(($current == 'students')? 'active' : ''); ?>"><a href="<?php echo e(route('tenant.application.students', $application->application_id)); ?>">Students Accounts</a></li>
                     <li class="<?php echo e(($current == 'subagents')? 'active' : ''); ?>"><a href="<?php echo e(route('tenant.application.subagents', $application->application_id)); ?>">Sub Agent Accounts</a></li>
-                    <li><a href="#">Documents</a></li>
-                    <li><a href="#">Notes</a></li>
+                    <li><a href="<?php echo e(url("tenant/clients/$client->client_id/innerdocument")); ?>">Documents</a></li>
+                    <li><a href="<?php echo e(url("tenant/clients/$client->client_id/innernotes")); ?>">Notes</a></li>
                 </ul>
             </div>
             <!--/.nav-collapse -->

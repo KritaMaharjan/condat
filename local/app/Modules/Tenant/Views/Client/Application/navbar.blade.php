@@ -65,8 +65,8 @@
                     <li class="{{($current == 'college')? 'active' : ''}}"><a href="{{route('tenant.application.college', $application->application_id)}}">College Accounts</a></li>
                     <li class="{{($current == 'students')? 'active' : ''}}"><a href="{{route('tenant.application.students', $application->application_id)}}">Students Accounts</a></li>
                     <li class="{{($current == 'subagents')? 'active' : ''}}"><a href="{{route('tenant.application.subagents', $application->application_id)}}">Sub Agent Accounts</a></li>
-                    <li><a href="#">Documents</a></li>
-                    <li><a href="#">Notes</a></li>
+                    <li><a href="{{url("tenant/clients/$client->client_id/innerdocument")}}">Documents</a></li>
+                    <li><a href="{{url("tenant/clients/$client->client_id/innernotes")}}">Notes</a></li>
                 </ul>
             </div>
             <!--/.nav-collapse -->
