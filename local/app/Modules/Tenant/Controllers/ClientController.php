@@ -4,6 +4,9 @@ use App\Http\Requests;
 use App\Modules\Tenant\Models\Client\Client;
 use App\Modules\Tenant\Models\Client\ClientDocument;
 use App\Modules\Tenant\Models\Document;
+use App\Modules\Tenant\Models\Notes;
+use App\Modules\Tenant\Models\Client\ClientNotes;
+use App\Modules\Tenant\Models\Client\ApplicationNotes;
 use Flash;
 use DB;
 
@@ -20,11 +23,14 @@ class ClientController extends BaseController
         'number' => 'required'
     ];
 
-    function __construct(Client $client, Request $request, ClientDocument $document)
+    function __construct(Client $client, Request $request, ClientDocument $document, notes $notes, ClientNotes $client_notes, ApplicationNotes $application_notes)
     {
         $this->client = $client;
         $this->request = $request;
+        $this->notes = $notes;
         $this->document = $document;
+        $this->client_notes = $client_notes;
+         $this->application_notes = $application_notes;
         parent::__construct();
     }
 
@@ -223,6 +229,7 @@ class ClientController extends BaseController
     function notes($client_id)
     {
         $data['client'] = $this->client->getDetails($client_id);
+        $data['notes'] = $this->notes->getNotes($client_id);
         return view("Tenant::Client/notes", $data);
     }
 
@@ -231,5 +238,88 @@ class ClientController extends BaseController
         $data['client'] = $this->client->getDetails($client_id);
         return view("Tenant::Client/payments", $data);
     }
+
+    function innerdocument($client_id)
+    {
+        $data['client'] = $this->client->getDetails($client_id);
+        $data['documents'] = $this->document->getClientDocuments($client_id);
+        return view("Tenant::Client/innerdocument", $data);
+    }
+
+      function innernotes($client_id)
+    {
+        $data['client'] = $this->client->getDetails($client_id);
+        $data['client_notes'] = $this->client_notes->getClientNotes($client_id);
+        return view("Tenant::Client/innernotes", $data);
+    }
+
+    function uploadInnerDocument($client_id)
+    {
+        $upload_rules = ['document' => 'required|mimes:jpeg,bmp,png,doc,docx,pdf,txt,xls,xlsx',
+            'description' => 'required',
+            'type' => 'required',
+        ];
+        $this->validate($this->request, $upload_rules);
+
+        $folder = 'document';
+        $file = $this->request->input('document');
+        $file = ($file == '') ? 'document' : $file;
+
+        if ($file_info = tenant()->folder($folder, true)->upload($file)) {
+            $this->document->uploadDocument($client_id, $file_info, $this->request->all());
+            \Flash::success('File uploaded successfully!');
+            return redirect()->route('tenant.client.innerdocument', $client_id);
+        }
+
+        \Flash::danger('Uploaded file is not valid!');
+        return redirect()->back();
+    }
+
+    
+ function uploadClientNotes($client_id)
+    {
+        $upload_rules = ['description' => 'required'
+        ];
+        if($this->request->get('remind') == 1)
+            $upload_rules['reminder_date'] = 'required';
+
+        $this->validate($this->request, $upload_rules);
+     
+            $this->client_notes->uploadClientNotes($client_id, $this->request->all());
+            \Flash::success('Notes uploaded successfully!');
+            return redirect()->route('tenant.client.notes', $client_id);
+         }
+    
+
+     function deleteNote($note_id)
+     {
+        $client_id = $this->client_notes->deleteNote($note_id);
+  
+        \Flash::success('Note deleted successfully!');
+         return redirect()->route('tenant.client.notes', $client_id);
+     } 
+
+    function uploadApplicationNotes($client_id)
+    {
+        $upload_rules = ['description' => 'required'
+        ];
+        if($this->request->get('remind') == 1)
+            $upload_rules['reminder_date'] = 'required';
+
+        $this->validate($this->request, $upload_rules);
+     
+            $this->application_notes->uploadApplicationNotes($client_id, $this->request->all());
+            \Flash::success('Notes uploaded successfully!');
+            return redirect()->route('tenant.client.innernotes', $client_id);
+         }
+
+          function deleteApplicationNote($note_id)
+     {
+       $application_id= $this->application_notes->deleteApplicationNote($note_id);
+  
+        \Flash::success('Note deleted successfully!');
+         return redirect()->route('tenant.client.innernotes', $application_id);
+         
+     } 
 
 }

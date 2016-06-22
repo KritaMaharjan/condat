@@ -214,4 +214,26 @@ Route::group(array('prefix' => 'tenant', 'module' => 'Tenant', 'middleware' => '
     Route::get('users/data', 'UserController@getData');
     Route::get('profile', 'UserController@edit');
     Route::post('profile', 'UserController@update');
+
+    /*routes for innerdocument*/
+    Route::get('client/data', 'ClientController@getData');
+    Route::get('clients/{client_id}/innerdocument', ['as' => 'tenant.client.innerdocument', 'uses' => 'ClientController@innerdocument']);
+    Route::post('clients/{client_id}/innerdocument', 'ClientController@uploadInnerDocument');
+    Route::get('clients/innerdocument/{document_id}/download', ['as' => 'tenant.client.innerdocument.download', 'uses' => 'ClientController@downloadDocument']);
+    
+   
+     /*routes for notes*/
+    Route::get('clients/{client_id}/notes', 'ClientController@notes');
+    Route::get('client/data', 'ClientController@getData');
+    Route::get('clients/{client_id}/notes', ['as' => 'tenant.client.notes', 'uses' => 'ClientController@notes']);
+    Route::post('clients/{client_id}/notes', 'ClientController@uploadClientNotes');
+    Route::get('note/{notes_id}/delete',['as' => 'tenant.client.notes.delete', 'uses' => 'ClientController@deleteNote']);
+
+    /*routes for innernotes*/
+    Route::get('clients/{client_id}/innernotes', 'ClientController@innernotes');
+    Route::get('client/data', 'ClientController@getData');
+    Route::get('clients/{client_id}/innernotes', ['as' => 'tenant.client.innernotes', 'uses' => 'ClientController@innernotes']);
+    Route::post('clients/{client_id}/innernotes', 'ClientController@uploadApplicationNotes');
+     Route::get('innernote/{notes_id}/delete',['as' => 'tenant.client.innernotes.delete', 'uses' => 'ClientController@deleteApplicationNote']);
+
 });

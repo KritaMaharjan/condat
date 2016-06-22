@@ -73,11 +73,12 @@
             <div class="box-body">
 
                 <form action='' method="POST">
+                    <input type="hidden" name="_token" value="<?php echo e(csrf_token()); ?>">
                     <div class="form-group">
-                        <textarea name="filter" class="form-control" id="filter"></textarea>
+                        <textarea name="description" class="form-control" id="description"></textarea>
                     </div>
                     <div class="checkbox form-group">
-                        <label><input type="checkbox" id="remind"> Add to Reminder</label>
+                        <label><input type="checkbox" id="remind" name="remind" value="1"> Add to Reminder</label>
                     </div>
                     <div id="reminderDate" style="display: none">
                         <div class="form-group">
@@ -95,7 +96,7 @@
                         </div>
                     </div>
                     <div class="form-group">
-                        <button type="submit" class="btn btn-success">Submit</button>
+                        <button type="submit" class="btn btn-success" onsubmit="ConfirmDelete()">Submit</button>
                     </div>
                 </form>
 
@@ -105,49 +106,47 @@
         <!-- /.box -->
     </div>
 
-    <div class="col-xs-9">
-        <div class="box box-primary">
-            <div class="box-header with-border">
+    <div class="col-md-8 col-xs-12">
+            <div class="box box-primary">
+                <div class="box-body table-responsive">
+                     <?php if(count($notes) > 0): ?>                  
+                    <hr/>              
+                    <table id="table-lead" class="table table-hover">
+            
+                        <thead>
+                        <tr>
+                             <th>Added By</th>
+                            <th>Notes</th>
+                            <th>Remind me</th> 
+                             <th>Reminder date</th>                             
+                            <th>Processing</th>                            
+                        </tr>
+                        </thead>
+                        <tbody>
+                  <?php foreach($notes as $key => $note): ?>
+                        
+                            <tr>
+                                <td><?php echo e(get_tenant_name($note->added_by_user_id)); ?></td>
+                                <td><?php echo e($note->description); ?></td>
+                                <td><?php echo e(($note->remind == 1) ? 'yes' : 'no'); ?></td>
+                                <td><?php echo e(($note->remind == 1) ? format_date($note->reminder_date) : ''); ?></td>
+                                <td><a href="" target="_blank"><i class="fa fa-eye"></i> View</a>&nbsp;&nbsp;
+                                    <a href="<?php echo e(route('tenant.client.notes.delete', $note->notes_id)); ?>" target="_blank" onClick="return confirm('Are you sure want to delete this record')"><i class="fa fa-trash"></i> Delete</a>
+                                </td>
+                               
+                            </tr>
+                             <?php endforeach; ?>
+                        </tbody>
 
-                <b>
-
-                    <div class="col-md-6">Notes</div>
-                    <div class="col-md-2">Remind Me</div>
-                    <div class="col-md-2">Added By</div>
-                    <div class="col-md-2">Processing</div>
-
-                </b>
-            </div>
-
-            <div class="box-body">
-                <!-- data -->
-
-                <div class="row">
-                    <div class="col-md-6">Request offer letter from CQU</div>
-                    <div class="col-md-2"><i class="glyphicon glyphicon-ok"></i> (20/09/2015)</div>
-                    <div class="col-md-2">Krita Maharjan</div>
-                    <div class="col-md-2">
-                        <div>
-                            <a href="#" title="Edit" class="btn"><i class="glyphicon glyphicon-pencil"></i> Edit</a>
-                            <a href="#" title="Delete" class="btn"><i class="glyphicon glyphicon-trash"></i>
-                                Delete</a>
-                        </div>
-                    </div>
+                    </table>
+                   <?php else: ?>
+                        <p class="text-muted well">
+                            No note uploaded yet.
+                        </p>
+                   <?php endif; ?>
                 </div>
-                <div class="row">
-                    <div class="col-md-6">Create Payment invoice of Amount $1000</div>
-                    <div class="col-md-2"><i class="glyphicon glyphicon-remove"></i></div>
-                    <div class="col-md-2">Krita Maharjan</div>
-                    <div class="col-md-2">
-                        <div>
-                            <a href="#" title="Edit" class="btn"><i class="glyphicon glyphicon-pencil"></i>Edit</a>
-                            <a href="#" title="Delete" class="btn"><i class="glyphicon glyphicon-trash"></i>Delete</a>
-                        </div>
-                    </div>
-                </div>
-
             </div>
-        </div>
+        </div>     </div>
     </div>
     <!-- Bootstrap date picker -->
     <script type="text/javascript">
@@ -171,7 +170,13 @@
             });
         });
 
+
     </script>
+    <script>
+
+</script>
+  
+  
 
 <?php $__env->stopSection(); ?>
 
