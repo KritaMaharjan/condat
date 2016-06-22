@@ -7,6 +7,8 @@ use App\Modules\Tenant\Models\Application\CourseApplication;
 use App\Modules\Tenant\Models\Course\BroadField;
 use App\Modules\Tenant\Models\Course\NarrowField;
 use App\Modules\Tenant\Models\Institute\Institute;
+use App\Modules\Tenant\Models\Invoice\CollegeInvoice;
+use App\Modules\Tenant\Models\Invoice\StudentInvoice;
 use App\Modules\Tenant\Models\Payment\CollegePayment;
 use Flash;
 use DB;
@@ -23,7 +25,7 @@ class ApplicationController extends BaseController
         'payment_method' => 'required|min:2|max:45'
     ];
 
-    function __construct(Client $client, Request $request, CourseApplication $application, Institute $institute, Agent $agent,CollegePayment $payment)
+    function __construct(Client $client, Request $request, CourseApplication $application, Institute $institute, Agent $agent, CollegePayment $payment, CollegeInvoice $invoice, StudentInvoice $student_invoice)
     {
         $this->client = $client;
         $this->request = $request;
@@ -31,6 +33,8 @@ class ApplicationController extends BaseController
         $this->institute = $institute;
         $this->agent = $agent;
         $this->payment = $payment;
+        $this->invoice = $invoice;
+        $this->student_invoice = $student_invoice;
         parent::__construct();
     }
 
@@ -159,6 +163,18 @@ class ApplicationController extends BaseController
         $data['stats']=null;
         $data['agents'] = $this->agent->getAll();
         $data['application'] = $application = $this->application->getDetails($application_id); //dd($data['application']->toArray());
+        $data['paid_to_college'] = $this->payment->paymentToCollege($application_id);
+        $remaining = $application->tuition_fee - $data['paid_to_college'];
+        $data['remaining'] = ($remaining < 0)? 0 : $remaining;
+        $data['total_commission_amount'] = $this->invoice->getTotalAmount($application_id);
+        $data['commission_claimed'] = $this->payment->commissionClaimed($application_id);
+        $remaining_commission = $data['total_commission_amount'] - $data['commission_claimed'];
+        $data['remaining_commission'] = ($remaining_commission < 0)? 0 : $remaining_commission;
+        $student_stats = $this->student_invoice->getStats($application_id);
+        $data['student_outstanding'] = $student_stats['due_amount'];
+        $college_stats = $this->invoice->getStats($application_id);
+        $data['college_outstanding'] = $college_stats['due_amount'];
+        $data['uninvoiced_amount'] = $this->payment->getUninvoicedAmount($application_id);
         $data['client'] = $this->client->getDetails($application->client_id);
         return view("Tenant::Client/Application/show", $data);
     }

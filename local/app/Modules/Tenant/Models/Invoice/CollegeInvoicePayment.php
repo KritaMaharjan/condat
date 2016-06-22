@@ -18,14 +18,14 @@ class CollegeInvoicePayment extends Model
      *
      * @var string
      */
-    protected $primaryKey = 'college_invoice_id';
+    protected $primaryKey = 'invoice_payments_id';
 
     /**
      * The attributes that are mass assignable.
      *
      * @var array
      */
-    protected $fillable = ['payment_id', 'college_invoice_id'];
+    protected $fillable = ['college_payment_id', 'college_invoice_id'];
 
     public $timestamps = false;
 

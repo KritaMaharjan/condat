@@ -27,6 +27,12 @@ class CollegePayment extends Model
      */
     protected $fillable = ['course_application_id', 'amount', 'date_paid', 'payment_method', 'description', 'payment_type'];
 
+    /* Defining relationships */
+    public function invoice()
+    {
+        return $this->belongsTo('App\Modules\Tenant\Models\Invoice\CollegeInvoicePayment', 'college_payment_id');
+    }
+
     function add(array $request, $application_id)
     {
         DB::beginTransaction();
@@ -49,6 +55,33 @@ class CollegePayment extends Model
             dd($e);
             // something went wrong
         }
+    }
+
+    function paymentToCollege($application_id)
+    {
+        $payments = CollegePayment::where('course_application_id', $application_id)
+            ->where('course_application_id', $application_id)
+            ->whereIn('payment_type', ['Agent to College', 'Student to College'])
+            ->sum('amount');
+        return $payments;
+    }
+
+    function commissionClaimed($application_id)
+    {
+        $payments = CollegePayment::where('course_application_id', $application_id)
+            ->where('course_application_id', $application_id)
+            ->where('payment_type', 'College to Agent')
+            ->sum('amount');
+        return $payments;
+    }
+
+    function getUninvoicedAmount($application_id)
+    {
+        $amount = CollegePayment::where('course_application_id', $application_id)
+            ->where('course_application_id', $application_id)
+            ->doesntHave('invoice')
+            ->sum('amount');
+        return $amount;
     }
 
 }

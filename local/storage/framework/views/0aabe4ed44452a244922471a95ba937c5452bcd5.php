@@ -51,15 +51,15 @@
                                 <table class="table table-striped table-bordered">
                                     <tr>
                                         <td>Total Fee</td>
-                                        <td>25000</td>
+                                        <td>$<?php echo e($application->tuition_fee); ?></td>
                                     </tr>
                                     <tr>
                                         <td>Total Paid</td>
-                                        <td>15000</td>
+                                        <td>$<?php echo e($paid_to_college); ?></td>
                                     </tr>
                                     <tr>
                                         <td>Total Remaining</td>
-                                        <td>10000</td>
+                                        <td>$<?php echo e($remaining); ?></td>
                                     </tr>
                                 </table>
                             </div>
@@ -73,15 +73,15 @@
                                 <table class="table table-striped table-bordered">
                                     <tr>
                                         <td>Commission Payable Amout</td>
-                                        <td>25000</td>
+                                        <td>$<?php echo e($total_commission_amount); ?></td>
                                     </tr>
                                     <tr>
                                         <td>Total Commission Claimed</td>
-                                        <td>15000</td>
+                                        <td>$<?php echo e($commission_claimed); ?></td>
                                     </tr>
                                     <tr>
                                         <td>Remaining Commission</td>
-                                        <td>10000</td>
+                                        <td>$<?php echo e($remaining_commission); ?></td>
                                     </tr>
                                 </table>
                             </div>
@@ -111,7 +111,7 @@
                                     <?php if($application->super_agent_id != null): ?>
                                         <?php echo e(get_agent_name($application->super_agent_id)); ?>
 
-                                        <a href="#" class="pull-right">view</a>
+                                        <a href="<?php echo e(route('tenant.agents.show', $application->super_agent_id)); ?>" class="pull-right" target="_blank">view</a>
                                     <?php else: ?>
                                         None
                                         <button class="btn btn-primary btn-xs pull-right" data-toggle="modal"
@@ -132,7 +132,7 @@
                                     <?php if($application->sub_agent_id != null): ?>
                                         <?php echo e(get_agent_name($application->sub_agent_id)); ?>
 
-                                        <a href="#" class="pull-right">view</a>
+                                        <a href="<?php echo e(route('tenant.agents.show', $application->sub_agent_id)); ?>" class="pull-right" target="_blank">view</a>
                                     <?php else: ?>
                                         None
                                         <button class="btn btn-primary btn-xs pull-right" data-toggle="modal"
@@ -149,7 +149,7 @@
                                 <h3 class="panel-title">Student owing Agency</h3>
                             </div>
                             <div class="panel-body">
-                                <h3>$500</h3>
+                                <h3>$<?php echo e($student_outstanding); ?></h3>
                             </div>
                         </div>
 
@@ -158,7 +158,7 @@
                                 <h3 class="panel-title">Pending Active Commission</h3>
                             </div>
                             <div class="panel-body">
-                                <h3>$450</h3>
+                                <h3>$<?php echo e($college_outstanding); ?></h3>
                             </div>
                         </div>
 
@@ -167,7 +167,7 @@
                                 <h3 class="panel-title">Uninvoice Amount</h3>
                             </div>
                             <div class="panel-body">
-                                <h3>$700</h3>
+                                <h3>$<?php echo e($uninvoiced_amount); ?></h3>
                             </div>
                         </div>
                     </div>

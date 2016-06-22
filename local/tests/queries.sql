@@ -325,3 +325,7 @@ ALTER TABLE `status` CHANGE `status_id` `status_id` INT(11) NOT NULL AUTO_INCREM
 INSERT INTO `condat_tenant`.`status` (`name`, `description`) VALUES ('Enquiry', 'Enquiry'), ('Offer Letter Processing', 'Offer Letter Processing'), ('Offer Letter Issued', 'Offer Letter Issued'), ('COE Processing', 'COE Processing'), ('COE Issued', 'COE Issued'), ('Enrolled', 'Enrolled'), ('Completed', 'Completed'), ('Cancelled', 'Cancelled');
 
 ALTER TABLE `agents` ADD `added_by` INT NOT NULL AFTER `company_id`, ADD `email` VARCHAR(55) NOT NULL AFTER `added_by`;
+
+
+/*change the primary key name first*/
+ALTER TABLE `college_invoice_payments` CHANGE `payment_id` `college_payment_id` INT(11) NOT NULL;

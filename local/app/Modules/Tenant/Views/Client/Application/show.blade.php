@@ -52,15 +52,15 @@
                                 <table class="table table-striped table-bordered">
                                     <tr>
                                         <td>Total Fee</td>
-                                        <td>25000</td>
+                                        <td>${{ $application->tuition_fee }}</td>
                                     </tr>
                                     <tr>
                                         <td>Total Paid</td>
-                                        <td>15000</td>
+                                        <td>${{ $paid_to_college }}</td>
                                     </tr>
                                     <tr>
                                         <td>Total Remaining</td>
-                                        <td>10000</td>
+                                        <td>${{ $remaining }}</td>
                                     </tr>
                                 </table>
                             </div>
@@ -74,15 +74,15 @@
                                 <table class="table table-striped table-bordered">
                                     <tr>
                                         <td>Commission Payable Amout</td>
-                                        <td>25000</td>
+                                        <td>${{ $total_commission_amount }}</td>
                                     </tr>
                                     <tr>
                                         <td>Total Commission Claimed</td>
-                                        <td>15000</td>
+                                        <td>${{ $commission_claimed }}</td>
                                     </tr>
                                     <tr>
                                         <td>Remaining Commission</td>
-                                        <td>10000</td>
+                                        <td>${{ $remaining_commission }}</td>
                                     </tr>
                                 </table>
                             </div>
@@ -111,7 +111,7 @@
                                 <div class="well well-sm">
                                     @if($application->super_agent_id != null)
                                         {{ get_agent_name($application->super_agent_id) }}
-                                        <a href="#" class="pull-right">view</a>
+                                        <a href="{{ route('tenant.agents.show', $application->super_agent_id) }}" class="pull-right" target="_blank">view</a>
                                     @else
                                         None
                                         <button class="btn btn-primary btn-xs pull-right" data-toggle="modal"
@@ -131,7 +131,7 @@
                                 <div class="well well-sm">
                                     @if($application->sub_agent_id != null)
                                         {{ get_agent_name($application->sub_agent_id) }}
-                                        <a href="#" class="pull-right">view</a>
+                                        <a href="{{ route('tenant.agents.show', $application->sub_agent_id) }}" class="pull-right" target="_blank">view</a>
                                     @else
                                         None
                                         <button class="btn btn-primary btn-xs pull-right" data-toggle="modal"
@@ -148,7 +148,7 @@
                                 <h3 class="panel-title">Student owing Agency</h3>
                             </div>
                             <div class="panel-body">
-                                <h3>$500</h3>
+                                <h3>${{ $student_outstanding }}</h3>
                             </div>
                         </div>
 
@@ -157,7 +157,7 @@
                                 <h3 class="panel-title">Pending Active Commission</h3>
                             </div>
                             <div class="panel-body">
-                                <h3>$450</h3>
+                                <h3>${{ $college_outstanding }}</h3>
                             </div>
                         </div>
 
@@ -166,7 +166,7 @@
                                 <h3 class="panel-title">Uninvoice Amount</h3>
                             </div>
                             <div class="panel-body">
-                                <h3>$700</h3>
+                                <h3>${{ $uninvoiced_amount }}</h3>
                             </div>
                         </div>
                     </div>

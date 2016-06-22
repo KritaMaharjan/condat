@@ -38,7 +38,7 @@
 
                 <strong><i class="fa fa-phone margin-r-5"></i> Created By</strong>
 
-                <p class="text-muted"><?php echo e($institute->number); ?></p>
+                <p class="text-muted"><?php echo e($institute->email); ?></p>
 
             </div>
             <!-- /.box-body -->
