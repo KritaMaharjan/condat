@@ -100,7 +100,7 @@ class StudentController extends BaseController
         $payments = StudentApplicationPayment::leftJoin('client_payments', 'client_payments.client_payment_id', '=', 'student_application_payments.client_payment_id')
             ->leftJoin('payment_invoice_breakdowns', 'client_payments.client_payment_id', '=', 'payment_invoice_breakdowns.payment_id')
             ->where('course_application_id', $application_id)
-            ->select(['student_application_payments.student_payments_id', 'client_payments.*', 'payment_invoice_breakdowns.invoice_id']);
+            ->select(['student_application_payments.student_payments_id', 'client_payments.*', 'payment_invoice_breakdowns.invoice_id', 'course_application_id']);
 
         $datatable = \Datatables::of($payments)
             ->addColumn('action', '<div class="btn-group">
@@ -117,7 +117,7 @@ class StudentController extends BaseController
                 </div>')
             ->addColumn('invoice_id', function($data) {
                 if(empty($data->invoice_id) || $data->invoice_id == 0)
-                    return 'Uninvoiced <a class="btn btn-success btn-xs" data-toggle="modal" data-target="#condat-modal" data-url="'.url('tenant/payment/'.$data->client_payment_id.'/'.$data->course_application_id.'/assign').'"><i class="glyphicon glyphicon-plus-sign"></i> Assign to Invoice</a>';
+                    return 'Uninvoiced <a class="btn btn-success btn-xs" data-toggle="modal" data-target="#condat-modal" data-url="'.url('tenant/student/payment/'.$data->client_payment_id.'/'.$data->course_application_id.'/assign').'"><i class="glyphicon glyphicon-plus-sign"></i> Assign to Invoice</a>';
                 else
                     return format_id($data->invoice_id, 'SI');
             })
@@ -173,6 +173,16 @@ class StudentController extends BaseController
                 return format_id($data->student_invoice_id, 'SI');
             });
         return $datatable->make(true);
+    }
+
+    /**
+     * Assign payment to invoice
+     */
+    function assignInvoice($payment_id, $application_id)
+    {
+        $data['invoice_array'] = $this->invoice->getList($application_id);
+        $data['payment_id'] = $payment_id;
+        return view("Tenant::Client/Payment/assign", $data);
     }
 
 }

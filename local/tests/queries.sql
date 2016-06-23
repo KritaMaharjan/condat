@@ -327,5 +327,8 @@ INSERT INTO `condat_tenant`.`status` (`name`, `description`) VALUES ('Enquiry', 
 ALTER TABLE `agents` ADD `added_by` INT NOT NULL AFTER `company_id`, ADD `email` VARCHAR(55) NOT NULL AFTER `added_by`;
 
 
-/*change the primary key name first*/
+ALTER TABLE `college_invoice_payments` CHANGE `college_invoice_id` `invoice_payments_id` INT(11) NOT NULL AUTO_INCREMENT;
+
 ALTER TABLE `college_invoice_payments` CHANGE `payment_id` `college_payment_id` INT(11) NOT NULL;
+
+ALTER TABLE `college_invoice_payments` CHANGE `college_payment_id` `ci_payment_id` INT(11) NOT NULL;

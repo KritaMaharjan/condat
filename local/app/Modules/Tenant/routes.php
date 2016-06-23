@@ -158,6 +158,13 @@ Route::group(array('prefix' => 'tenant', 'module' => 'Tenant', 'middleware' => '
     Route::get('payment/{payment_id}/{application_id}/assign', ['as' => 'tenant.subagent.payment.assign', 'uses' => 'SubAgentController@assignInvoice']);
     Route::post('payment/{payment_id}/assign', ['as' => 'tenant.payment.postAssign', 'uses' => 'InvoiceController@postAssign']);
 
+    /* Assign student payments to invoices */
+    Route::get('student/payment/{payment_id}/{application_id}/assign', ['as' => 'tenant.student.payment.assign', 'uses' => 'StudentController@assignInvoice']);
+
+    /* Assign student payments to invoices */
+    Route::get('college/payment/{payment_id}/{application_id}/assign', ['as' => 'tenant.college.payment.assign', 'uses' => 'StudentController@assignInvoice']);
+    Route::post('college/payment/{payment_id}/assign', ['as' => 'tenant.college.payment.postAssign', 'uses' => 'InvoiceController@postCollegeAssign']);
+
     Route::get('clients/{client_id}/personal_details', 'ClientController@personal_details');
     Route::get('clients/{client_id}/notes', 'ClientController@notes');
 

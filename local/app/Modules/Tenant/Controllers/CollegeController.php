@@ -107,7 +107,7 @@ class CollegeController extends BaseController
     function getPaymentsData($application_id)
     {
         $payments = CollegePayment::where('course_application_id', $application_id)
-            ->leftJoin('college_invoice_payments', 'college_payments.college_payment_id', '=', 'college_invoice_payments.college_payment_id')
+            ->leftJoin('college_invoice_payments', 'college_payments.college_payment_id', '=', 'college_invoice_payments.ci_payment_id')
             ->select(['college_payments.*', 'college_invoice_payments.college_invoice_id']);
 
         $datatable = \Datatables::of($payments)
@@ -184,6 +184,16 @@ class CollegeController extends BaseController
     {
         $data['invoice'] = $this->invoice->getDetails($invoice_id); //dd($data['invoice']->toArray());
         return view("Tenant::College/Invoice/show", $data);
+    }
+
+    /**
+     * Assign payment to invoice
+     */
+    function assignInvoice($payment_id, $application_id)
+    {
+        $data['invoice_array'] = $this->invoice->getList($application_id);
+        $data['payment_id'] = $payment_id;
+        return view("Tenant::Client/Payment/assign", $data);
     }
 
 }

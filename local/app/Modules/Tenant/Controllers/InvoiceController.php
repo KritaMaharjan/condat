@@ -38,8 +38,21 @@ class InvoiceController extends BaseController
 
     /**
      * Assign payment to invoice
+     * Same for both student and sub agent
      */
     function postAssign($payment_id)
+    {
+        $assigned = $this->payment_invoice->assign($this->request->all(), $payment_id);
+        if ($assigned) {
+            \Flash::success('Payment assigned to invoice successfully!');
+            return redirect()->back();
+        }
+    }
+
+    /**
+     * Assign payment to college invoice
+     */
+    function postCollegeAssign($payment_id)
     {
         $assigned = $this->payment_invoice->assign($this->request->all(), $payment_id);
         if ($assigned) {
@@ -108,7 +121,7 @@ class InvoiceController extends BaseController
 
     function collegePayments($invoice_id)
     {
-        $payments = CollegePayment::join('college_invoice_payments', 'college_payments.college_payment_id', '=', 'college_invoice_payments.college_payment_id')
+        $payments = CollegePayment::join('college_invoice_payments', 'college_payments.college_payment_id', '=', 'college_invoice_payments.ci_payment_id')
             ->where('college_invoice_payments.college_invoice_id', $invoice_id)
             ->select(['college_payments.*', 'college_payments.college_payment_id as payment_id']);
         return $payments;
