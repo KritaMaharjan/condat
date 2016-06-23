@@ -332,3 +332,7 @@ ALTER TABLE `college_invoice_payments` CHANGE `college_invoice_id` `invoice_paym
 ALTER TABLE `college_invoice_payments` CHANGE `payment_id` `college_payment_id` INT(11) NOT NULL;
 
 ALTER TABLE `college_invoice_payments` CHANGE `college_payment_id` `ci_payment_id` INT(11) NOT NULL;
+
+ALTER TABLE `intakes` CHANGE `intake_id` `intake_id` INT(11) NOT NULL AUTO_INCREMENT;
+
+ALTER TABLE `institute_intakes` CHANGE `institute_intake_id` `institute_intake_id` INT(11) NOT NULL AUTO_INCREMENT;

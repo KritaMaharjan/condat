@@ -2,7 +2,8 @@
     <button type="button" class="close" data-dismiss="modal">&times;</button>
     <h4 class="modal-title">Assign To Invoice</h4>
 </div>
-{!!Form::open(['url' => 'tenant/payment/'.$payment_id.'/assign', 'id' => 'add-invoice', 'class' => 'form-horizontal form-left'])!!}
+<?php $action = (isset($college) && $college == true)? 'tenant/college/payment/'.$payment_id.'/assign' : 'tenant/payment/'.$payment_id.'/assign'; ?>
+{!!Form::open(['url' => $action, 'id' => 'add-invoice', 'class' => 'form-horizontal form-left'])!!}
 <div class="modal-body">
     <div class="form-group">
         {!!Form::label('invoice_id', 'Invoice', array('class' => 'col-sm-4 control-label')) !!}

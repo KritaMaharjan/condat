@@ -125,7 +125,7 @@ class CollegeController extends BaseController
                 </div>')
             ->addColumn('invoice_id',  function($data) {
                 if(empty($data->college_invoice_id) || $data->college_invoice_id == 0)
-                    return 'Uninvoiced <a class="btn btn-success btn-xs" data-toggle="modal" data-target="#condat-modal" data-url="'.url('tenant/payment/'.$data->college_payment_id.'/'.$data->course_application_id.'/assign').'"><i class="glyphicon glyphicon-plus-sign"></i> Assign to Invoice</a>';
+                    return 'Uninvoiced <a class="btn btn-success btn-xs" data-toggle="modal" data-target="#condat-modal" data-url="'.url('tenant/college/payment/'.$data->college_payment_id.'/'.$data->course_application_id.'/assign').'"><i class="glyphicon glyphicon-plus-sign"></i> Assign to Invoice</a>';
                 else
                     return format_id($data->college_invoice_id, 'CI');
             })
@@ -193,6 +193,7 @@ class CollegeController extends BaseController
     {
         $data['invoice_array'] = $this->invoice->getList($application_id);
         $data['payment_id'] = $payment_id;
+        $data['college'] = true;
         return view("Tenant::Client/Payment/assign", $data);
     }
 

@@ -48,7 +48,7 @@ class CollegePayment extends Model
             ]);
 
             DB::commit();
-            return $payment->ci_payment_id;
+            return $payment->college_payment_id;
             // all good
         } catch (\Exception $e) {
             DB::rollback();

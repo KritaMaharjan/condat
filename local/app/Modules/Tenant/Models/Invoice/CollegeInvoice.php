@@ -117,17 +117,16 @@ class CollegeInvoice extends Model
 
     function getList($application_id)
     {
-        $invoices = CollegeInvoice::join('invoices', 'subagent_invoices.invoice_id', '=', 'invoices.invoice_id')
-            ->select('invoices.invoice_id', 'invoices.amount')
-            ->where('subagent_invoices.course_application_id', $application_id)
+        $invoices = CollegeInvoice::select('total_commission', 'college_invoice_id')
+            ->where('course_application_id', $application_id)
             ->orderBy('created_at', 'desc')
             ->get();
         //->lists('invoice_details', 'invoices.invoice_id');
         $invoice_list = array();
         foreach($invoices as $key => $invoice)
         {
-            $formatted_id = format_id($invoice->invoice_id, 'I');
-            $invoice_list[$invoice->invoice_id] = $formatted_id. ', $'. $invoice->amount;
+            $formatted_id = format_id($invoice->college_invoice_id, 'CI');
+            $invoice_list[$invoice->college_invoice_id] = $formatted_id. ', $'. $invoice->total_commission;
         }
         return $invoice_list;
     }

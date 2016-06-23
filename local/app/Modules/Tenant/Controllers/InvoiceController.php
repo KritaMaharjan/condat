@@ -54,7 +54,7 @@ class InvoiceController extends BaseController
      */
     function postCollegeAssign($payment_id)
     {
-        $assigned = $this->payment_invoice->assign($this->request->all(), $payment_id);
+        $assigned = $this->college_payment->assign($this->request->all(), $payment_id);
         if ($assigned) {
             \Flash::success('Payment assigned to invoice successfully!');
             return redirect()->back();

@@ -61,4 +61,16 @@ class CollegeInvoicePayment extends Model
         }
     }
 
+    /*
+     * Assign Payment to Invoice
+     */
+    public function assign(array $request, $payment_id)
+    {
+        CollegeInvoicePayment::create([
+            'ci_payment_id' => $payment_id,
+            'college_invoice_id' => $request['invoice_id']
+        ]);
+        return true;
+    }
+
 }
