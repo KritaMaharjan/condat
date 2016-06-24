@@ -1,6 +1,10 @@
 <div class="box box-primary">
     <div class="box-header with-border">
         <h3 class="box-title">Contact Person</h3>
+
+        <button type="button" class="btn btn-success pull-right" data-toggle="modal" data-target="#contactModal"><i
+                    class="glyphicon glyphicon-plus-sign"></i> Contacts
+        </button>
     </div>
 
     <div class="box-body">
@@ -15,11 +19,6 @@
             </tr>
             </thead>
         </table>
-    </div>
-    <div class="box-footer">
-        <button type="button" class="btn btn-success pull-right" data-toggle="modal" data-target="#contactModal"><i
-                    class="glyphicon glyphicon-plus-sign"></i> Contacts
-        </button>
     </div>
 </div>
 

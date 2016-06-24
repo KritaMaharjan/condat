@@ -185,7 +185,7 @@ Route::group(array('prefix' => 'tenant', 'module' => 'Tenant', 'middleware' => '
 
     /* Routes for Institute Address */
     Route::get('institutes/{institute_id}/addresses', 'AddressController@getData');
-    Route::get('address/{id}',['as' => 'tenant.address.edit', 'uses' => 'AddressController@editContact']);
+    Route::get('address/{id}',['as' => 'tenant.address.edit', 'uses' => 'AddressController@edit']);
     Route::put('address/{id}',['as' => 'tenant.address.update', 'uses' => 'AddressController@update']);
     Route::delete('address/{id}',['as' => 'tenant.address.destroy', 'uses' => 'AddressController@destroy']);
 

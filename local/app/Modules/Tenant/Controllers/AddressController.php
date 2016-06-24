@@ -33,19 +33,28 @@ class AddressController extends BaseController
             ->where('institutes.institution_id', $institute_id);
 
         $datatable = \Datatables::of($institutes)
-            ->addColumn('action', '<div class="btn-group">
-                  <button type="button" class="btn btn-primary">Action</button>
+            ->addColumn('action', function ($data) {
+                  return '<button type="button" class="btn btn-primary">Action</button>
                   <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown">
                     <span class="caret"></span>
                     <span class="sr-only">Toggle Dropdown</span>
                   </button>
                   <ul class="dropdown-menu" role="menu">
-                    <li><a href="{{ route( \'tenant.address.edit\', $address_id) }}">Edit</a></li>
+                    <li><a data-toggle="modal" data-target="#condat-modal" data-url="'.route('tenant.address.edit', $data->address_id).'"><i class="glyphicon glyphicon-plus-sign"></i> Edit</a></li>
                     <li><a href="{{ route( \'tenant.address.destroy\', $address_id) }}">Delete</a></li>
                   </ul>
-                </div>');
+                </div>';
+                });
         return $datatable->make(true);
     }
 
-
+    /**
+     * Assign payment to invoice
+     */
+    function assignInvoice($payment_id, $application_id)
+    {
+        $data['invoice_array'] = $this->invoice->getList($application_id);
+        $data['payment_id'] = $payment_id;
+        return view("Tenant::Address/form", $data);
+    }
 }

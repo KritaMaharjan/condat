@@ -56,7 +56,7 @@ class Institute extends Model
         try {
             // Saving phone number
             $phone = new Phone();
-            $phone_id = $phone->add($request['phone']);
+            $phone_id = $phone->add($request['number']);
 
             // Saving company
             $company = Company::create([
@@ -69,22 +69,10 @@ class Institute extends Model
             $institute = Institute::create([
                 'short_name' => $request['short_name'],
                 'company_id' => $company->company_id,
-                'added_by'=> current_tenant_id()
+                'added_by' => current_tenant_id()
             ]);
 
-            
-            $address = Address::create([
-                'street' => $request['street'],
-                'suburb' => $request['suburb'],
-                'postcode' => $request['postcode'],
-                'state' => $request['state'],
-                'country_id' => $request['country_id']
-            ]);
-
-            $instituteAddress=InstituteAddress::create([
-                'address_id' => $address->address_id,
-                'institute_id' => $institute->institution_id
-            ]);
+            $this->addAddress($institute->institution_id, $request);
 
             DB::commit();
             return $institute->institution_id;
@@ -107,30 +95,19 @@ class Institute extends Model
         try {
 
             $institute = Institute::find($institution_id);
-            // Saving institute profile
-            $person = Person::find($institute->person_id);
-            $person->first_name = $request['first_name'];
-            $person->middle_name = $request['middle_name'];
-            $person->last_name = $request['last_name'];
-            $person->dob = insert_dateformat($request['dob']);
-            $person->sex = $request['sex'];
-            $person->passport_no = $request['passport_no'];
-            $person->save();
+            $institute->short_name = $request['short_name'];
+            $institute->save();
 
-            $user = User::find($institute->user_id);
-            $user->email = $request['email'];
-            $user->save();
+            // Saving company
+            $company = Company::find($institute->company_id);
+            $company->name = $request['name'];
+            $company->website = $request['website'];
+            $company->invoice_to_name = $request['invoice_to_name'];
+            $company->save();
 
-            $person_address = PersonAddress::where('person_id', $institute->person_id)->first();
-            $address = Address::find($person_address->address_id);
-
-            // Edit address
-            $address->street = $request['street'];
-            $address->suburb = $request['suburb'];
-            $address->postcode = $request['postcode'];
-            $address->state = $request['state'];
-            $address->country_id = $request['country_id'];
-            $address->save();
+            $phone = Phone::find($company->phone_id);
+            $phone->number = $request['number'];
+            $phone->save();
 
             DB::commit();
             return true;
@@ -152,7 +129,7 @@ class Institute extends Model
         $institute = Institute::leftJoin('companies', 'institutes.company_id', '=', 'companies.company_id')
             ->leftJoin('phones', 'phones.phone_id', '=', 'companies.phone_id')
             ->leftJoin('users', 'users.user_id', '=', 'institutes.added_by')
-            ->select(['institutes.institution_id', 'institutes.short_name', 'institutes.created_at','users.email', 'companies.name', 'companies.website', 'companies.invoice_to_name', 'phones.number'])
+            ->select(['institutes.institution_id', 'institutes.short_name', 'institutes.created_at', 'users.email', 'companies.name', 'companies.website', 'companies.invoice_to_name', 'phones.number', 'institutes.added_by'])
             ->where('institutes.institution_id', $institution_id)
             ->first();
         return $institute;
@@ -192,43 +169,28 @@ class Institute extends Model
      */
     function addAddress($institution_id, array $request)
     {
-        DB::beginTransaction();
+        $address = Address::create([
+            'street' => $request['street'],
+            'suburb' => $request['suburb'],
+            'state' => $request['state'],
+            'country_id' => $request['country_id'], //263, //Australia
+            'type' => 'Institute'
+        ]);
 
-        try {
-            $address = Address::create([
-                'street' => $request['street'],
-                'suburb' => $request['suburb'],
-                'state' => $request['state'],
-                'country_id' => 263, //Australia
-                'type' => 'office'
-            ]);
-           
-           
-            $instituteAddress=InstituteAddress::create([
-                'address_id' => $address->address_id,
-                'institute_id' => $institution_id,
-                'email' => $request['email']
-            ]);
-            
-            
-            $phone = new Phone();
-            $phone_id = $phone->add($request['number']);
-        
-            InstitutePhone::create([
-                'address_id' => $address->address_id,
-                'phone_id' => $phone_id
-            ]);
-            
+        InstituteAddress::create([
+            'address_id' => $address->address_id,
+            'institute_id' => $institution_id,
+            'email' => $request['email']
+        ]);
 
-            DB::commit();
-            
-           
-            return true;
-            // all good
-        } catch (\Exception $e) {
-            DB::rollback();
-            return false;
-        }
+        $phone = new Phone();
+        $phone_id = $phone->add($request['number']);
+
+        InstitutePhone::create([
+            'address_id' => $address->address_id,
+            'phone_id' => $phone_id
+        ]);
+
     }
 
     function addPersonDetails($request)

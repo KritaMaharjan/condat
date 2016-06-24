@@ -19,9 +19,8 @@ class InstituteController extends BaseController
     protected $rules = [
         'name'=>'required|min:2|max:155',
         'short_name' => 'required|min:2|max:55',
-        'phone' => 'required',
+        'number' => 'required',
         'website' => 'required|min:2|max:155'
-        
     ];
 
     function __construct(Institute $institute, Request $request, InstituteDocument $document, SuperAgentInstitute $superagent, Agent $agent)
@@ -58,7 +57,7 @@ class InstituteController extends BaseController
             ->orderBy('institution_id', 'desc');
 
         $datatable = \Datatables::of($institutes)
-            ->addColumn('action', '<a data-toggle="tooltip" title="View Institute" class="btn btn-action-box" href ="{{ route( \'tenant.institute.show\', $institution_id) }}"><i class="fa fa-eye"></i></a> <a data-toggle="tooltip" title="Institute Documents" class="btn btn-action-box" href ="{{ route( \'tenant.institute.document\', $institution_id) }}"><i class="fa fa-file"></i></a> <a data-toggle="tooltip" title="Edit Institute" class="btn btn-action-box" href ="{{ route( \'tenant.institute.edit\', $institution_id) }}"><i class="fa fa-edit"></i></a> <a data-toggle="tooltip" title="Delete Institute" class="delete-user btn btn-action-box" href="{{ route( \'tenant.institute.destroy\', $institution_id) }}"><i class="fa fa-trash"></i></a>')
+            ->addColumn('action', '<a data-toggle="tooltip" title="View Institute" class="btn btn-action-box" href ="{{ route( \'tenant.institute.show\', $institution_id) }}"><i class="fa fa-eye"></i></a> <a data-toggle="tooltip" title="Institute Documents" class="btn btn-action-box" href ="{{ route( \'tenant.institute.document\', $institution_id) }}"><i class="fa fa-file"></i></a> <a data-toggle="tooltip" title="Delete Institute" class="delete-user btn btn-action-box" href="{{ route( \'tenant.institute.destroy\', $institution_id) }}"><i class="fa fa-trash"></i></a>')
             ->editColumn('created_at', function ($data) {
                 return format_datetime($data->created_at);
             })
@@ -129,7 +128,7 @@ class InstituteController extends BaseController
     public function store()
     {
         /* Additional validations for creating institution */
-        $this->rules['name'] = 'required|min:2|max:255|unique:companies';
+        //$this->rules['name'] = 'required|min:2|max:255|unique:companies';
 
         if($this->request->ajax()) {
             $validator = \Validator::make($this->request->all(), $this->rules);
@@ -189,9 +188,8 @@ class InstituteController extends BaseController
      */
     public function update($institution_id)
     {
-        $user_id = $this->request->get('user_id');
         /* Additional validation rules checking for uniqueness */
-        $this->rules['email'] = 'required|email|min:5|max:55|unique:users,email,' . $user_id . ',user_id';
+        //$this->rules['email'] = 'required|email|min:5|max:55|unique:users,email,' . $user_id . ',user_id';
 
         $this->validate($this->request, $this->rules);
         // if validates

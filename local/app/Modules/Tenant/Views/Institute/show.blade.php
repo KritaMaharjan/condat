@@ -13,23 +13,32 @@
         <div class="box box-primary">
             <div class="box-header with-border">
                 <h3 class="box-title">General Information</h3>
+                <div class="box-tools pull-right"><a data-toggle="tooltip" title="Edit Institute" class="btn btn-action-box" href ="{{ route( 'tenant.institute.edit', $institute->institution_id) }}"><i class="fa fa-edit"></i></a> </div>
             </div>
             <!-- /.box-header -->
             <div class="box-body">
-                <strong><i class="fa fa-calendar margin-r-5"></i> Institute Id</strong>
+                <strong><i class="fa fa-circle-o margin-r-5"></i> Institute Id</strong>
 
                 <p class="text-muted">{{format_id($institute->institution_id, 'I')}}</p>
 
-                <strong><i class="fa fa-calendar margin-r-5"></i> Short Name</strong>
+                <strong><i class="fa fa-star margin-r-5"></i> Institute Name</strong>
+
+                <p class="text-muted">{{$institute->name}}</p>
+
+                <strong><i class="fa fa-star-half-full margin-r-5"></i> Short Name</strong>
 
                 <p class="text-muted">{{$institute->short_name}}</p>
 
-                <strong><i class="fa fa-phone margin-r-5"></i> Website</strong>
+                <strong><i class="fa fa-phone margin-r-5"></i> Phone Number</strong>
+
+                <p class="text-muted">{{$institute->number}}</p>
+
+                <strong><i class="fa fa-desktop margin-r-5"></i> Website</strong>
 
                 <p class="text-muted"><a href="http://{{ $institute->website }}"
                                          target="_blank">{{$institute->website}}</a></p>
 
-                <strong><i class="fa fa-calendar margin-r-5"></i> Invoice To</strong>
+                <strong><i class="fa fa-file margin-r-5"></i> Invoice To</strong>
 
                 <p class="text-muted">{{$institute->invoice_to_name}}</p>
 
@@ -37,9 +46,13 @@
 
                 <p class="text-muted">{{format_datetime($institute->created_at)}}</p>
 
-                <strong><i class="fa fa-phone margin-r-5"></i> Created By</strong>
+                <strong><i class="fa fa-envelope-o margin-r-5"></i> Email</strong>
 
                 <p class="text-muted">{{$institute->email}}</p>
+
+                <strong><i class="fa fa-user margin-r-5"></i> Added By</strong>
+
+                <p class="text-muted">{{ get_tenant_name($institute->added_by)}}</p>
 
             </div>
             <!-- /.box-body -->
@@ -127,22 +140,4 @@
 
         </div>
     </div>
-
-    {{--<script type="text/javascript">--}}
-        {{--$(document).ready(function () {--}}
-            {{--oTable = $('#courses').DataTable({--}}
-                {{--"processing": true,--}}
-                {{--"serverSide": true,--}}
-                {{--"ajax": appUrl + "/tenant/institutes/<?= $institute->institution_id ?>/courses",--}}
-                {{--"columns": [--}}
-                    {{--{data: 'course_id', name: 'course_id'},--}}
-                    {{--{data: 'name', name: 'name'},--}}
-                    {{--{data: 'level', name: 'level'},--}}
-                    {{--{data: 'total_tuition_fee', name: 'total_tuition_fee'},--}}
-                    {{--{data: 'commission_percent', name: 'commission_percent'},--}}
-                    {{--{data: 'action', name: 'action', orderable: false, searchable: false}--}}
-                {{--]--}}
-            {{--});--}}
-        {{--});--}}
-    {{--</script>--}}
 @stop

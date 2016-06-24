@@ -1,6 +1,9 @@
 <div class="box box-primary">
     <div class="box-header with-border">
         <h3 class="box-title">Locations in Australia</h3>
+        <button class="btn btn-success pull-right" data-toggle="modal" data-target="#addressModal"><i
+                    class="glyphicon glyphicon-plus-sign"></i> Address
+        </button>
     </div>
     <div class="box-body">
         <table id="addresses" class="table table-hover">
@@ -14,11 +17,6 @@
             </tr>
             </thead>
         </table>
-    </div>
-    <div class="box-footer">
-        <button class="btn btn-success pull-right" data-toggle="modal" data-target="#addressModal"><i
-                    class="glyphicon glyphicon-plus-sign"></i> Address
-        </button>
     </div>
 </div>
 
@@ -34,44 +32,7 @@
             {!!Form::open(['url' => 'tenant/institutes/'.$institute->institution_id.'/address/store', 'id' =>
             'add-address', 'class' => 'form-horizontal form-left'])!!}
             <div class="modal-body">
-
-                <div class="form-group">
-                    {!!Form::label('street', 'Street', array('class' => 'col-sm-4 control-label')) !!}
-                    <div class="col-sm-8">
-                        {!!Form::text('street', null, array('class' => 'form-control', 'id'=>'street'))!!}
-                    </div>
-                </div>
-                <div class="form-group">
-                    {!!Form::label('suburb', 'Suburb', array('class' => 'col-sm-4 control-label')) !!}
-                    <div class="col-sm-8">
-                        {!!Form::text('suburb', null, array('class' => 'form-control', 'id'=>'suburb'))!!}
-                    </div>
-                </div>
-                <div class="form-group">
-                    {!!Form::label('state', 'State', array('class' => 'col-sm-4 control-label')) !!}
-                    <div class="col-sm-8">
-                        {!!Form::text('state', null, array('class' => 'form-control', 'id'=>'state'))!!}
-                    </div>
-                </div>
-                <div class="form-group">
-                    {!!Form::label('postcode', 'Postcode', array('class' => 'col-sm-4 control-label')) !!}
-                    <div class="col-sm-8">
-                        {!!Form::text('postcode', null, array('class' => 'form-control', 'id'=>'postcode'))!!}
-                    </div>
-                </div>
-                <div class="form-group">
-                    {!!Form::label('number', 'Phone Number *', array('class' => 'col-sm-4 control-label')) !!}
-                    <div class="col-sm-8">
-                        {!!Form::text('number', null, array('class' => 'form-control phone-input', 'id'=>'number'))!!}
-                    </div>
-                </div>
-
-                <div class="form-group">
-                    {!!Form::label('email', 'Email Address *', array('class' => 'col-sm-4 control-label')) !!}
-                    <div class="col-sm-8">
-                        {!!Form::email('email', null, array('class' => 'form-control', 'id'=>'email'))!!}
-                    </div>
-                </div>
+                @include('Tenant::Address/form')
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-danger" data-dismiss="modal">Cancel</button>
