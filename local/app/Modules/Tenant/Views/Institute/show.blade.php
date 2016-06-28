@@ -140,4 +140,6 @@
 
         </div>
     </div>
+
+    {!! Condat::registerModal('modal-lg') !!}
 @stop

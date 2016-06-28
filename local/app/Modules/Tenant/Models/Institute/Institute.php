@@ -164,7 +164,7 @@ class Institute extends Model
     }
 
     /*
-     * Add address person
+     * Add address for Institute
      * Output id
      */
     function addAddress($institution_id, array $request)
@@ -173,6 +173,7 @@ class Institute extends Model
             'street' => $request['street'],
             'suburb' => $request['suburb'],
             'state' => $request['state'],
+            'postcode' => $request['postcode'],
             'country_id' => $request['country_id'], //263, //Australia
             'type' => 'Institute'
         ]);
@@ -190,6 +191,8 @@ class Institute extends Model
             'address_id' => $address->address_id,
             'phone_id' => $phone_id
         ]);
+
+        return $address->address_id;
 
     }
 
@@ -232,5 +235,55 @@ class Institute extends Model
             ->leftJoin('phones', 'phones.phone_id', '=', 'companies.phone_id')
             ->lists('companies.name', 'institutes.institution_id');
         return $institutes;
+    }
+
+    /*
+     * Get address details
+     * Param int $address_id
+     * */
+    function getAddressDetails($address_id)
+    {
+        $address = Address::leftJoin('institute_addresses', 'addresses.address_id', '=', 'institute_addresses.address_id')
+            ->leftJoin('institute_phones', 'addresses.address_id', '=', 'institute_phones.address_id')
+            ->leftJoin('phones', 'phones.phone_id', '=', 'institute_phones.phone_id')
+            ->select(['addresses.*', 'institute_addresses.email', 'phones.number'])
+            ->find($address_id);
+
+        return $address;
+    }
+
+    /*
+     * Edit address for Institute
+     * Output boolean
+     */
+    function editAddress($address_id, array $request)
+    {
+        DB::beginTransaction();
+
+        try {
+            $address = Address::find($address_id);
+            $address->street = $request['street'];
+            $address->suburb = $request['suburb'];
+            $address->state = $request['state'];
+            $address->postcode = $request['postcode'];
+            $address->country_id = $request['country_id'];
+            $address->save();
+
+            $institute_address = InstituteAddress::where('address_id', $address_id)->first();
+            $institute_address->email = $request['email'];
+            $institute_address->save();
+
+            $institute_phone = InstitutePhone::where('address_id', $address_id)->first();
+            $phone = Phone::find($institute_phone->phone_id);
+            $phone->number = $request['number'];
+            $phone->save();
+
+            DB::commit();
+            return true;
+        } catch (\Exception $e) {
+            DB::rollback();
+            return false;
+        }
+
     }
 }

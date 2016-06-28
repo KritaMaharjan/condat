@@ -336,3 +336,6 @@ ALTER TABLE `college_invoice_payments` CHANGE `college_payment_id` `ci_payment_i
 ALTER TABLE `intakes` CHANGE `intake_id` `intake_id` INT(11) NOT NULL AUTO_INCREMENT;
 
 ALTER TABLE `institute_intakes` CHANGE `institute_intake_id` `institute_intake_id` INT(11) NOT NULL AUTO_INCREMENT;
+
+/* 28th June */
+ALTER TABLE `courses` ADD `commission_percent` DOUBLE(11, 2) NOT NULL AFTER `name`;

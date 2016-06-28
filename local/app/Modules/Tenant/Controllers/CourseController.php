@@ -51,12 +51,12 @@ class CourseController extends BaseController
      */
     public function create($institution_id)
     {
-        /*$courses = InstituteCourse::join('courses', 'institute_courses.course_id', '=', 'courses.course_id')
-            ->where('institute_courses.institute_id', $institution_id)
-            ->select('courses.commission_percent')
-            ->orderBy('courses.course_id', 'desc')
-            ->first();
-        $data['commission_percent']= $courses['commission_percent']; */
+        $courses = InstituteCourse::join('courses', 'institute_courses.course_id', '=', 'courses.course_id')
+        ->where('institute_courses.institute_id', $institution_id)
+        ->select('courses.commission_percent')
+        ->orderBy('courses.course_id', 'desc')
+        ->first();
+        $data['commission_percent']= $courses['commission_percent'];
         $data['institution_id'] = $institution_id;
         $data['broad_fields'] = BroadField::lists('name', 'id');
         $data['narrow_fields'] = NarrowField::where('broad_field_id', 1)->lists('name', 'id');

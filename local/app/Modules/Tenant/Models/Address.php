@@ -16,4 +16,9 @@ Class Address extends Model{
 	protected $primaryKey = 'address_id';
 	protected $fillable = ['street', 'suburb', 'state', 'postcode','country_id', 'google_map','type'];
 	public $timestamps = false;
+
+	public function getDetails($address_id)
+	{
+
+	}
 }

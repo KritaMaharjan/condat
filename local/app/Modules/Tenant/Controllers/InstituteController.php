@@ -284,8 +284,8 @@ class InstituteController extends BaseController
         $this->validate($this->request, $this->rules);
         */
 
-        $contact_id = $this->institute->addAddress($institution_id, $this->request->all());
-        if ($contact_id) {
+        $address_id = $this->institute->addAddress($institution_id, $this->request->all());
+        if ($address_id) {
             \Flash::success('Address added successfully!');
             return redirect()->route('tenant.institute.show', $institution_id);
         }
