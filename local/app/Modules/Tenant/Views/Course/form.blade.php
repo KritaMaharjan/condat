@@ -53,6 +53,7 @@
                 {!!Form::label('commission_percent', 'Commission Percent', array('class' => 'col-sm-3 control-label')) !!}
                 <div class="col-sm-8">
                     <div class="input-group">
+                        <?php if(!isset($commission_percent)) $commission_percent = null; ?>
                         {!!Form::text('commission_percent', $commission_percent, array('class' => 'form-control', 'id'=>'commission_percent'))!!}
                         <span class="input-group-addon">%</span>
                     </div>

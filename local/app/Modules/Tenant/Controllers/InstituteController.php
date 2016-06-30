@@ -103,7 +103,7 @@ class InstituteController extends BaseController
             ->orderBy('intake_id', 'desc');
 
         $datatable = \Datatables::of($intakes)
-            ->addColumn('action', '<a data-toggle="tooltip" title="View Intake" class="btn btn-action-box" href ="{{ route( \'tenant.intake.show\', $intake_id) }}"><i class="fa fa-eye"></i></a> <a data-toggle="tooltip" title="Edit Intake" class="btn btn-action-box" href ="{{ route( \'tenant.intake.edit\', $intake_id) }}"><i class="fa fa-edit"></i></a> <a data-toggle="tooltip" title="Delete Intake" class="delete-user btn btn-action-box" href="{{ route( \'tenant.intake.destroy\', $intake_id) }}"><i class="fa fa-trash"></i></a>')
+            ->addColumn('action', '<a data-toggle="tooltip" title="View Intake" class="btn btn-action-box" href ="{{ route( \'tenant.intake.show\', $intake_id) }}"><i class="fa fa-eye"></i></a> <a data-toggle="modal" title="Edit Intake" class="btn btn-action-box" data-tooltip="tooltip" data-target="#condat-modal" data-url="{{ route( \'tenant.intake.edit\', $intake_id) }}"><i class="fa fa-edit"></i></a> <a data-toggle="tooltip" title="Delete Intake" class="delete-user btn btn-action-box" href="{{ route( \'tenant.intake.destroy\', $intake_id) }}"><i class="fa fa-trash"></i></a>')
             ->editColumn('intake_id', function ($data) {
                 return format_id($data->intake_id, 'Int');
             });

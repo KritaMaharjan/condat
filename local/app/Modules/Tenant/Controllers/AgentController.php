@@ -163,13 +163,12 @@ class AgentController extends BaseController
      * @param  int $agent_id
      * @return Response
      */
-    function storeSuperAgent($agent_id)
+    function storeSuperAgent($institution_id)
     {
-
-        $agent_id = $this->superagent->add($agent_id, $this->request->all());
+        $agent_id = $this->superagent->add($institution_id, $this->request->all());
         if ($agent_id) {
             \Flash::success('Super agent added successfully!');
-            return redirect()->route('tenant.institute.show', $agent_id);
+            return redirect()->route('tenant.institute.show', $institution_id);
         }
     }
 

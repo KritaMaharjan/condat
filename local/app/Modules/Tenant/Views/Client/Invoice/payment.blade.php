@@ -5,6 +5,7 @@
 {!!Form::open(['id' => 'add-payment', 'class' => 'form-horizontal form-left'])!!}
 <div class="modal-body">
     @if($type == 1)
+        <?php $pay_type = 3; //for different payment method ?>
         @include('Tenant::College/Payment/form')
     @elseif($type == 2)
         @include('Tenant::Student/Payment/form')

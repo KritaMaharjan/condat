@@ -115,6 +115,7 @@ Route::group(array('prefix' => 'tenant', 'module' => 'Tenant', 'middleware' => '
 
     /* Create payments for a application college */
     Route::get('applications/{application_id}/payment', ['as' => 'tenant.application.payment', 'uses' => 'CollegeController@createPayment']);
+    Route::get('applications/{application_id}/payment/{type}', ['as' => 'tenant.application.college.payment', 'uses' => 'CollegeController@createPayment']);
     Route::post('applications/{application_id}/storePayment', ['as' => 'tenant.application.storePayment', 'uses' => 'CollegeController@storePayment']);
     Route::get('applications/payments/{client_id}/data', 'CollegeController@getPaymentsData');
 
@@ -179,8 +180,8 @@ Route::group(array('prefix' => 'tenant', 'module' => 'Tenant', 'middleware' => '
 
     /* Routes for Company Contacts */
     Route::get('institutes/{institute_id}/contacts', 'ContactController@getData');
-    Route::get('contact/{id}',['as' => 'tenant.contact.edit', 'uses' => 'ContactController@editContact']);
-    Route::put('contact/{id}',['as' => 'tenant.contact.update', 'uses' => 'ContactController@update']);
+    Route::get('contact/{id}',['as' => 'tenant.contact.edit', 'uses' => 'ContactController@edit']);
+    Route::post('contact/{id}',['as' => 'tenant.contact.update', 'uses' => 'ContactController@update']);
     Route::delete('contact/{id}',['as' => 'tenant.contact.destroy', 'uses' => 'ContactController@destroy']);
 
     /* Routes for Institute Address */

@@ -100,12 +100,12 @@ class IntakeController extends BaseController
     /**
      * Display the specified resource.
      *
-     * @param  int $institution_id
+     * @param  int $intake_id
      * @return Response
      */
-    public function show($institution_id)
+    public function show($intake_id)
     {
-        $data['intake'] = $this->course->getDetails($institution_id);
+        $data['intake'] = $this->course->getDetails($intake_id);
         return view("Tenant::Intake/show", $data);
     }
 
@@ -115,17 +115,11 @@ class IntakeController extends BaseController
      * @param  int $id
      * @return Response
      */
-    public function edit($institution_id)
+    public function edit($intake_id)
     {
         /* Getting the course details*/
-        $data['course'] = $this->course->getDetails($institution_id);
-        //dd($data['course']->toArray());
-        if ($data['course'] != null) {
-            //dd($data['course']->dob);
-            $data['course']->dob = format_date($data['course']->dob);
-            return view('Tenant::Intake/edit', $data);
-        } else
-            return show_404();
+        $data['intake'] = $this->intake->getDetails($intake_id);
+        return view('Tenant::Intake/edit', $data);
     }
 
     /**

@@ -6,6 +6,7 @@
 
 <div class="modal-body">
     <?php if($type == 1): ?>
+        <?php $pay_type = 3; //for different payment method ?>
         <?php echo $__env->make('Tenant::College/Payment/form', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
     <?php elseif($type == 2): ?>
         <?php echo $__env->make('Tenant::Student/Payment/form', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>

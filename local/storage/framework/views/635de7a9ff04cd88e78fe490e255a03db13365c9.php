@@ -48,26 +48,27 @@
         </div>
 
         <div class="col-md-9">
-        <div class="box box-primary">
-            <div class="box-header">
-                <h3 class="box-title">Manage Intakes</h3>
-                <?php /*<a href="<?php echo e(route('tenant.intake.create', $institution_id)); ?>" class="btn btn-primary btn-flat pull-right">Add New Intake</a>*/ ?>
-                <a href="#" data-toggle="modal" data-target="#intake-modal" class="btn btn-primary btn-flat pull-right">Add New Intake</a>
-            </div>
-            <div class="box-body">
-                <table id="intakes" class="table table-bordered table-striped dataTable">
-                    <thead>
-                    <tr>
-                        <th>Intake ID</th>
-                        <th>Intake Date</th>
-                        <th>Description</th>
-                        <th>Actions</th>
-                    </tr>
-                    </thead>
-                </table>
+            <div class="box box-primary">
+                <div class="box-header">
+                    <h3 class="box-title">Manage Intakes</h3>
+                    <?php /*<a href="<?php echo e(route('tenant.intake.create', $institution_id)); ?>" class="btn btn-primary btn-flat pull-right">Add New Intake</a>*/ ?>
+                    <a href="#" data-toggle="modal" data-target="#intake-modal"
+                       class="btn btn-primary btn-flat pull-right">Add New Intake</a>
+                </div>
+                <div class="box-body">
+                    <table id="intakes" class="table table-bordered table-striped dataTable">
+                        <thead>
+                        <tr>
+                            <th>Intake ID</th>
+                            <th>Intake Date</th>
+                            <th>Description</th>
+                            <th>Actions</th>
+                        </tr>
+                        </thead>
+                    </table>
+                </div>
             </div>
         </div>
-    </div>
     </div>
 
     <!-- Add Intake -->
@@ -81,32 +82,13 @@
                 </div>
                 <?php echo Form::open(array('route' => ['tenant.intake.store', $institute->institution_id], 'class' => 'form-horizontal form-left')); ?>
 
-                    <div class="modal-body">
-                        <div class="form-group">
-                            <label for="intake_date" class="col-sm-3 control-label">Intake Date: </label>
 
-                            <div class="col-sm-8">
-                                <div class="input-group date">
-                                    <?php echo Form::text('intake_date', null, array('class' => 'form-control', 'id'=>'intake_date')); ?>
+                <?php echo $__env->make('Tenant::Intake/form', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
 
-                                    <div class="input-group-addon">
-                                        <i class="fa fa-calendar"></i>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label for="description" class="col-sm-3 control-label">Description: </label>
-
-                            <div class="col-sm-8">
-                                <textarea name="description" class="form-control" id="description"></textarea>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="submit" class="btn btn-primary">Add</button>
-                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                    </div>
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-primary">Add</button>
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                </div>
                 <?php echo Form::close(); ?>
 
             </div>
@@ -120,7 +102,7 @@
             oTable = $('#intakes').DataTable({
                 "processing": true,
                 "serverSide": true,
-                "ajax": appUrl + "/tenant/intakes/"+ <?php echo $institution_id ?> +"/data",
+                "ajax": appUrl + "/tenant/intakes/" + <?php echo $institution_id ?> +"/data",
                 "columns": [
                     {data: 'intake_id', name: 'intake_id'},
                     {data: 'intake_date', name: 'intake_date'},
@@ -128,10 +110,6 @@
                     {data: 'action', name: 'action', orderable: false, searchable: false}
                 ]
             });
-        });
-
-        $("#intake_date").datepicker({
-            autoclose: true
         });
     </script>
 <?php $__env->stopSection(); ?>

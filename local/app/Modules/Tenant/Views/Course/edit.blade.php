@@ -1,6 +1,5 @@
 @extends('layouts.tenant')
-@section('title', 'Update Client')
-@section('heading', 'Update Client')
+@section('title', 'Update Course')
 @section('breadcrumb')
     @parent
     <li><a href="{{url('tenant/clients')}}" title="All Clients"><i class="fa fa-users"></i> Clients</a></li>
@@ -10,12 +9,11 @@
     <div class="col-xs-12">
         <div class="box box-primary">
             <div class="box-header with-border">
-                <h3 class="box-title">Client Details</h3>
+                <h3 class="box-title">Course Details</h3>
             </div>
             @include('flash::message')
-            {!!Form::model($client, array('route' => array('tenant.client.update', $client->client_id), 'class' => 'form-horizontal form-left', 'method' => 'put'))!!}
-            {!!Form::hidden('user_id', $client->user_id)!!}
-            @include('Tenant::Client/form')
+            {!!Form::model($course, array('route' => array('tenant.course.update', $course->course_id), 'class' => 'form-horizontal form-left', 'method' => 'put'))!!}
+            @include('Tenant::Course/form')
             <div class="box-footer clearfix">
                 <input type="submit" class="btn btn-primary pull-right" value="Update"/>
             </div>

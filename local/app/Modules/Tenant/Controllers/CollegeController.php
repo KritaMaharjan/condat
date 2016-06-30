@@ -49,9 +49,10 @@ class CollegeController extends BaseController
     /*
      * Controllers for payment
      * */
-    public function createPayment($application_id)
+    public function createPayment($application_id, $type = 1)
     {
         $data['application_id'] = $application_id;
+        $data['pay_type'] = $type;
         return view("Tenant::College/Payment/add", $data);
     }
 

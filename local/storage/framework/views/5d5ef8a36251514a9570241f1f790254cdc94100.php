@@ -60,11 +60,12 @@
                 </div>
             </div>
 
-            <?php /*<div class="form-group <?php if($errors->has('commission_percent')): ?> <?php echo e('has-error'); ?> <?php endif; ?>">
+            <div class="form-group <?php if($errors->has('commission_percent')): ?> <?php echo e('has-error'); ?> <?php endif; ?>">
                 <?php echo Form::label('commission_percent', 'Commission Percent', array('class' => 'col-sm-3 control-label')); ?>
 
                 <div class="col-sm-8">
                     <div class="input-group">
+                        <?php if(!isset($commission_percent)) $commission_percent = null; ?>
                         <?php echo Form::text('commission_percent', $commission_percent, array('class' => 'form-control', 'id'=>'commission_percent')); ?>
 
                         <span class="input-group-addon">%</span>
@@ -75,7 +76,7 @@
 
                     <?php endif; ?>
                 </div>
-            </div>*/ ?>
+            </div>
 
             <div class="form-group <?php if($errors->has('broad_field')): ?> <?php echo e('has-error'); ?> <?php endif; ?>">
                 <?php echo Form::label('broad_field', 'Broad Field*', array('class' => 'col-sm-3 control-label')); ?>
@@ -119,6 +120,6 @@
         $.ajax({url: appUrl + "/tenant/narrowfield/" + broad_field,
             success: function(result){
                 $("#narrow_field").html("tenant/narrowfield/" + result.data.options);
-        }});
+            }});
     });
 </script>

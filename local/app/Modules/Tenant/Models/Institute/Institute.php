@@ -253,6 +253,21 @@ class Institute extends Model
     }
 
     /*
+     * Get contact details
+     * Param int $contact_id
+     * */
+    function getContactDetails($contact_id)
+    {
+        $contact = CompanyContact::leftJoin('persons', 'persons.person_id', '=', 'company_contacts.person_id')
+            ->leftJoin('users', 'users.person_id', '=', 'persons.person_id')
+            ->leftJoin('person_phones', 'person_phones.person_id', '=', 'persons.person_id')
+            ->leftJoin('phones', 'phones.phone_id', '=', 'person_phones.phone_id')
+            ->select(['company_contacts.*', 'phones.number', 'users.email', 'persons.first_name', 'persons.last_name'])
+            ->find($contact_id);
+        return $contact;
+    }
+
+    /*
      * Edit address for Institute
      * Output boolean
      */
@@ -285,5 +300,43 @@ class Institute extends Model
             return false;
         }
 
+    }
+
+    /*
+     * Edit contact person
+     * Output boolean
+     */
+    function editContact($contact_id, array $request)
+    {
+        DB::beginTransaction();
+
+        try {
+            $contact = CompanyContact::find($contact_id);
+            $contact->position = $request['position'];
+            $contact->save();
+
+            $person = Person::find($contact->person_id);
+            $person->first_name = $request['first_name'];
+            $person->middle_name = $request['middle_name'];
+            $person->last_name = $request['last_name'];
+            $person->sex = $request['sex'];
+            $person->save();
+
+            $user = User::where('person_id', $person->person_id)->first();
+            $user->email = $request['email'];
+            $user->save();
+
+            $person_phone = PersonPhone::where('person_id', $person->person_id)->first();
+            $phone = Phone::find($person_phone->phone_id);
+            $phone->number = $request['number'];
+            $phone->save();
+
+            DB::commit();
+            return true;
+            // all good
+        } catch (\Exception $e) {
+            DB::rollback();
+            return false;
+        }
     }
 }

@@ -1,25 +1,15 @@
-@extends('layouts.tenant')
-@section('title', 'Update Client')
-@section('heading', 'Update Client')
-@section('breadcrumb')
-    @parent
-    <li><a href="{{url('tenant/clients')}}" title="All Clients"><i class="fa fa-users"></i> Clients</a></li>
-    <li>Update</li>
-@stop
-@section('content')
-    <div class="col-xs-12">
-        <div class="box box-primary">
-            <div class="box-header with-border">
-                <h3 class="box-title">Client Details</h3>
-            </div>
-            @include('flash::message')
-            {!!Form::model($client, array('route' => array('tenant.client.update', $client->client_id), 'class' => 'form-horizontal form-left', 'method' => 'put'))!!}
-            {!!Form::hidden('user_id', $client->user_id)!!}
-            @include('Tenant::Client/form')
-            <div class="box-footer clearfix">
-                <input type="submit" class="btn btn-primary pull-right" value="Update"/>
-            </div>
-            {!!Form::close()!!}
-        </div>
-    </div>
-@stop
+<div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal">&times;</button>
+    <h4 class="modal-title">Edit Address</h4>
+</div>
+{!!Form::model($intake, array('route' => array('tenant.intake.update', $intake->intake_id), 'class' => 'form-horizontal form-left', 'method' => 'put'))!!}
+<div class="modal-body">
+    @include('Tenant::Intake/form')
+</div>
+<div class="modal-footer">
+    <button type="button" class="btn btn-danger" data-dismiss="modal">Cancel</button>
+    <button type="submit" class="btn btn-success"><i class="fa fa-plus-circle"></i>
+        Update
+    </button>
+</div>
+{!!Form::close()!!}

@@ -45,7 +45,13 @@
         <div class="form-group">
             {!!Form::label('payment_type', 'Payment Type *', array('class' => 'col-sm-4 control-label')) !!}
             <div class="col-sm-8">
-                {!!Form::select('payment_type', config('constants.college_payment_type'), null, array('class' => 'form-control', 'id'=>'payment_type'))!!}
+                @if($pay_type == 1)
+                    {!!Form::select('payment_type', config('constants.college_payment_type'), null, array('class' => 'form-control', 'id'=>'payment_type'))!!}
+                @elseif($pay_type == 2)
+                    {!!Form::select('payment_type', config('constants.payment_to_college'), null, array('class' => 'form-control', 'id'=>'payment_type'))!!}
+                @else
+                    {!!Form::select('payment_type', ['Agent to College' => 'Agent to College'], null, array('class' => 'form-control', 'id'=>'payment_type'))!!}
+                @endif
             </div>
         </div>
 

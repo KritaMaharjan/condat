@@ -57,6 +57,7 @@ class CourseController extends BaseController
         ->orderBy('courses.course_id', 'desc')
         ->first();
         $data['commission_percent']= $courses['commission_percent'];
+
         $data['institution_id'] = $institution_id;
         $data['broad_fields'] = BroadField::lists('name', 'id');
         $data['narrow_fields'] = NarrowField::where('broad_field_id', 1)->lists('name', 'id');
@@ -111,12 +112,12 @@ class CourseController extends BaseController
     /**
      * Display the specified resource.
      *
-     * @param  int $institution_id
+     * @param  int $course_id
      * @return Response
      */
-    public function show($institution_id)
+    public function show($course_id)
     {
-        $data['course'] = $this->course->getDetails($institution_id);
+        $data['course'] = $this->course->getDetails($course_id);
         return view("Tenant::Course/show", $data);
     }
 
@@ -126,17 +127,13 @@ class CourseController extends BaseController
      * @param  int $id
      * @return Response
      */
-    public function edit($institution_id)
+    public function edit($course_id)
     {
         /* Getting the course details*/
-        $data['course'] = $this->course->getDetails($institution_id);
-        //dd($data['course']->toArray());
-        if ($data['course'] != null) {
-            //dd($data['course']->dob);
-            $data['course']->dob = format_date($data['course']->dob);
-            return view('Tenant::Course/edit', $data);
-        } else
-            return show_404();
+        $data['course'] = $course = $this->course->getDetails($course_id);
+        $data['broad_fields'] = BroadField::lists('name', 'id');
+        $data['narrow_fields'] = NarrowField::where('broad_field_id', $course->broad_field)->lists('name', 'id');
+        return view('Tenant::Course/edit', $data);
     }
 
     /**
@@ -145,16 +142,14 @@ class CourseController extends BaseController
      * @param  int $institution_id
      * @return Response
      */
-    public function update($institution_id)
+    public function update($course_id)
     {
-        $user_id = $this->request->get('user_id');
-
         $this->validate($this->request, $this->rules);
         // if validates
-        $updated = $this->course->edit($this->request->all(), $institution_id);
-        if ($updated)
+        $institution_id = $this->course->edit($this->request->all(), $course_id);
+        if ($institution_id)
             Flash::success('Course has been updated successfully.');
-        return redirect()->route('tenant.course.index');
+        return redirect()->route('tenant.course.index', $institution_id);
     }
 
     /**

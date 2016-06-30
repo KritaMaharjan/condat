@@ -49,7 +49,6 @@ class SuperAgentInstitute extends Model
                 'commission_percent' => $request['commission_percent'],
                 'description' => 'Super Agent'
             ]);
-           
 
             $super_agent = SuperAgentInstitute::create([
                 'agents_id' => $request['agent_id'],
@@ -61,6 +60,7 @@ class SuperAgentInstitute extends Model
             // all good
         } catch (\Exception $e) {
             DB::rollback();
+            dd($e);
             return false;
         }
     }

@@ -339,3 +339,5 @@ ALTER TABLE `institute_intakes` CHANGE `institute_intake_id` `institute_intake_i
 
 /* 28th June */
 ALTER TABLE `courses` ADD `commission_percent` DOUBLE(11, 2) NOT NULL AFTER `name`;
+
+ALTER TABLE `superagent_institutes` CHANGE `superagent_institute_id` `superagent_institute_id` INT(11) NOT NULL AUTO_INCREMENT;

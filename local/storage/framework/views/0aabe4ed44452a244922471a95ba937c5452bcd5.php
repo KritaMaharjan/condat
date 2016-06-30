@@ -45,7 +45,7 @@
                         <div class="panel panel-default">
                             <div class="panel-heading">
                                 <span class="panel-title">Payment to College</span>
-                                <a href="<?php echo e(route('tenant.application.payment', $application->application_id)); ?>" class="btn btn-primary btn-xs btn-flat pull-right"><i class="glyphicon glyphicon-plus-sign"></i> Add Payment</a>
+                                <a href="<?php echo e(route('tenant.application.college.payment', [$application->application_id, 2])); ?>" class="btn btn-primary btn-xs btn-flat pull-right"><i class="glyphicon glyphicon-plus-sign"></i> Add Payment</a>
                             </div>
                             <div class="panel-body">
                                 <table class="table table-striped table-bordered">

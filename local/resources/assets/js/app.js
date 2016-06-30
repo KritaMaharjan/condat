@@ -748,7 +748,10 @@ function _init() {
 
 $(document).ajaxComplete (function () {
   $(".phone-input").mask("9999 999 999");
+  $('[data-tooltip="tooltip"]').tooltip();
 });
+
+$('[data-tooltip="tooltip"]').tooltip();
 
 /* data mask */
 $(".phone-input").mask("9999 999 999");

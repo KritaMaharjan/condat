@@ -69,4 +69,13 @@ class Intake extends Model
         return $intakes;
     }
 
+    /*
+     * Get details of an intake
+     */
+    function getDetails($intake_id)
+    {
+        $intake = Institute::select(['intakes.*'])->find($intake_id);
+        return $intake;
+    }
+
 }

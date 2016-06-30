@@ -1,6 +1,7 @@
 <?php namespace App\Modules\Tenant\Controllers;
 
 use App\Http\Requests;
+use App\Modules\Tenant\Models\Company\CompanyContact;
 use App\Modules\Tenant\Models\Institute\Institute;
 use Flash;
 use DB;
@@ -12,9 +13,10 @@ class ContactController extends BaseController
 
     protected $request;
 
-    function __construct(Request $request)
+    function __construct(Request $request, Institute $institute)
     {
         $this->request = $request;
+        $this->institute = $institute;
         parent::__construct();
     }
 
@@ -34,17 +36,39 @@ class ContactController extends BaseController
             ->where('institutes.institution_id', $institute_id);
 
         $datatable = \Datatables::of($institutes)
-            ->addColumn('action', '<div class="btn-group">
+            ->addColumn('action', function ($data) {
+                return '<div class="btn-group">
                   <button type="button" class="btn btn-primary">Action</button>
                   <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown">
                     <span class="caret"></span>
                     <span class="sr-only">Toggle Dropdown</span>
                   </button>
                   <ul class="dropdown-menu" role="menu">
-                    <li><a href="{{ route( \'tenant.contact.edit\', $company_contact_id) }}">Edit</a></li>
+                  <li><a data-toggle="modal" data-target="#condat-modal" data-url="' . route('tenant.contact.edit', $data->company_contact_id) . '">Edit</a></li>
                     <li><a href="{{ route( \'tenant.contact.destroy\', $company_contact_id) }}">Delete</a></li>
                   </ul>
-                </div>');
+                </div>';
+            });
         return $datatable->make(true);
+    }
+
+    /*
+     * Edit contact
+     */
+    function edit($contact_id)
+    {
+        // check if from institute...
+        if($this->request->ajax())
+        {
+            $data['contact'] = $this->institute->getContactDetails($contact_id);
+            return view("Tenant::Contact/edit", $data);
+        }
+    }
+
+    function update($contact_id)
+    {
+        $data['contact'] = $this->institute->editContact($contact_id, $this->request->all());
+        \Flash::success('Contact Updated Successfully!');
+        return redirect()->back();
     }
 }

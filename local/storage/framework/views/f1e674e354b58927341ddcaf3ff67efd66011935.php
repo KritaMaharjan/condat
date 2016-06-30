@@ -1,8 +1,7 @@
 <?php $__env->startSection('title', 'Update Client'); ?>
-<?php $__env->startSection('heading', 'Update Client'); ?>
 <?php $__env->startSection('breadcrumb'); ?>
     @parent
-    <li><a href="<?php echo e(url('tenant/client')); ?>" title="All Clients"><i class="fa fa-users"></i> Clients</a></li>
+    <li><a href="<?php echo e(url('tenant/clients')); ?>" title="All Clients"><i class="fa fa-users"></i> Clients</a></li>
     <li>Update</li>
 <?php $__env->stopSection(); ?>
 <?php $__env->startSection('content'); ?>

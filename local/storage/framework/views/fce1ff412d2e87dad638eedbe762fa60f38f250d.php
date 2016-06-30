@@ -55,8 +55,16 @@
             <?php echo Form::label('payment_type', 'Payment Type *', array('class' => 'col-sm-4 control-label')); ?>
 
             <div class="col-sm-8">
-                <?php echo Form::select('payment_type', config('constants.college_payment_type'), null, array('class' => 'form-control', 'id'=>'payment_type')); ?>
+                <?php if($pay_type == 1): ?>
+                    <?php echo Form::select('payment_type', config('constants.college_payment_type'), null, array('class' => 'form-control', 'id'=>'payment_type')); ?>
 
+                <?php elseif($pay_type == 2): ?>
+                    <?php echo Form::select('payment_type', config('constants.payment_to_college'), null, array('class' => 'form-control', 'id'=>'payment_type')); ?>
+
+                <?php else: ?>
+                    <?php echo Form::select('payment_type', ['Agent to College' => 'Agent to College'], null, array('class' => 'form-control', 'id'=>'payment_type')); ?>
+
+                <?php endif; ?>
             </div>
         </div>
 

@@ -24,6 +24,8 @@ return [
 
     'college_payment_type' => ['College to Agent' => 'College to Agent', 'Agent to College' => 'Agent to College', 'Student to College' => 'Student to College', 'College to Student' => 'College to Student'],
 
+    'payment_to_college' => ['Agent to College' => 'Agent to College', 'Student to College' => 'Student to College'],
+
     'student_payment_type' => ['Student to Agent' => 'Student to Agent', 'Agent to Student' => 'Agent to Student'],
 
     'subagent_payment_type' => ['Sub Agent to Agent' => 'Sub Agent to Agent', 'Agent to Sub Agent' => 'Agent to Sub Agent'],
