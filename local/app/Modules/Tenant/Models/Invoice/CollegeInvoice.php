@@ -28,7 +28,7 @@ class CollegeInvoice extends Model
      *
      * @var array
      */
-    protected $fillable = ['course_application_id', 'total_commission', 'total_gst', 'payable_to_college', 'due_date', 'installment_no', 'invoice_date'];
+    protected $fillable = ['course_application_id', 'total_commission', 'total_gst', 'final_total', 'due_date', 'installment_no', 'invoice_date'];
 
     function add(array $request, $application_id)
     {
@@ -39,7 +39,7 @@ class CollegeInvoice extends Model
                 'course_application_id' => $application_id,
                 'total_commission' => $request['total_commission'],
                 'total_gst' => $request['total_gst'],
-                'payable_to_college' => $request['payable_to_college'],
+                'final_total' => $request['final_total'],
                 'installment_no' => $request['installment_no'],
                 'invoice_date' => insert_dateformat($request['invoice_date'])
             ]);
@@ -56,7 +56,7 @@ class CollegeInvoice extends Model
                     'description' => $request['description'],
                     'commission_percent' => $request['commission_percent'],
                     'commission_amount' => $request['commission_amount'],
-                    'commission_gst' => $request['gst'],
+                    'commission_gst' => $request['tuition_fee_gst'],
                     'college_invoice_id' => $college_invoice->college_invoice_id
                 ]);
             }
@@ -65,7 +65,7 @@ class CollegeInvoice extends Model
             {
                 $ci_commission = OtherCommission::create([
                     'amount' => $request['incentive'],
-                    'gst' => $request['gst'],
+                    'gst' => $request['incentive_gst'],
                     'description' => $request['description'],
                     'college_invoice_id' => $college_invoice->college_invoice_id
                 ]);

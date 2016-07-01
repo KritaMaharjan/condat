@@ -16,7 +16,7 @@
             {!!Form::open(array('route' => ['tenant.application.storeInvoice', $application_id], 'class' => 'form-horizontal form-left'))!!}
             @include('Tenant::College/Invoice/form')
             <div class="box-footer clearfix">
-                <input type="submit" class="btn btn-primary pull-right" value="Add"/>
+                <input type="submit" class="btn btn-primary pull-right" value="Submit"/>
             </div>
             {!!Form::close()!!}
         </div>
