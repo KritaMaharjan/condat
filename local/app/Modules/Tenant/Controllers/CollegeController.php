@@ -63,7 +63,7 @@ class CollegeController extends BaseController
         $created = $this->payment->add($this->request->all(), $application_id);
         if ($created)
             Flash::success('Payment has added successfully.');
-        return redirect()->route('tenant.application.show', $application_id);
+        return redirect()->route('tenant.application.college', $application_id);
     }
 
     /**
@@ -125,10 +125,12 @@ class CollegeController extends BaseController
                   </ul>
                 </div>')
             ->addColumn('invoice_id',  function($data) {
-                if(empty($data->college_invoice_id) || $data->college_invoice_id == 0)
+                if((empty($data->college_invoice_id) || $data->college_invoice_id == 0) && $data->payment_type == 'College to Agent')
                     return 'Uninvoiced <a class="btn btn-success btn-xs" data-toggle="modal" data-target="#condat-modal" data-url="'.url('tenant/college/payment/'.$data->college_payment_id.'/'.$data->course_application_id.'/assign').'"><i class="glyphicon glyphicon-plus-sign"></i> Assign to Invoice</a>';
-                else
+                elseif($data->payment_type == 'College to Agent')
                     return format_id($data->college_invoice_id, 'CI');
+                else
+                    return 'Unassignable';
             })
             ->editColumn('date_paid', function ($data) {
                 return format_date($data->date_paid);

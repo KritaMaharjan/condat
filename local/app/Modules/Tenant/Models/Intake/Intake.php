@@ -74,7 +74,7 @@ class Intake extends Model
      */
     function getDetails($intake_id)
     {
-        $intake = Institute::select(['intakes.*'])->find($intake_id);
+        $intake = Intake::select('*')->find($intake_id);
         return $intake;
     }
 

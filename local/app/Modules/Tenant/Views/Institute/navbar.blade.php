@@ -20,7 +20,7 @@
                         </li>
                         <li class="{{($current == 'intakes')? 'active' : ''}}"><a href={{url("tenant/institutes/$institute->institution_id/intakes")}}>Intakes</a>
                         </li>
-                        <li class="{{($current == 'documents')? 'active' : ''}}"><a href={{url("tenant/clients/$institute->institution_id/document")}}>Documents</a>
+                        <li class="{{($current == 'document')? 'active' : ''}}"><a href={{url("tenant/institutes/$institute->institution_id/document")}}>Documents</a>
                         </li>
                     </ul>
                 </ul>

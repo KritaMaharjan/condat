@@ -20,6 +20,7 @@
         </div>
     </div>
 </div>
+<?php echo Condat::registerModal(); ?>
 
 <script type="text/javascript">
     $("#intake_date").datepicker({

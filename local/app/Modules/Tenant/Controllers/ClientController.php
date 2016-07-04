@@ -181,7 +181,6 @@ class ClientController extends BaseController
         //
     }
 
-
     /**
      * Attach document to the client.
      *

@@ -19,7 +19,7 @@
         </div>
     </div>
 </div>
-
+{!! Condat::registerModal() !!}
 <script type="text/javascript">
     $("#intake_date").datepicker({
         autoclose: true

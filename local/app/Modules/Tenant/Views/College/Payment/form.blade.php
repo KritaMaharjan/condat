@@ -50,7 +50,7 @@
                 @elseif($pay_type == 2)
                     {!!Form::select('payment_type', config('constants.payment_to_college'), null, array('class' => 'form-control', 'id'=>'payment_type'))!!}
                 @else
-                    {!!Form::select('payment_type', ['Agent to College' => 'Agent to College'], null, array('class' => 'form-control', 'id'=>'payment_type'))!!}
+                    {!!Form::select('payment_type', ['College To Agent' => 'College To Agent'], null, array('class' => 'form-control', 'id'=>'payment_type'))!!}
                 @endif
             </div>
         </div>

@@ -106,6 +106,9 @@ class InstituteController extends BaseController
             ->addColumn('action', '<a data-toggle="tooltip" title="View Intake" class="btn btn-action-box" href ="{{ route( \'tenant.intake.show\', $intake_id) }}"><i class="fa fa-eye"></i></a> <a data-toggle="modal" title="Edit Intake" class="btn btn-action-box" data-tooltip="tooltip" data-target="#condat-modal" data-url="{{ route( \'tenant.intake.edit\', $intake_id) }}"><i class="fa fa-edit"></i></a> <a data-toggle="tooltip" title="Delete Intake" class="delete-user btn btn-action-box" href="{{ route( \'tenant.intake.destroy\', $intake_id) }}"><i class="fa fa-trash"></i></a>')
             ->editColumn('intake_id', function ($data) {
                 return format_id($data->intake_id, 'Int');
+            })
+            ->editColumn('intake_date', function ($data) {
+                return format_date($data->intake_date);
             });
         return $datatable->make(true);
     }
@@ -219,13 +222,14 @@ class InstituteController extends BaseController
      */
     function document($institution_id)
     {
+        $data['institute'] = $this->institute->getDetails($institution_id);
         $data['documents'] = $this->document->getInstituteDocuments($institution_id);
         return view("Tenant::Institute/document", $data);
     }
 
     function uploadDocument($institution_id)
     {
-        $upload_rules = ['document' => 'required|mimes:jpeg,bmp,png,doc,docx,pdf,txt,xls,xlsx',
+        $upload_rules = ['document' => 'required|mimes:jpeg,jpg,bmp,png,doc,docx,pdf,txt,xls,xlsx',
             'description' => 'required',
             'type' => 'required',
         ];
@@ -290,5 +294,7 @@ class InstituteController extends BaseController
             return redirect()->route('tenant.institute.show', $institution_id);
         }
     }
+
+
 
 }

@@ -20,7 +20,7 @@
                         </li>
                         <li class="<?php echo e(($current == 'intakes')? 'active' : ''); ?>"><a href=<?php echo e(url("tenant/institutes/$institute->institution_id/intakes")); ?>>Intakes</a>
                         </li>
-                        <li class="<?php echo e(($current == 'documents')? 'active' : ''); ?>"><a href=<?php echo e(url("tenant/clients/$institute->institution_id/document")); ?>>Documents</a>
+                        <li class="<?php echo e(($current == 'document')? 'active' : ''); ?>"><a href=<?php echo e(url("tenant/institutes/$institute->institution_id/document")); ?>>Documents</a>
                         </li>
                     </ul>
                 </ul>
