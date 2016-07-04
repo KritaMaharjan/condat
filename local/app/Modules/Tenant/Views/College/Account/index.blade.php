@@ -50,7 +50,7 @@
                         <th>Amount</th>
                         <th>Paid By</th>
                         <th>Payment Type</th>
-                        <th>Invoice Id</th>
+                        <th>Assign Invoice</th>
                         <th>Description</th>
                         <th></th>
                     </tr>

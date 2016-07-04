@@ -130,7 +130,7 @@ class CollegeController extends BaseController
                 elseif($data->payment_type == 'College to Agent')
                     return format_id($data->college_invoice_id, 'CI');
                 else
-                    return 'Unassignable';
+                    return 'Cannot Be Assigned';
             })
             ->editColumn('date_paid', function ($data) {
                 return format_date($data->date_paid);
